@@ -211,6 +211,27 @@
 .xi-bottom{flex-shrink:0;background:#fff;border-radius:18px 18px 0 0;padding:10px 14px 30px;box-shadow:0 -4px 14px #00000012}
 .xi-bottom p{display:flex;align-items:center;gap:4px;font-size:11.5px;margin:0 0 8px}.xi-bottom p span{color:#8e8e93}.xi-bottom p em{margin-left:auto;font-style:normal;font-size:9.5px;color:#8e8e93}
 .xi-bottom .primary{font-size:12.5px;padding:13px 8px}
+/* 지금 눌러야 할 곳 표시 */
+.app-screen .hot{position:relative;z-index:3;outline:2px solid #3d8bff;outline-offset:-2px;animation:hotPulse 1.4s ease-out infinite}
+.app-screen .icon-button.hot,.app-screen .old-pill.hot{outline-offset:2px;border-radius:10px}
+.app-screen .old-pill.hot{border-radius:20px}
+@keyframes hotPulse{0%{box-shadow:0 0 0 0 #3d8bffb3}70%{box-shadow:0 0 0 9px #3d8bff00}100%{box-shadow:0 0 0 0 #3d8bff00}}
+.guide-hint{display:flex;align-items:center;gap:8px;font-size:12px!important;color:#3d8bff!important;font-weight:600;margin:4px 0 0!important}
+.guide-hint i{width:8px;height:8px;border-radius:50%;background:#3d8bff;flex-shrink:0;animation:hotPulse 1.4s ease-out infinite}
+@media(max-width:650px){.guide-hint{justify-content:center}}
+/* Before 자동 재생 */
+.autoplay{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:4px 12px;background:#f5f7fa;border-radius:10px;padding:10px 14px 12px 10px;margin:0 0 26px;max-width:380px;text-align:left}
+.autoplay-btn{grid-row:span 2;width:34px;height:34px;border-radius:50%;border:0;background:#354050;color:#fff;font-size:11px;display:grid;place-items:center;letter-spacing:-1px;cursor:pointer}
+.autoplay[data-state=stopped] .autoplay-btn{background:#4f86d8;font-size:15px}
+.autoplay-text b{display:block;font-size:12px;color:#354050;font-weight:600}
+.autoplay-text span{font-size:10px;color:#8e98a5}
+.autoplay-bar{grid-column:2;height:3px;border-radius:2px;background:#e1e6ed;overflow:hidden}
+.autoplay-bar i{display:block;height:100%;width:0;background:#4f86d8}
+.tap-finger{position:absolute;left:-21px;top:-21px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.55);border:2px solid rgba(53,64,80,.45);box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:50;pointer-events:none;opacity:0;transition:transform .7s cubic-bezier(.4,.1,.2,1),opacity .3s}
+.tap-finger.show{opacity:1}
+.tap-finger.press{scale:.78;background:rgba(79,134,216,.55);transition:transform .7s cubic-bezier(.4,.1,.2,1),opacity .3s,scale .15s}
+.tap-finger.drag{transition:transform 1.4s cubic-bezier(.3,.1,.3,1),opacity .3s}
+@media(max-width:650px){.autoplay{margin:0 auto 20px}}
 
 /* Talkcloud reference: #354050 headings, #fee500 utility button,
    blue gradient CTA, centered content and white feature cards. */
@@ -370,10 +391,12 @@ function createDemo(root){
   q('.home-bar').style.background=dark?'#fff':'#111';
   const keepY=screen==='intro'&&q('.xi-scroll')?q('.xi-scroll').scrollTop:0;scr.innerHTML={chat,drawer,old,oldsub,expired,tour,intro,pricing,done,photo}[screen]();if(screen==='intro'&&keepY){const x=q('.xi-scroll');x.style.scrollBehavior='auto';x.scrollTop=keepY;x.style.scrollBehavior=''}
   if(screen==='drawer'&&jumpOnEnter)jump(false);
+  const HOT={chat:menu?'.drawer-menu [data-action="drawer"]':'[data-action="menu"]',drawer:'[data-action="expired"]',old:'[data-action="learn"]',expired:'.xc-cta [data-action="pricing"]',tour:'.xo-cta .primary',intro:'.xi-bottom [data-action="pricing"]',pricing:'.xp [data-action="done"]',photo:'.app-head [data-action="drawer"]'}[screen];
+  const hotEl=HOT&&scr.querySelector(HOT);if(hotEl)hotEl.classList.add('hot');
   const g=GUIDES[kind][screen]||GUIDES[kind][kind==='before'?'chat':'drawer'];
-  q('.guide-copy').innerHTML=`<p class="guide-meta">${g[0]}</p><h3>${g[1]}</h3><p>${g[2]}</p>`;
+  q('.guide-copy').innerHTML=`<p class="guide-meta">${g[0]}</p><h3>${g[1]}</h3><p>${g[2]}</p>${hotEl?'<p class="guide-hint"><i></i>휴대폰 화면에서 파랗게 깜빡이는 곳을 눌러보세요</p>':''}`;
   let act='';
-  if(screen==='drawer')act=button('9월 10일로 내려가기 ↓','jump-date','glass');
+  if(screen==='drawer'&&kind==='before')act=button('9월 10일로 내려가기 ↓','jump-date','glass');
   if(kind==='before'&&(screen==='old'||screen==='oldsub'))act='<a class="glass" href="#solution-a">솔루션 A 보기 ↓</a><a class="glass" href="#solution-b">솔루션 B 보기 ↓</a>';
   q('.guide-action').innerHTML=act;
   q('.stage-caption').textContent=CAPTION[kind];
@@ -406,6 +429,32 @@ function createDemo(root){
   if(a==='again'){if(kind==='b'){tourPage=0;return go('tour')}return go('expired')}
  });
  init();
+ // ── Before 자동 재생 (반복) ──
+ if(kind==='before'){
+  const phone=q('.phone-screen'),finger=document.createElement('div');finger.className='tap-finger';finger.setAttribute('aria-hidden','true');phone.appendChild(finger);
+  const ctl=document.createElement('div');ctl.className='autoplay';ctl.innerHTML='<button type="button" class="autoplay-btn" aria-label="일시정지">❚❚</button><div class="autoplay-text"><b>Before 자동 재생 중</b><span>누르지 않아도 처음부터 반복해서 보여줘요</span></div><div class="autoplay-bar"><i></i></div>';
+  q('.guide-copy').before(ctl);
+  const apBtn=ctl.querySelector('.autoplay-btn'),bar=ctl.querySelector('.autoplay-bar i');
+  const steps=[[3400,()=>tap('[data-action="menu"]')],[1600,()=>tap('.drawer-menu [data-action="drawer"]')],[1600,swipe],[1500,()=>tap('[data-action="expired"]')],[4800,()=>tap('[data-action="learn"]')],[5200,null]];
+  const total=steps.reduce((a,x)=>a+x[0],0)+700*4+1500;
+  let st='idle',run=0,el=0,visible=false;
+  const sleep=ms=>new Promise(r=>{let left=ms;const id=run;(function t(){if(id!==run)return r(false);if(left<=0)return r(true);setTimeout(()=>{if(st==='playing'&&visible){left-=50;el+=50;bar.style.width=Math.min(100,el/total*100)+'%'}t()},50)})()});
+  function pos(e){const p=phone.getBoundingClientRect(),r=e.getBoundingClientRect(),k=phone.offsetWidth/p.width;return[(r.left+r.width/2-p.left)*k,(r.top+r.height/2-p.top)*k]}
+  async function tap(sel){const e=scr.querySelector(sel);if(!e)return true;const[x,y]=pos(e);finger.classList.add('show');finger.style.transform=`translate(${x}px,${y}px)`;if(!await sleep(700))return false;finger.classList.add('press');if(!await sleep(180))return false;finger.classList.remove('press');e.click();return true}
+  async function swipe(){const sc=q('.media-scroll');if(!sc)return true;const w=phone.offsetWidth,h=phone.offsetHeight;finger.classList.add('show');finger.style.transform=`translate(${w*.55}px,${h*.78}px)`;if(!await sleep(700))return false;finger.classList.add('drag');finger.style.transform=`translate(${w*.55}px,${h*.38}px)`;jump(true);const ok=await sleep(1500);jump(false);finger.classList.remove('drag');return ok}
+  async function loop(){const id=++run;set('playing');
+   while(id===run){init();el=0;bar.style.width='0';finger.classList.remove('show');
+    for(const[w,act]of steps){if(!await sleep(w)||id!==run)return;if(act&&(!await act()||id!==run))return}
+    finger.classList.remove('show');if(!await sleep(1500))return}}
+  function set(x){st=x;ctl.dataset.state=x;apBtn.textContent=x==='playing'?'❚❚':x==='paused'?'▶':'↺';apBtn.setAttribute('aria-label',x==='playing'?'일시정지':x==='paused'?'계속 재생':'자동 재생 다시 시작');
+   ctl.querySelector('b').textContent={playing:'Before 자동 재생 중',paused:'일시정지됨',stopped:'직접 눌러보는 중'}[x]||'';
+   ctl.querySelector('span').textContent=x==='stopped'?'↺ 버튼을 누르면 자동 재생을 다시 시작해요':'누르지 않아도 처음부터 반복해서 보여줘요'}
+  function stop(){if(st!=='playing'&&st!=='paused')return;run++;finger.classList.remove('show','press','drag');set('stopped')}
+  apBtn.onclick=()=>{if(st==='playing')set('paused');else if(st==='paused')set('playing');else loop()};
+  root.addEventListener('click',e=>{if(e.isTrusted&&!ctl.contains(e.target)&&e.target.closest('[data-action]'))stop()},true);
+  let started=false;
+  new IntersectionObserver(en=>{visible=en.some(x=>x.isIntersecting);if(visible&&!started){started=true;loop()}},{threshold:.3}).observe(root);
+ }
 }
 document.querySelectorAll('[data-demo]').forEach(createDemo);
 
