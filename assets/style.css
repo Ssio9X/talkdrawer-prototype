@@ -294,3 +294,17 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .index a { display: block; background: #fff; border-radius: 16px; padding: 18px 20px; margin-bottom: 10px; color: inherit; text-decoration: none; }
 .index a b { display: block; font-size: 17px; margin-bottom: 4px; }
 .index a span { font-size: 14px; color: var(--sub); }
+
+/* Before 자동 재생 */
+.autoplay { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: center; background: #fff; border-radius: 14px; padding: 10px 14px 12px 10px; margin: -8px 0 18px; }
+.ap-btn { grid-row: span 2; width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 11px; display: grid; place-items: center; letter-spacing: -1px; }
+.autoplay[data-state=ended] .ap-btn, .autoplay[data-state=stopped] .ap-btn { background: var(--blue); font-size: 16px; }
+.ap-txt b { display: block; font-size: 13px; }
+.ap-txt span { font-size: 11px; color: var(--sub); }
+.ap-bar { grid-column: 2; height: 3px; border-radius: 2px; background: #E6E6EA; overflow: hidden; }
+.ap-bar i { display: block; height: 100%; width: 0; background: var(--blue); }
+.finger { position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,.5); border: 2px solid rgba(25,25,25,.35); box-shadow: 0 4px 16px rgba(0,0,0,.3); z-index: 50; pointer-events: none; opacity: 0; transition: transform .7s cubic-bezier(.4,.1,.2,1), opacity .3s; }
+.finger.show { opacity: 1; }
+.finger.press { scale: .78; background: rgba(61,139,255,.55); transition: transform .7s cubic-bezier(.4,.1,.2,1), opacity .3s, scale .15s; }
+.thought { animation: thoughtIn .5s .8s both; }
+@keyframes thoughtIn { from { opacity: 0; transform: translateY(8px); } }

@@ -285,6 +285,7 @@
     <div class="panel">
       <div class="ver"><b>v${V}</b><span>${V === 1 ? "Before → Solution 1" : "Before → Solution 1 + 2"}</span></div>
       <div class="phases">${phases.map(([k, n]) => `<button data-ph="${k}">${n}</button>`).join("")}</div>
+      <div class="autoplay"><button class="ap-btn" type="button" aria-label="일시정지">❚❚</button><div class="ap-txt"><b>Before 자동 재생 중</b><span>누르지 않아도 그대로 보면 돼요</span></div><div class="ap-bar"><i></i></div></div>
       <div class="count"></div>
       <div class="cap"></div>
       <div class="nav"><button class="prev">이전</button><button class="next">다음</button></div>
@@ -361,5 +362,73 @@
   addEventListener("resize", fit);
   fit();
 
-  go((parseInt(location.hash.slice(1)) || 1) - 1);
+  // ───────── Before 자동 재생 (영상처럼) ─────────
+  const finger = document.createElement("div");
+  finger.className = "finger";
+  device.appendChild(finger);
+  const ap = app.querySelector(".autoplay"), apBtn = ap.querySelector(".ap-btn"), apBar = ap.querySelector(".ap-bar i");
+  const beforeEnd = steps.findIndex(s => s.ph !== "before"); // 문제 정리 단계
+  const readTime = [3800, 2200, 3600, 6200, 6200]; // 단계별로 읽을 시간(ms)
+  const total = readTime.reduce((a, b) => a + b, 0) + beforeEnd * 900;
+  let apState = "idle", apRun = 0, apElapsed = 0;
+  const sleep = ms => new Promise(r => {
+    let left = ms; const id = apRun;
+    (function tick() {
+      if (id !== apRun) return r(false);
+      if (left <= 0) return r(true);
+      setTimeout(() => {
+        if (apState === "playing") { left -= 50; apElapsed += 50; apBar.style.width = Math.min(100, apElapsed / total * 100) + "%"; }
+        tick();
+      }, 50);
+    })();
+  });
+  function fingerTo(el) {
+    const d = device.getBoundingClientRect(), r = el.getBoundingClientRect(), k = device.offsetWidth / d.width;
+    const x = (r.left + r.width / 2 - d.left) * k - device.clientLeft, y = (r.top + r.height / 2 - d.top) * k - device.clientTop;
+    finger.classList.add("show");
+    finger.style.transform = `translate(${x}px, ${y}px)`;
+  }
+  async function playBefore() {
+    const id = ++apRun; apElapsed = 0; apBar.style.width = "0"; setAp("playing");
+    finger.classList.remove("show");
+    finger.style.transform = "translate(195px, 700px)";
+    for (let i = 0; i < beforeEnd; i++) {
+      go(i);
+      if (!await sleep(readTime[i] || 3000) || id !== apRun) return;
+      const hot = device.querySelector(".screen.on .hot");
+      if (!hot) continue;
+      fingerTo(hot);
+      if (!await sleep(750) || id !== apRun) return;
+      finger.classList.add("press");
+      if (!await sleep(180) || id !== apRun) return;
+      finger.classList.remove("press");
+    }
+    finger.classList.remove("show");
+    go(beforeEnd);
+    apBar.style.width = "100%";
+    setAp("ended");
+  }
+  function setAp(st) {
+    apState = st; ap.dataset.state = st;
+    apBtn.textContent = st === "playing" ? "❚❚" : st === "paused" ? "▶" : "↺";
+    apBtn.setAttribute("aria-label", st === "playing" ? "일시정지" : st === "paused" ? "계속 재생" : "Before 다시 재생");
+    ap.querySelector("b").textContent = { playing: "Before 자동 재생 중", paused: "일시정지됨", ended: "Before 재생 끝", stopped: "직접 넘겨보는 중" }[st];
+    ap.querySelector("span").textContent = st === "playing" || st === "paused" ? "누르지 않아도 그대로 보면 돼요" : "↺ 버튼으로 Before를 다시 볼 수 있어요";
+  }
+  function stopAp() {
+    if (apState !== "playing" && apState !== "paused") return;
+    apRun++; finger.classList.remove("show", "press"); setAp("stopped");
+  }
+  apBtn.onclick = () => {
+    if (apState === "playing") setAp("paused");
+    else if (apState === "paused") setAp("playing");
+    else playBefore();
+  };
+  // 사람이 직접 조작하면 자동 재생을 멈춤
+  app.addEventListener("click", e => { if (e.isTrusted && !ap.contains(e.target) && e.target.closest("button,[data-hs]")) stopAp(); }, true);
+  document.addEventListener("keydown", e => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") stopAp(); }, true);
+
+  const startAt = (parseInt(location.hash.slice(1)) || 1) - 1;
+  if (startAt === 0) playBefore();
+  else { go(startAt); setAp("stopped"); }
 })();
