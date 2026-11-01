@@ -135,9 +135,9 @@
   </div>`;
 
   S.s1intro = () => `<div class="screen" id="s-s1intro"><div class="divider">
-    <small>${V === 1 ? "SOLUTION 1" : "SOLUTION 1 + 2"}</small>
-    <h3>${V === 1 ? "만료 화면이\n상황을 설명하게" : "만료 화면이 설명하고,\n결제 전에 톡서랍을 보여주게"}</h3>
-    <p>${V === 1 ? "같은 회색 사진에서 시작해요.\n무엇을 잃었는지 → 톡서랍이었다면 → 앞으로는\n순서로 말하도록 만료 화면을 바꿨어요." : "만료 화면(솔루션 1)에\n'톡서랍 먼저 둘러보기' 온보딩(솔루션 2)을 더해,\n결제 전에 톡서랍이 무엇인지 볼 수 있게 했어요."}</p>
+    <small>${V === 1 ? "SOLUTION A" : "SOLUTION B"}</small>
+    <h3>${V === 1 ? "만료 화면이\n상황을 설명하게" : "결제하기 전에\n톡서랍을 먼저 보여주게"}</h3>
+    <p>${V === 1 ? "같은 회색 사진에서 시작해요.\n무엇을 잃었는지 → 톡서랍이었다면 → 앞으로는\n순서로 말하도록 만료 화면을 바꿨어요." : "같은 회색 사진에서 시작해요.\n만료 화면은 그대로 두고, '더 알아보기' 다음에\n결제 화면 대신 톡서랍 온보딩을 먼저 보여줘요."}</p>
     <button class="go" data-hs="start">솔루션 보기</button>
   </div></div>`.replace(/\n/g, "<br>").replace(/<br>\s*</g, "<").replace(/>\s*<br>/g, ">");
 
@@ -161,11 +161,11 @@
     </div>
     <div class="nfoot">
       <button class="ybtn" data-hs="cta">앞으로 받는 사진 보관하기</button>
-      ${V === 1 ? '<button class="tbtn">다음에 할게요</button>' : '<button class="tbtn" data-hs="tour" style="color:#fff">톡서랍 먼저 둘러보기</button>'}
+      <button class="tbtn">다음에 할게요</button>
     </div>
   </div>`;
 
-  S.pricing = () => `<div class="screen black" id="s-pricing">${S.newExpired().replace(/^<div class="screen black" id="s-newExpired">/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
+  S.pricing = () => `<div class="screen black" id="s-pricing">${(V === 1 ? S.newExpired() : S["ob" + (obPages.length - 1)]()).replace(/^<div class="screen black" id="[^"]+">/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
     <div class="dim"></div>
     <div class="sheet" style="animation:rise .35s ease-out">
       <div class="handle"></div>
@@ -221,11 +221,11 @@
 
   S.end = () => `<div class="screen" id="s-end"><div class="end">
     <small>v${V} 요약</small>
-    <h3>${V === 1 ? "만료 화면에서\n톡서랍을 이해시키기" : "만료 화면 + 톡서랍 온보딩"}</h3>
+    <h3>${V === 1 ? "만료 화면에서\n톡서랍을 이해시키기" : "결제 전에\n톡서랍을 먼저 보여주기"}</h3>
     <div class="chg">
       <div><b>Before</b>"만료" 한 줄 → 바로 결제 화면. 톡서랍을 '백업'으로만 기억</div>
-      <div><b>Solution 1 · 만료 화면</b>무엇을 잃었는지, 톡서랍이었다면 어땠을지, 앞으로는 무엇이 보관되는지 한 화면에</div>
-      ${V === 2 ? "<div><b>Solution 2 · 온보딩</b>결제 전에 보관·찾기·정리 3장으로 톡서랍을 먼저 보여줌</div>" : ""}
+      ${V === 1 ? "<div><b>Solution A · 만료 화면 재설계</b>무엇을 잃었는지, 톡서랍이었다면 어땠을지, 앞으로는 무엇이 보관되는지 한 화면에</div>" : ""}
+      ${V === 2 ? "<div><b>Solution B · 결제 전 온보딩</b>만료 화면은 그대로 두고, '더 알아보기' 다음에 보관·찾기·정리 3장으로 톡서랍을 먼저 보여줌</div>" : ""}
     </div>
     <button class="again" data-hs="again">처음부터 다시 보기</button>
   </div></div>`.replace(/(<h3>[^<]*)\n/g, "$1<br>");
@@ -251,39 +251,46 @@
           "모르겠어요, 필요한 게 없어서."] },
   ];
   const sol1 = [
-    { ph: "s1", s: "s1intro", hot: "start", t: V === 1 ? "Solution 1" : "Solution 1 + 2",
+    { ph: "s1", s: "s1intro", hot: "start", t: V === 1 ? "Solution A" : "Solution B",
       b: "같은 상황, 같은 회색 사진에서 다시 시작해요." },
     { ph: "s1", s: "grid", hot: "expired", scroll: true, t: "같은 회색 사진을 눌러요", b: "들어오는 경로는 그대로 두고, 그 다음 화면을 바꿨어요." },
-    { ph: "s1", s: "newExpired", hot: V === 1 ? "cta" : "tour", t: "잃은 것과 톡서랍의 차이를\n한 화면에",
+    { ph: "s1", s: "newExpired", hot: "cta", t: "잃은 것과 톡서랍의 차이를\n한 화면에",
       li: ["어떤 사진이, 왜, 이 방에서 몇 개나 사라졌는지 알려줘요",
            "지금 카톡과 톡서랍을 나란히 보여줘 '보관'이 무엇인지 눈으로 확인해요",
            "지난 사진은 되돌릴 수 없다는 점을 먼저 말해 오해를 막아요"],
-      b: V === 2 ? "결제가 망설여지면 '톡서랍 먼저 둘러보기'로 넘어갈 수 있어요." : "" },
+      b: "" },
   ];
   const sol2 = [
-    { ph: "s2", s: "ob0", hot: "next", t: "Solution 2 · 결제 전에\n톡서랍을 먼저 보여줘요",
+    { ph: "s1", s: "ob0", hot: "next", t: "결제 전에\n톡서랍을 먼저 보여줘요",
       b: "온보딩 3장으로 보관 · 찾기 · 정리를 실제 화면처럼 보여줘요. 첫 장은 방금 잃은 '보관'부터." },
-    { ph: "s2", s: "ob1", hot: "next", t: "찾기: 사람·태그로",
+    { ph: "s1", s: "ob1", hot: "next", t: "찾기: 사람·태그로",
       b: "여러 방에 흩어진 사진을 사람별로 묶어 보여줘요. 백업 이상의 쓰임을 처음 알게 되는 장이에요." },
-    { ph: "s2", s: "ob2", hot: "next", t: "정리: 드라이브처럼 폴더로",
+    { ph: "s1", s: "ob2", hot: "next", t: "정리: 드라이브처럼 폴더로",
       b: "인터뷰에서 \"아예 몰랐다\"던 드라이브 정리 기능을 보여주고, 구독으로 이어져요." },
   ];
   const tail = [
-    { ph: V === 1 ? "s1" : "s2", s: "pricing", hot: "subscribe", t: "요금 시트도\n기대치를 맞춰요",
+    { ph: "s1", s: "pricing", hot: "subscribe", t: "요금 시트도\n기대치를 맞춰요",
       b: "'앞으로 받는 사진부터 보관돼요'를 제목으로 두고, 구독 전 사진은 복구되지 않는다는 점을 함께 보여줘요." },
-    { ph: V === 1 ? "s1" : "s2", s: "done", hot: "ok", t: "어디서 다시 꺼내보는지까지",
+    { ph: "s1", s: "done", hot: "ok", t: "어디서 다시 꺼내보는지까지",
       b: "구독을 마치면 보관된 사진을 어디서 볼 수 있는지 알려줘요." },
     { ph: "end", s: "end", hot: "again", t: `v${V} 정리`, b: "처음부터 다시 보거나, 위 단계 버튼으로 원하는 부분만 볼 수 있어요." },
   ];
-  const steps = [...before, ...sol1, ...(V === 2 ? sol2 : []), ...tail];
+  const solB = [
+    sol1[0],
+    sol1[1],
+    { ph: "s1", s: "oldExpired", hot: "learn", t: "만료 화면은\n그대로예요",
+      b: "막히는 화면은 Before와 같아요. 달라지는 건 '더 알아보기'를 누른 다음부터예요." },
+    ...sol2,
+  ];
+  const steps = [...before, ...(V === 1 ? sol1 : solB), ...tail];
 
-  const phases = [["before", "Before"], ["problem", "문제"], ["s1", "Solution 1"], ...(V === 2 ? [["s2", "Solution 2"]] : []), ["end", "정리"]];
+  const phases = [["before", "Before"], ["problem", "문제"], ["s1", V === 1 ? "Solution A" : "Solution B"], ["end", "정리"]];
 
   // ───────── 렌더 ─────────
   const app = document.getElementById("app");
   app.innerHTML = `<div class="stage">
     <div class="panel">
-      <div class="ver"><b>v${V}</b><span>${V === 1 ? "Before → Solution 1" : "Before → Solution 1 + 2"}</span></div>
+      <div class="ver"><b>v${V}</b><span>${V === 1 ? "Before → Solution A" : "Before → Solution B"}</span></div>
       <div class="phases">${phases.map(([k, n]) => `<button data-ph="${k}">${n}</button>`).join("")}</div>
       <div class="autoplay"><button class="ap-btn" type="button" aria-label="일시정지">❚❚</button><div class="ap-txt"><b>Before 자동 재생 중</b><span>누르지 않아도 그대로 보면 돼요</span></div><div class="ap-bar"><i></i></div></div>
       <div class="count"></div>
