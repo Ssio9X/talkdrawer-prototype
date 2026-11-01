@@ -25,6 +25,11 @@
     devices: '<rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/>',
     star: '<path d="M12 4l2.4 5 5.4.6-4 3.7 1.1 5.3L12 16l-4.9 2.6 1.1-5.3-4-3.7 5.4-.6z"/>',
     sheet: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M4 15h16M10 4v16"/>',
+    stack: '<rect x="4" y="8" width="16" height="12" rx="2.5"/><path d="M7 5h10"/>',
+    person: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.5c.6-1.7 1.8-2.5 3.2-2.5s2.6.8 3.2 2.5M14.5 10h4M14.5 13.5h3"/>',
+    bubble: '<path d="M12 4C7 4 3 7.1 3 11c0 2.4 1.5 4.5 3.9 5.8L6 20l3.7-2.2c.7.1 1.5.2 2.3.2 5 0 9-3.1 9-7s-4-7-9-7z"/>',
+    video: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m17 10 4-2.5v9L17 14z"/>',
+    tray: '<path d="M4 13h4.5l1.5 2.5h4l1.5-2.5H20v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M6 4h12l2 8"/><path d="M4 12l2-8"/>',
   };
   const ic = (n, extra = "") => `<svg class="i" viewBox="0 0 24 24" ${extra}>${P[n]}</svg>`;
 
@@ -141,81 +146,83 @@
     <button class="go" data-hs="start">솔루션 보기</button>
   </div></div>`.replace(/\n/g, "<br>").replace(/<br>\s*</g, "<").replace(/>\s*<br>/g, ">");
 
-  const compareCard = () => `<div class="compare">
-      <div class="cols">
-        <div><h4>지금 카톡</h4><div class="g2">${th("lineup")}${th("c2")}${th("", { exp: true })}${th("", { exp: true })}</div></div>
-        <div class="arr">${ic("arrow")}</div>
-        <div><h4 class="y">톡서랍에 보관했다면</h4><div class="g2">${th("lineup")}${th("c2")}${th("field")}${th("c1")}</div></div>
-      </div>
-      <div class="cap2">${ic("cloud")}톡서랍에 보관된 사진은 기간이 지나도 그대로 열려요</div>
-    </div>`;
-
+  // ───────── 솔루션 A: 만료 화면 (Xcode ExpiredMediaView) ─────────
+  const xstep = (n, t) => `<p class="xc-step"><i>${n}</i>${t}</p>`;
+  const xfeat = (i, t) => `<p class="xc-feat">${ic(i)}${t}</p>`;
   S.newExpired = () => `<div class="screen black" id="s-newExpired">${status()}
-    <div class="nhead">${ic("x")}<div class="t"><b>${ROOM}</b><span>9월 10일에 받은 사진</span></div></div>
-    <div class="nbody">
-      <div class="lost-tile">${ic("imgoff")}</div>
-      <h3>보관 기간이 지나<br>이 사진은 더 볼 수 없어요</h3>
-      <p class="lead">이 채팅방에서만 <b>9개</b>의 사진·동영상이<br>같은 이유로 사라졌어요.</p>
-      ${compareCard()}
-      <div class="note">${ic("info")}지난 사진은 되돌릴 수 없어요. 구독한 날부터 보관돼요.</div>
+    <div class="xc-head"><span class="xc-x">${ic("x")}</span><div><b>${ROOM}</b><small>9월 10일에 받은 사진</small></div><span class="xc-sp"></span></div>
+    <div class="xc-scroll">
+      <section data-xcs="1">${xstep(1, "사라진 사진")}
+        <div class="xc-lostbox">${ic("imgoff")}<small>보관 기간 만료</small></div>
+        <h3>9월 10일 ${ROOM}에서<br>받은 사진이에요</h3>
+        <p class="xc-body">채팅방 사진·동영상은 보관 기간이 지나면 다시 열 수 없어요. 이 사진도 기간이 지나 볼 수 없게 됐어요.</p>
+        <div class="xc-chip"><span class="xc-stack">${("<i>" + ic("imgoff") + "</i>").repeat(4)}</span><span>이 채팅방에서만 <b>9개</b>가 사라졌어요</span></div>
+      </section>
+      <section data-xcs="2">${xstep(2, "톡서랍이 있었다면")}
+        <h3>톡서랍에 보관했다면<br>지금도 다시 꺼내볼 수 있었어요</h3>
+        <div class="xc-mini"><p class="xc-minihead">${ic("bubble")}톡서랍 · ${ROOM}<em>예시 화면</em></p>
+          <div class="xc-grid3">${["lineup", "field", "c1", "c2", "lineup", "c3"].map(k => th(k, { badge: true })).join("")}</div>
+          <p class="xc-blue">${ic("cloud")}보관 기간과 상관없이 그대로 열려요</p></div>
+        ${xfeat("stack", "채팅방별로 사진·파일·링크를 한곳에 모아보기")}${xfeat("person", "인물·태그로 원하는 사진 바로 찾기")}${xfeat("folder", "드라이브처럼 폴더로 파일 정리하기")}
+      </section>
+      <section data-xcs="3">${xstep(3, "앞으로는")}
+        <h3>지난 사진은 되돌릴 수 없지만,<br>앞으로 받는 사진은 지킬 수 있어요</h3>
+        <p class="xc-body">톡클라우드를 구독한 날부터 주고받는 사진·동영상·파일이 톡서랍에 보관돼요.</p>
+        <p class="xc-info">${ic("info")}구독 전에 만료된 사진은 복구되지 않아요</p>
+      </section>
     </div>
-    <div class="nfoot">
-      <button class="ybtn" data-hs="cta">앞으로 받는 사진 보관하기</button>
-      <button class="tbtn">다음에 할게요</button>
-    </div>
+    <div class="xc-cta"><button class="ybtn" data-hs="cta">앞으로 받는 사진 보관하기</button><button class="tbtn xc-sub">다음에 할게요</button></div>
   </div>`;
 
+  // ───────── 요금 시트 (Xcode PricingSheet) ─────────
   S.pricing = () => `<div class="screen black" id="s-pricing">${(V === 1 ? S.newExpired() : S["ob" + (obPages.length - 1)]()).replace(/^<div class="screen black" id="[^"]+">/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
     <div class="dim"></div>
-    <div class="sheet" style="animation:rise .35s ease-out">
-      <div class="handle"></div>
+    <div class="xp">
+      <i class="xp-grab"></i>
       <h3>앞으로 받는 사진부터<br>톡서랍에 보관돼요</h3>
-      <div class="note">${ic("info")}구독 전에 만료된 사진은 복구되지 않아요</div>
-      <div class="plan"><div class="row1"><b>30GB</b><span>가볍게 시작해보세요</span></div><div class="radio"><i></i>매월 2,900원</div></div>
-      <div class="plan sel"><div class="row1"><b>50GB</b><span>많이 선택하는 용량이에요</span></div>
-        <div class="radio"><i class="on"></i>매월 3,900원</div>
-        <div class="radio"><i></i>매년 43,000원 <s>46,800원</s><span class="tag">월 3,583원 수준</span></div></div>
-      <div class="terms"><span>톡클라우드 필수 약관 전체 보기</span><span>⌄</span></div>
+      <p class="xp-info">${ic("info")}구독 전에 만료된 사진은 복구되지 않아요</p>
+      <p class="xp-promo"><i>%</i>연간 결제로 <em>할인 혜택</em>을 받아보세요!</p>
+      <div class="xp-card"><div class="r1"><b>30GB</b><small>가볍게 시작해보세요</small></div><div class="xp-radio"><i></i>매월 2,900원</div></div>
+      <div class="xp-card sel"><div class="r1"><b>50GB</b><small>많이 선택하는 용량이에요</small></div>
+        <div class="xp-radio"><i class="on"></i>매월 3,900원</div>
+        <div class="xp-radio"><i></i>매년 43,000원 <s>46,800원</s><em>월 3,583원 수준</em></div></div>
+      <div class="xp-fill"></div>
+      <p class="xp-terms">톡클라우드 필수 약관 전체 보기<span>⌄</span></p>
       <button class="ybtn" data-hs="subscribe">필수 약관 동의하고 정기 구독하기</button>
     </div>
   </div>`;
 
-  S.done = () => `<div class="screen light" id="s-done" style="background:#fff">${status(false)}
-    <div class="done">
-      <div class="ci">${ic("cloud")}</div>
-      <h3>이제부터 ${ROOM}<br>사진도 톡서랍에 보관돼요</h3>
-      <p>채팅방 메뉴 › 채팅방 서랍에서<br>언제든 다시 꺼내볼 수 있어요.</p>
-    </div>
+  // ───────── 완료 (Xcode doneView) ─────────
+  S.done = () => `<div class="screen" id="s-done" style="background:#F7F7F7;color:#111">${status(false)}
+    <div class="xd"><div class="xd-ic">${ic("cloud")}</div>
+      <h3>이제부터 ${ROOM} 사진도<br>톡서랍에 보관돼요</h3>
+      <p>채팅방 상단 클라우드 아이콘에서 언제든 꺼내볼 수 있어요.</p></div>
     <div class="nfoot"><button class="ybtn" data-hs="ok">확인</button></div>
   </div>`;
 
-  // 온보딩 (솔루션 2)
+  // ───────── 솔루션 B: 온보딩 5장 (Xcode DrawerTourView) ─────────
   const obPages = [
-    { chip: "보관", title: "채팅방 사진,<br>기간이 지나도 그대로", body: "구독한 날부터 주고받는 사진·동영상·파일이<br>톡서랍에 보관돼요.",
-      card: `<div class="obhead">${ic("cloud")}톡서랍 · ${ROOM}</div><div class="g3">${["lineup", "field", "c1", "c2", "lineup", "c3", "c4", "field", "c5"].map(k => th(k, { badge: true })).join("")}</div>` },
-    { chip: "찾기", title: "흩어진 사진,<br>사람·태그로 바로 찾기", body: "자주 등장하는 사람별로 묶어주고,<br>동영상·GIF·풍경 같은 태그로 걸러줘요.",
-      card: `<div class="obhead">${ic("users")}인물 분류</div>
-        <div class="people">${[["#6E747C", "나"], ["#857D90", "친구 A"], ["#6D8091", "친구 B"], ["#6F8A80", "친구 C"]].map(([c, n]) => `<div><i style="background:${c}">${ic("user")}</i>${n}</div>`).join("")}</div>
-        <div class="tags"><span>전체</span><span>동영상</span><span>GIF</span><span class="on">사람</span><span>풍경</span></div>
-        <div class="g3">${th("c2")}${th("c4")}${th("c5")}</div>` },
-    { chip: "정리", title: "받은 파일,<br>드라이브처럼 폴더로", body: "내려받아 옮기지 않아도 톡 안에서 폴더로 정리하고,<br>중요한 파일은 따로 모아봐요.",
-      card: `<div class="obhead">${ic("folder")}내 드라이브</div>
-        <div class="frow"><span class="fi" style="background:#6F87A6">${ic("folder")}</span>경기 사진<small>12개</small></div>
-        <div class="frow"><span class="fi" style="background:#6F87A6">${ic("folder")}</span>회비 정산<small>4개</small></div>
-        <div class="frow"><span class="fi" style="background:#6F917C">${ic("sheet")}</span><span>참가비 정리.xlsx<em>8.2KB</em></span></div>
-        <div class="frow"><span class="fi" style="background:#A97670">${ic("file")}</span><span>경기 일정표.pdf<em>1.2MB</em></span></div>
-        <div class="frow"><span class="fi" style="background:#4A4A4C">${ic("star")}</span>중요 표시 모아보기</div>` },
+    { tag: "톡서랍", title: "카톡 사진·파일을<br>모아두는 서랍이에요", body: "채팅방에서 주고받은 사진·동영상·파일·링크를<br>한곳에 보관하고 꺼내볼 수 있어요.",
+      card: `<div class="xo-hero"><div class="xo-icons">${[["#6F87A6", "img"], ["#A97670", "file"], ["#6F917C", "link"], ["#857D90", "video"]].map(([c, g]) => `<i style="background:${c}">${ic(g)}</i>`).join("")}</div><span class="xo-arrow">↓</span><div class="xo-tray">${ic("tray")}톡서랍</div></div>` },
+    { tag: "보관", title: "채팅방 사진,<br>기간이 지나도 그대로", body: "구독한 날부터 주고받는 사진·동영상·파일이<br>톡서랍에 보관돼요.",
+      card: `<p class="xc-minihead">${ic("bubble")}톡서랍 · ${ROOM} · 사진/동영상</p><div class="xc-grid3">${["lineup", "field", "c1", "c2", "lineup", "c3", "c4", "field", "c5"].map(k => th(k)).join("")}</div>` },
+    { tag: "찾기", title: "사람·태그로<br>원하는 사진을 바로", body: "자주 등장하는 사람별로 묶어주고,<br>동영상·GIF·풍경 같은 태그로 걸러줘요.",
+      card: `<p class="xc-minihead">${ic("bubble")}인물 분류</p><div class="xo-people">${[["#6E747C", "나"], ["#857D90", "친구 A"], ["#6D8091", "친구 B"], ["#6F8A80", "친구 C"]].map(([c, n]) => `<div><i style="background:${c}">${ic("user")}</i>${n}</div>`).join("")}</div><div class="xo-tags">${["전체", "동영상", "GIF", "사람", "풍경"].map(t => `<span class="${t === "사람" ? "on" : ""}">${t}</span>`).join("")}</div><div class="xc-grid3">${["c2", "c4", "c5"].map(k => th(k)).join("")}</div>` },
+    { tag: "정리", title: "드라이브처럼<br>폴더로 정리해요", body: "받은 파일을 내려받지 않고 톡 안에서 폴더로 정리하고,<br>중요한 파일은 따로 모아봐요.",
+      card: `<p class="xc-minihead">${ic("bubble")}내 드라이브</p><div class="xo-row">${ic("folder")}<span>경기 사진</span><small>12개</small></div><div class="xo-row">${ic("folder")}<span>회비 정산</span><small>4개</small></div><hr class="xo-hr"><div class="xo-file"><i style="background:#6F917C"></i><span>참가비 정리.xlsx<small>8.2KB</small></span></div><div class="xo-file"><i style="background:#A97670"></i><span>경기 일정표.pdf<small>1.2MB</small></span></div><p class="xo-star"><b>★</b> 중요 표시 파일 모아보기</p>` },
+    { tag: "복원", title: "기기를 바꿔도<br>같은 톡 그대로", body: "폰을 바꾸거나 잃어버려도<br>새로 설치한 톡에 그대로 복원돼요.",
+      card: `<div class="xo-dev"><div class="xo-phones"><i class="ph"></i><span>→</span><i class="ph"></i><i class="pad"></i></div><em>모든 채팅방 · 대화 백업 완료</em></div>` },
   ];
   obPages.forEach((pg, i) => {
     const last = i === obPages.length - 1;
     S["ob" + i] = () => `<div class="screen black" id="s-ob${i}">${status()}
-      <div class="obtop">
-        <div class="prog">${obPages.map((_, j) => `<i class="${j <= i ? "on" : ""}"></i>`).join("")}</div>
-        <div class="obrow">${ic("x", 'style="color:#fff"')}<span style="${last ? "visibility:hidden" : ""}">건너뛰기</span></div>
+      <div class="xo-top">
+        <div class="xo-prog">${obPages.map((_, j) => `<i class="${j <= i ? "on" : ""}"></i>`).join("")}</div>
+        <div class="xo-row1"><span class="xo-x">${ic("x")}</span><span>${i + 1} / ${obPages.length}</span><span class="xo-skip" style="${last ? "visibility:hidden" : ""}">건너뛰기</span></div>
       </div>
-      <div class="obcard">${pg.card}</div>
-      <div class="obtext"><span class="chip">${pg.chip}</span><h3>${pg.title}</h3><p>${pg.body}</p></div>
-      <div class="nfoot"><button class="ybtn" data-hs="next">${last ? "앞으로 받는 사진 보관하기" : "다음"}</button></div>
+      <div class="xo-card">${pg.card}</div>
+      <div class="xo-text"><span class="xo-tag">${pg.tag}</span><h3>${pg.title}</h3><p>${pg.body}</p></div>
+      <div class="nfoot"><button class="ybtn" data-hs="next">${last ? "앞으로 받는 사진 보관하기" : "다음"}</button>${last ? '<button class="tbtn">나중에 할게요</button>' : ""}</div>
     </div>`;
   });
 
@@ -225,7 +232,7 @@
     <div class="chg">
       <div><b>Before</b>"만료" 한 줄 → 바로 결제 화면. 톡서랍을 '백업'으로만 기억</div>
       ${V === 1 ? "<div><b>Solution A · 만료 화면 재설계</b>무엇을 잃었는지, 톡서랍이었다면 어땠을지, 앞으로는 무엇이 보관되는지 한 화면에</div>" : ""}
-      ${V === 2 ? "<div><b>Solution B · 결제 전 온보딩</b>만료 화면은 그대로 두고, '더 알아보기' 다음에 보관·찾기·정리 3장으로 톡서랍을 먼저 보여줌</div>" : ""}
+      ${V === 2 ? "<div><b>Solution B · 결제 전 온보딩</b>만료 화면은 그대로 두고, '더 알아보기' 다음에 톡서랍·보관·찾기·정리·복원 5장으로 톡서랍을 먼저 보여줌</div>" : ""}
     </div>
     <button class="again" data-hs="again">처음부터 다시 보기</button>
   </div></div>`.replace(/(<h3>[^<]*)\n/g, "$1<br>");
@@ -254,19 +261,24 @@
     { ph: "s1", s: "s1intro", hot: "start", t: V === 1 ? "Solution A" : "Solution B",
       b: "같은 상황, 같은 회색 사진에서 다시 시작해요." },
     { ph: "s1", s: "grid", hot: "expired", scroll: true, t: "같은 회색 사진을 눌러요", b: "들어오는 경로는 그대로 두고, 그 다음 화면을 바꿨어요." },
-    { ph: "s1", s: "newExpired", hot: "cta", t: "잃은 것과 톡서랍의 차이를\n한 화면에",
-      li: ["어떤 사진이, 왜, 이 방에서 몇 개나 사라졌는지 알려줘요",
-           "지금 카톡과 톡서랍을 나란히 보여줘 '보관'이 무엇인지 눈으로 확인해요",
-           "지난 사진은 되돌릴 수 없다는 점을 먼저 말해 오해를 막아요"],
-      b: "" },
+    { ph: "s1", s: "newExpired", xcs: 1, t: "① 사라진 사진",
+      b: "어떤 사진이, 왜 사라졌는지 먼저 말해요. 이 채팅방에서 같은 이유로 사라진 사진이 몇 개인지도 함께 보여줘요." },
+    { ph: "s1", s: "newExpired", xcs: 2, t: "② 톡서랍이 있었다면",
+      b: "같은 사진이 톡서랍에 보관된 모습을 예시로 보여주고, 모아보기 · 찾기 · 정리 기능을 짚어줘요. '백업'만으로 기억되지 않게요." },
+    { ph: "s1", s: "newExpired", xcs: 3, hot: "cta", t: "③ 앞으로는",
+      b: "지난 사진은 되돌릴 수 없고, 구독한 날부터 보관된다는 점을 먼저 말해 오해를 막아요." },
   ];
   const sol2 = [
     { ph: "s1", s: "ob0", hot: "next", t: "결제 전에\n톡서랍을 먼저 보여줘요",
-      b: "온보딩 3장으로 보관 · 찾기 · 정리를 실제 화면처럼 보여줘요. 첫 장은 방금 잃은 '보관'부터." },
-    { ph: "s1", s: "ob1", hot: "next", t: "찾기: 사람·태그로",
+      b: "'더 알아보기' 다음에 요금 화면 대신 온보딩 다섯 장이 나와요. 첫 장은 톡서랍이 무엇인지부터." },
+    { ph: "s1", s: "ob1", hot: "next", t: "보관: 기간이 지나도 그대로",
+      b: "방금 잃은 것과 같은 채팅방 사진이 톡서랍에선 그대로 열리는 모습을 보여줘요." },
+    { ph: "s1", s: "ob2", hot: "next", t: "찾기: 사람·태그로",
       b: "여러 방에 흩어진 사진을 사람별로 묶어 보여줘요. 백업 이상의 쓰임을 처음 알게 되는 장이에요." },
-    { ph: "s1", s: "ob2", hot: "next", t: "정리: 드라이브처럼 폴더로",
-      b: "인터뷰에서 \"아예 몰랐다\"던 드라이브 정리 기능을 보여주고, 구독으로 이어져요." },
+    { ph: "s1", s: "ob3", hot: "next", t: "정리: 드라이브처럼 폴더로",
+      b: "인터뷰에서 \"아예 몰랐다\"던 드라이브 정리 기능을 보여줘요." },
+    { ph: "s1", s: "ob4", hot: "next", t: "복원: 기기를 바꿔도",
+      b: "폰을 바꾸거나 잃어버려도 그대로 복원된다는 것까지 보고 나서 구독으로 이어져요." },
   ];
   const tail = [
     { ph: "s1", s: "pricing", hot: "subscribe", t: "요금 시트도\n기대치를 맞춰요",
@@ -316,7 +328,7 @@
     device.querySelectorAll(".hot").forEach(el => el.classList.remove("hot"));
     const scr = device.querySelector("#s-" + st.s);
     // 애니메이션 재시작
-    scr.querySelectorAll(".obcard,.drawer,.sheet").forEach(el => { el.style.animation = "none"; el.offsetHeight; el.style.animation = ""; });
+    scr.querySelectorAll(".obcard,.drawer,.sheet,.xo-card,.xp").forEach(el => { el.style.animation = "none"; el.offsetHeight; el.style.animation = ""; });
     const g = scr.querySelector(".gscroll");
     if (g) {
       g.scrollTop = 0;
@@ -326,6 +338,13 @@
         g.scrollTo({ top: target, behavior: "smooth" });
         setTimeout(() => { if (Math.abs(g.scrollTop - target) > 4) g.scrollTop = target; }, 900);
       }, 450);
+    }
+    const xs = scr.querySelector(".xc-scroll");
+    if (xs) {
+      const sec = xs.querySelector(`[data-xcs="${st.xcs || 1}"]`);
+      const top = st.xcs > 1 ? sec.offsetTop - 8 : 0;
+      xs.scrollTo({ top, behavior: "smooth" });
+      setTimeout(() => { if (Math.abs(xs.scrollTop - Math.min(top, xs.scrollHeight - xs.clientHeight)) > 4) xs.scrollTop = top; }, 800);
     }
     if (st.hot) {
       const h = scr.querySelector(`[data-hs="${st.hot}"]`);
