@@ -175,7 +175,7 @@
   </div>`;
 
   // ───────── 요금 시트 (Xcode PricingSheet) ─────────
-  S.pricing = () => `<div class="screen black" id="s-pricing">${(V === 1 ? S.newExpired() : S["ob" + (obPages.length - 1)]()).replace(/^<div class="screen black" id="[^"]+">/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
+  S.pricing = () => `<div class="screen ${V === 1 ? "black" : ""}" id="s-pricing" ${V === 2 ? 'style="background:#F4F4F5;color:#111"' : ""}>${(V === 1 ? S.newExpired() : S.intro()).replace(/^<div class="screen[^"]*" id="[^"]+"[^>]*>/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
     <div class="dim"></div>
     <div class="xp">
       <i class="xp-grab"></i>
@@ -222,9 +222,35 @@
       </div>
       <div class="xo-card">${pg.card}</div>
       <div class="xo-text"><span class="xo-tag">${pg.tag}</span><h3>${pg.title}</h3><p>${pg.body}</p></div>
-      <div class="nfoot"><button class="ybtn" data-hs="next">${last ? "앞으로 받는 사진 보관하기" : "다음"}</button>${last ? '<button class="tbtn">나중에 할게요</button>' : ""}</div>
+      <div class="nfoot"><button class="ybtn" data-hs="next">${last ? "톡클라우드 알아보기" : "다음"}</button>${last ? '<button class="tbtn">나중에 할게요</button>' : ""}</div>
     </div>`;
   });
+
+  // ───────── 솔루션 B: 톡클라우드 안내 페이지 (Xcode CloudIntroView) ─────────
+  S.intro = () => {
+    const tabs = [["keep", "보관", "cloud"], ["find", "찾기", "person"], ["organize", "정리", "folder"], ["restore", "복원", "restore"]];
+    const block = (id, label, icon, title, desc, mock, note) => `<article class="xi-block" data-topic="${id}"><p class="xi-label">${ic(icon)}${label}</p><h4>${title}</h4><p class="xi-desc">${desc}</p><div class="xi-mock">${mock}</div>${note ? `<p class="xi-note">${ic("info")}${note}</p>` : ""}</article>`;
+    const g2 = (ks, exp) => `<div class="xi-g2">${ks.map((k, i) => exp && i >= 2 ? th("", { exp: true }) : th(k)).join("")}</div>`;
+    const keepMock = `<div class="xi-ba"><div><h5>지금 카톡</h5>${g2(["lineup", "c2"], true)}<small>기간 지나면 못 열어요</small></div><span class="xi-arr">→</span><div><h5 class="on">톡클라우드</h5>${g2(["lineup", "c2", "field", "c1"], false)}<small>기간 지나도 그대로</small></div></div>`;
+    const findMock = `<p class="xc-minihead">${ic("bubble")}인물 분류</p><div class="xo-people">${[["#6E747C", "나"], ["#857D90", "친구 A"], ["#6D8091", "친구 B"], ["#6F8A80", "친구 C"]].map(([c, n]) => `<div><i style="background:${c}">${ic("user")}</i>${n}</div>`).join("")}</div><div class="xo-tags">${["전체", "동영상", "GIF", "사람", "풍경"].map(t => `<span class="${t === "사람" ? "on" : ""}">${t}</span>`).join("")}</div><div class="xc-grid3">${["c2", "c4", "c5"].map(k => th(k)).join("")}</div>`;
+    const orgMock = `<p class="xc-minihead">${ic("bubble")}내 드라이브</p><div class="xo-row">${ic("folder")}<span>경기 사진</span><small>12개</small></div><div class="xo-row">${ic("folder")}<span>회비 정산</span><small>4개</small></div><hr class="xo-hr"><div class="xo-file"><i style="background:#6F917C"></i><span>참가비 정리.xlsx<small>8.2KB</small></span></div><div class="xo-file"><i style="background:#A97670"></i><span>경기 일정표.pdf<small>1.2MB</small></span></div><p class="xo-star"><b>★</b> 중요 표시 파일 모아보기</p>`;
+    const restoreMock = `<div class="xo-dev xi-dev"><div class="xo-phones"><i class="ph"></i><span>→</span><i class="ph"></i><i class="pad"></i></div><em>모든 채팅방 · 대화 백업 완료</em></div><div class="xi-store"><p><span>기기 저장공간</span><b>8.4GB 확보</b></p><div class="xi-bar"><i class="a"></i><i class="b"></i></div><p class="xi-leg"><span><i class="a"></i>앱·시스템</span><span><i class="b"></i>톡클라우드로 옮긴 카톡 데이터</span></p></div>`;
+    const row = (l, o, t, h) => `<div class="xi-crow ${h ? "head" : ""}"><span>${l}</span><b>${o}</b><em>${t}</em></div>`;
+    return `<div class="screen" id="s-intro" style="background:#F4F4F5;color:#111">${status(false)}
+      <div class="xi-nav">${ic("x")}<h4>${ic("bubble")}톡클라우드</h4><span style="width:22px"></span></div>
+      <div class="xi-tabs">${tabs.map(([id, l, i]) => `<span data-topic="${id}" class="${id === "keep" ? "on" : ""}">${ic(i)}${l}</span>`).join("")}</div>
+      <div class="xi-scroll">
+        <div class="xi-hero"><h3>카카오톡 사진·파일,<br>사라지지 않고 찾기 쉽게</h3><p>톡클라우드는 카톡에서 주고받은 사진·파일을<br>보관하고, 모아보고, 정리하는 카톡 전용 저장공간이에요.</p></div>
+        ${block("keep", "보관", "cloud", "채팅방 사진이<br>기간이 지나도 사라지지 않아요", "지금은 시간이 지나면 채팅방 사진·동영상을 다시 열 수 없어요. 톡클라우드를 쓰면 구독한 날부터 주고받는 사진·동영상·파일이 자동으로 보관돼요.", keepMock, "구독 전에 만료된 사진은 복구되지 않아요")}
+        ${block("find", "찾기", "person", "여러 방에 흩어진 사진,<br>사람·태그로 바로 찾아요", "채팅방마다 흩어진 사진을 한곳에 모아, 자주 등장하는 사람별로 묶고 동영상·GIF·풍경 같은 태그로 걸러줘요.", findMock)}
+        ${block("organize", "정리", "folder", "카톡에서 받은 파일,<br>드라이브처럼 폴더로", "받은 파일을 내려받아 다른 곳에 옮길 필요 없어요. 톡 안에서 폴더를 만들어 정리하고, 중요한 파일은 따로 모아봐요.", orgMock)}
+        ${block("restore", "복원", "restore", "폰을 바꿔도, 용량이 부족해도<br>톡은 그대로", "새 폰이나 서브 기기에서도 대화와 사진이 그대로 복원돼요. 보관된 데이터는 기기 용량을 차지하지 않아요.", restoreMock)}
+        <article class="xi-block" data-topic="compare"><h4 class="xi-h">다른 드라이브와 뭐가 다른가요?</h4>${row("", "톡클라우드", "다른 드라이브", true)}${row("카톡 사진·파일 저장", "자동", "직접 내려받아 올리기")}${row("채팅방별 모아보기", "가능", "-")}${row("카톡 대화 복원", "가능", "-")}</article>
+        <article class="xi-block"><h4 class="xi-h">자주 묻는 질문</h4><p class="xi-faq">Q. 구독 전에 사라진 사진도 돌아오나요?<i>⌄</i></p><p class="xi-faq">Q. 보관된 사진은 어디서 보나요?<i>⌄</i></p></article>
+      </div>
+      <div class="xi-bottom"><p><b>50GB</b><span>/ 매월 3,900원</span><em>요금제 보기 ⌃</em></p><button class="ybtn" data-hs="cta">요금제 선택하고 구독하기</button></div>
+    </div>`;
+  };
 
   S.end = () => `<div class="screen" id="s-end"><div class="end">
     <small>v${V} 요약</small>
@@ -232,7 +258,7 @@
     <div class="chg">
       <div><b>Before</b>"만료" 한 줄 → 바로 결제 화면. 톡서랍을 '백업'으로만 기억</div>
       ${V === 1 ? "<div><b>Solution A · 만료 화면 재설계</b>무엇을 잃었는지, 톡서랍이었다면 어땠을지, 앞으로는 무엇이 보관되는지 한 화면에</div>" : ""}
-      ${V === 2 ? "<div><b>Solution B · 결제 전 온보딩</b>만료 화면은 그대로 두고, '더 알아보기' 다음에 톡서랍·보관·찾기·정리·복원 5장으로 톡서랍을 먼저 보여줌</div>" : ""}
+      ${V === 2 ? "<div><b>Solution B · 결제 전 온보딩</b>만료 화면은 그대로 두고, '더 알아보기' 다음에 온보딩 5장과 톡클라우드 안내 페이지로 톡서랍을 먼저 보여줌</div>" : ""}
     </div>
     <button class="again" data-hs="again">처음부터 다시 보기</button>
   </div></div>`.replace(/(<h3>[^<]*)\n/g, "$1<br>");
@@ -278,7 +304,13 @@
     { ph: "s1", s: "ob3", hot: "next", t: "정리: 드라이브처럼 폴더로",
       b: "인터뷰에서 \"아예 몰랐다\"던 드라이브 정리 기능을 보여줘요." },
     { ph: "s1", s: "ob4", hot: "next", t: "복원: 기기를 바꿔도",
-      b: "폰을 바꾸거나 잃어버려도 그대로 복원된다는 것까지 보고 나서 구독으로 이어져요." },
+      b: "폰을 바꾸거나 잃어버려도 그대로 복원된다는 것까지 보여주고, 톡클라우드 안내 페이지로 이어져요." },
+    { ph: "s1", s: "intro", xis: "keep", t: "결제 화면 대신\n톡클라우드 안내 페이지",
+      b: "원래 바로 뜨던 결제 화면 자리에 안내 페이지를 둬요. 보관 · 찾기 · 정리 · 복원 탭으로 기능을 하나씩 보여주고, 요금은 하단 바에 접어둬요." },
+    { ph: "s1", s: "intro", xis: "organize", t: "몰랐던 기능을\n화면으로",
+      b: "인터뷰에서 \"아예 몰랐다\"던 사람·태그 찾기와 드라이브 정리를 실제 화면 목업으로 보여줘요." },
+    { ph: "s1", s: "intro", xis: "compare", hot: "cta", t: "다른 드라이브와 비교한 뒤\n요금을 선택해요",
+      b: "자동 저장 · 채팅방별 모아보기 · 대화 복원의 차이를 표로 보여준 다음, 하단 바에서 요금 시트를 열어요." },
   ];
   const tail = [
     { ph: "s1", s: "pricing", hot: "subscribe", t: "요금 시트도\n기대치를 맞춰요",
@@ -338,6 +370,15 @@
         g.scrollTo({ top: target, behavior: "smooth" });
         setTimeout(() => { if (Math.abs(g.scrollTop - target) > 4) g.scrollTop = target; }, 900);
       }, 450);
+    }
+    const xi = scr.querySelector(".xi-scroll");
+    if (xi && st.xis) {
+      const tgt = xi.querySelector(`[data-topic="${st.xis}"]`);
+      const top = st.xis === "keep" ? 0 : tgt.offsetTop - 8;
+      xi.scrollTo({ top, behavior: "smooth" });
+      setTimeout(() => { if (Math.abs(xi.scrollTop - Math.min(top, xi.scrollHeight - xi.clientHeight)) > 4) xi.scrollTop = top; }, 800);
+      const tab = st.xis === "compare" ? "restore" : st.xis;
+      scr.querySelectorAll(".xi-tabs [data-topic]").forEach(t => t.classList.toggle("on", t.dataset.topic === tab));
     }
     const xs = scr.querySelector(".xc-scroll");
     if (xs) {
