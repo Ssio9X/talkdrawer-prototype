@@ -29,6 +29,7 @@
     person: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.5c.6-1.7 1.8-2.5 3.2-2.5s2.6.8 3.2 2.5M14.5 10h4M14.5 13.5h3"/>',
     bubble: '<path d="M12 4C7 4 3 7.1 3 11c0 2.4 1.5 4.5 3.9 5.8L6 20l3.7-2.2c.7.1 1.5.2 2.3.2 5 0 9-3.1 9-7s-4-7-9-7z"/>',
     video: '<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m17 10 4-2.5v9L17 14z"/>',
+    monitor: '<rect x="3" y="4" width="18" height="12.5" rx="2"/><path d="M9 20.5h6M12 16.5v4"/>',
     tray: '<path d="M4 13h4.5l1.5 2.5h4l1.5-2.5H20v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M6 4h12l2 8"/><path d="M4 12l2-8"/>',
   };
   const ic = (n, extra = "") => `<svg class="i" viewBox="0 0 24 24" ${extra}>${P[n]}</svg>`;
@@ -59,7 +60,7 @@
       <div class="msg"><div class="av" style="background:#857D90"></div><div><div class="name">친구 B</div>
         <div class="bub">오늘 라인업 올렸어요 ⚽️</div></div></div>
       <div class="msg"><div class="av" style="background:#6D8091"></div><div><div class="name">친구 C</div>
-        <div class="bub">근데 9월 대회 때 사진 누가 갖고 있어요?</div></div></div>
+        <div class="bub">근데 8월 대회 때 사진 누가 갖고 있어요?</div></div></div>
       <div class="msg me"><div class="bub">단톡방에 올라왔던 것 같은데 찾아볼게요!</div></div>
     </div>
     <div class="inputbar">${ic("x", 'style="transform:rotate(45deg);color:#888"')}<div>메시지 입력</div></div>
@@ -88,8 +89,8 @@
   ];
   const expiredSections = [
     ["2026. 9. 10", 3],
-    ["2026. 8. 30", 2],
-    ["2026. 8. 15", 4],
+    ["2026. 8. 30", 1],
+    ["2026. 8. 15", 5],
   ];
   S.grid = () => `<div class="screen dark" id="s-grid">${status()}
     <div class="topbar">${ic("x")}<div class="center">${ROOM}</div>${ic("search")}</div>
@@ -98,7 +99,7 @@
       <div class="meta"><span>95개 / 144.0 MB</span><span>관리</span></div>
       ${sections.map(([d, ks]) => `<div class="gdate">${d}</div><div class="grid3">${ks.map(k => th(k)).join("")}</div>`).join("")}
       ${expiredSections.map(([d, n], si) => `<div class="gdate" ${si === 0 ? 'id="exp-anchor"' : ""}>${d}</div><div class="grid3">${
-        Array.from({ length: n }, (_, i) => th("", { exp: true, hot: si === 0 && i === 0 })).join("")}</div>`).join("")}
+        Array.from({ length: n }, (_, i) => th("", { exp: true, hot: si === 1 && i === 0 })).join("")}</div>`).join("")}
     </div>
   </div>`;
 
@@ -111,13 +112,26 @@
     </div>
   </div>`;
 
-  const oldFeature = (icn, t, s) => `<div class="fcard"><div class="ic">${ic(icn)}</div><div><b>${t}</b><span>${s}</span></div></div>`;
+  // 구독한 뒤 다시 본 만료 화면: 톡클라우드 안내 없이 만료 문구만
+  S.oldExpiredAfter = () => `<div class="screen black" id="s-oldExpiredAfter">${status()}
+    <span class="x-abs">${ic("x")}</span>
+    <div class="center-col">
+      <span style="color:#fff">${ic("imgoff", 'style="width:36px;height:36px"')}</span>
+      <p>미디어 저장 기간이 만료되었어요.</p>
+    </div>
+  </div>`;
+
+  const oldFeature = (icn, color, t, s) => `<div class="fcard"><div class="ic" style="background:${color}">${ic(icn)}</div><div><b>${t}</b><span>${s}</span></div></div>`;
   S.oldSub = () => `<div class="screen light" id="s-oldSub">${status(false)}
     <div class="topbar"><span data-hs="close">${ic("x")}</span><div class="center">톡클라우드</div><span style="width:22px"></span></div>
     <div class="sub-head">카카오톡 대화와 사진을<br>자동으로 백업하세요</div>
-    ${oldFeature("restore", "<em>12개</em> 채팅방을 언제나 쓰던 그대로", "기기를 변경하거나 분실해도 새로 설치한 톡에서 그대로 복원해요")}
-    ${oldFeature("storage", "기기 용량을 <em>8.4GB</em> 줄이고 쾌적하게", "백업된 데이터는 기기 용량을 차지하지 않도록 자동으로 가볍게 유지해줘요")}
-    <div class="sheet">
+    <div class="fcards">
+    ${oldFeature("restore", "#7FA4EE", "<em>14개</em> 채팅방을 언제나 쓰던 그대로", "기기를 변경하거나 분실해도 새로 설치한 톡에서 그대로 복원해요")}
+    ${oldFeature("storage", "#7FD08E", "기기 용량을 <em>9.3GB</em> 줄이고 쾌적하게", "백업된 데이터는 기기 용량을 차지하지 않도록 자동으로 가볍게 유지해줘요")}
+    ${oldFeature("img", "#6CB4E6", "그동안 사라진 <em>162개</em> 사진, 동영상", "앞으로 주고받는 사진, 동영상, 파일은 자동 백업되어 사라질 걱정 없어요")}
+    ${oldFeature("monitor", "#A3ADB8", "모든 기기의 톡에서 같은 내용으로", "서브 기기에서도 데이터를 복원해 동일한 톡을 확인할 수 있어요")}
+    </div>
+    <div class="sheet" data-hs="sheet">
       <div class="handle"></div>
       <p style="text-align:center;font-size:13px;font-weight:600;margin-bottom:14px">연간 결제로 <span style="color:#7B61FF">할인 혜택</span>을 받아보세요!</p>
       <div class="plan"><div class="row1"><b>30GB</b><span>가볍게 시작해보세요</span></div><div class="radio"><i></i>매월 2,900원</div></div>
@@ -125,8 +139,15 @@
         <div class="radio"><i class="on"></i>매월 3,900원</div>
         <div class="radio"><i></i>매년 43,000원 <s>46,800원</s><span class="tag">월 3,583원 수준</span></div></div>
       <div class="terms"><span>톡클라우드 필수 약관 전체 보기</span><span>⌄</span></div>
-      <button class="ybtn">필수 약관 동의하고 정기 구독하기</button>
+      <button class="ybtn" data-hs="subscribe">필수 약관 동의하고 정기 구독하기</button>
     </div>
+  </div>`;
+
+  S.oldDone = () => `<div class="screen" id="s-oldDone" style="background:#F7F7F7;color:#111">${status(false)}
+    <div class="xd"><div class="xd-ic">${ic("check")}</div>
+      <h3>톡클라우드 구독을<br>시작했어요</h3>
+      <p>지금부터 대화와 사진을 자동으로 백업해요.</p></div>
+    <div class="nfoot"><button class="ybtn" data-hs="ok">확인</button></div>
   </div>`;
 
   S.problem = () => `<div class="screen light" id="s-problem">${status(false)}
@@ -140,9 +161,9 @@
   </div>`;
 
   S.s1intro = () => `<div class="screen" id="s-s1intro"><div class="divider">
-    <small>${V === 1 ? "SOLUTION A" : "SOLUTION B"}</small>
-    <h3>${V === 1 ? "만료 화면이\n상황을 설명하게" : "결제하기 전에\n톡서랍을 먼저 보여주게"}</h3>
-    <p>${V === 1 ? "같은 회색 사진에서 시작해요.\n무엇을 잃었는지 → 톡서랍이었다면 → 앞으로는\n순서로 말하도록 만료 화면을 바꿨어요." : "같은 회색 사진에서 시작해요.\n만료 화면은 그대로 두고, '더 알아보기' 다음에\n결제 화면 대신 톡서랍 온보딩을 먼저 보여줘요."}</p>
+    <small>${V === 1 ? "SOLUTION A" : V === 2 ? "SOLUTION B" : "SOLUTION C"}</small>
+    <h3>${V === 1 ? "만료 화면이\n상황을 설명하게" : V === 2 ? "결제하기 전에\n톡서랍을 먼저 보여주게" : "잃은 것을 먼저 알리고\n톡서랍을 보여주게"}</h3>
+    <p>${V === 3 ? "같은 회색 사진에서 시작해요.\n만료 화면은 그대로 두고, '더 알아보기' 다음에\n사라진 사진·파일 수 → 톡서랍 기능 → 구독 순서로 보여줘요." : V === 1 ? "같은 회색 사진에서 시작해요.\n무엇을 잃었는지 → 톡서랍이었다면 → 앞으로는\n순서로 말하도록 만료 화면을 바꿨어요." : "같은 회색 사진에서 시작해요.\n만료 화면은 그대로 두고, '더 알아보기' 다음에\n결제 화면 대신 톡서랍 온보딩을 먼저 보여줘요."}</p>
     <button class="go" data-hs="start">솔루션 보기</button>
   </div></div>`.replace(/\n/g, "<br>").replace(/<br>\s*</g, "<").replace(/>\s*<br>/g, ">");
 
@@ -150,11 +171,11 @@
   const xstep = (n, t) => `<p class="xc-step"><i>${n}</i>${t}</p>`;
   const xfeat = (i, t) => `<p class="xc-feat">${ic(i)}${t}</p>`;
   S.newExpired = () => `<div class="screen black" id="s-newExpired">${status()}
-    <div class="xc-head"><span class="xc-x">${ic("x")}</span><div><b>${ROOM}</b><small>9월 10일에 받은 사진</small></div><span class="xc-sp"></span></div>
+    <div class="xc-head"><span class="xc-x">${ic("x")}</span><div><b>${ROOM}</b><small>8월 30일에 받은 사진</small></div><span class="xc-sp"></span></div>
     <div class="xc-scroll">
       <section data-xcs="1">${xstep(1, "사라진 사진")}
         <div class="xc-lostbox">${ic("imgoff")}<small>보관 기간 만료</small></div>
-        <h3>9월 10일 ${ROOM}에서<br>받은 사진이에요</h3>
+        <h3>8월 30일 ${ROOM}에서<br>받은 사진이에요</h3>
         <p class="xc-body">채팅방 사진·동영상은 보관 기간이 지나면 다시 열 수 없어요. 이 사진도 기간이 지나 볼 수 없게 됐어요.</p>
         <div class="xc-chip"><span class="xc-stack">${("<i>" + ic("imgoff") + "</i>").repeat(4)}</span><span>이 채팅방에서만 <b>9개</b>가 사라졌어요</span></div>
       </section>
@@ -174,8 +195,25 @@
     <div class="xc-cta"><button class="ybtn" data-hs="cta">앞으로 받는 사진 보관하기</button><button class="tbtn xc-sub">다음에 할게요</button></div>
   </div>`;
 
+  // ───────── 솔루션 C: 사라진 사진·파일 ─────────
+  S.lost = () => `<div class="screen black" id="s-lost">${status()}
+    <div class="xl-nav"><span>${ic("x")}</span></div>
+    <div class="xl-body">
+      <span class="xl-pill">${ic("imgoff")}보관 기간 만료</span>
+      <h3>지금까지 사진·동영상 <em>162개</em>,<br>파일 <em>11개</em>가 사라졌어요</h3>
+      <p class="xl-sub">채팅방 사진·동영상·파일은 보관 기간이 지나면<br>더 이상 열 수 없어요.</p>
+      <div class="xl-grid">${Array.from({ length: 11 }, () => th("", { exp: true })).join("")}<div class="xl-more">+162</div></div>
+      <div class="xl-rows">
+        <p><span>${ROOM}</span><b>사진 9 · 파일 2</b></p>
+        <p><span>그 외 채팅방 13곳</span><b>사진 153 · 파일 9</b></p>
+      </div>
+      <div class="xl-warn">${ic("info")}<div><b>사라진 사진과 파일은 다시 복구할 수 없어요</b><span>지금 구독해도 이미 만료된 사진은 돌아오지 않아요.</span></div></div>
+    </div>
+    <div class="nfoot"><p class="xl-bridge">톡서랍에 보관했다면 지금도 볼 수 있었어요</p><button class="ybtn" data-hs="next">톡서랍 알아보기</button></div>
+  </div>`;
+
   // ───────── 요금 시트 (Xcode PricingSheet) ─────────
-  S.pricing = () => `<div class="screen ${V === 1 ? "black" : ""}" id="s-pricing" ${V === 2 ? 'style="background:#F4F4F5;color:#111"' : ""}>${(V === 1 ? S.newExpired() : S.intro()).replace(/^<div class="screen[^"]*" id="[^"]+"[^>]*>/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
+  S.pricing = () => `<div class="screen ${V !== 2 ? "black" : ""}" id="s-pricing" ${V === 2 ? 'style="background:#F4F4F5;color:#111"' : ""}>${(V === 1 ? S.newExpired() : V === 3 ? S.ob4() : S.intro()).replace(/^<div class="screen[^"]*" id="[^"]+"[^>]*>/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
     <div class="dim"></div>
     <div class="xp">
       <i class="xp-grab"></i>
@@ -187,7 +225,7 @@
         <div class="xp-radio"><i class="on"></i>매월 3,900원</div>
         <div class="xp-radio"><i></i>매년 43,000원 <s>46,800원</s><em>월 3,583원 수준</em></div></div>
       <div class="xp-fill"></div>
-      <p class="xp-terms">톡클라우드 필수 약관 전체 보기<span>⌄</span></p>
+      <p class="xp-terms">${V === 3 ? "톡서랍" : "톡클라우드"} 필수 약관 전체 보기<span>⌄</span></p>
       <button class="ybtn" data-hs="subscribe">필수 약관 동의하고 정기 구독하기</button>
     </div>
   </div>`;
@@ -210,8 +248,11 @@
       card: `<p class="xc-minihead">${ic("bubble")}인물 분류</p><div class="xo-people">${[["#6E747C", "나"], ["#857D90", "친구 A"], ["#6D8091", "친구 B"], ["#6F8A80", "친구 C"]].map(([c, n]) => `<div><i style="background:${c}">${ic("user")}</i>${n}</div>`).join("")}</div><div class="xo-tags">${["전체", "동영상", "GIF", "사람", "풍경"].map(t => `<span class="${t === "사람" ? "on" : ""}">${t}</span>`).join("")}</div><div class="xc-grid3">${["c2", "c4", "c5"].map(k => th(k)).join("")}</div>` },
     { tag: "정리", title: "드라이브처럼<br>폴더로 정리해요", body: "받은 파일을 내려받지 않고 톡 안에서 폴더로 정리하고,<br>중요한 파일은 따로 모아봐요.",
       card: `<p class="xc-minihead">${ic("bubble")}내 드라이브</p><div class="xo-row">${ic("folder")}<span>경기 사진</span><small>12개</small></div><div class="xo-row">${ic("folder")}<span>회비 정산</span><small>4개</small></div><hr class="xo-hr"><div class="xo-file"><i style="background:#6F917C"></i><span>참가비 정리.xlsx<small>8.2KB</small></span></div><div class="xo-file"><i style="background:#A97670"></i><span>경기 일정표.pdf<small>1.2MB</small></span></div><p class="xo-star"><b>★</b> 중요 표시 파일 모아보기</p>` },
-    { tag: "복원", title: "기기를 바꿔도<br>같은 톡 그대로", body: "폰을 바꾸거나 잃어버려도<br>새로 설치한 톡에 그대로 복원돼요.",
-      card: `<div class="xo-dev"><div class="xo-phones"><i class="ph"></i><span>→</span><i class="ph"></i><i class="pad"></i></div><em>모든 채팅방 · 대화 백업 완료</em></div>` },
+    V === 3
+      ? { tag: "복원", title: "구독한 뒤의 톡은<br>기기를 바꿔도 그대로", body: "구독한 날부터 주고받은 대화와 사진은<br>폰을 바꾸거나 잃어버려도 새 톡에 복원돼요.",
+        card: `<div class="xo-dev"><div class="xo-phones"><i class="ph"></i><span>→</span><i class="ph"></i><i class="pad"></i></div><em>구독한 날부터 대화 · 사진 자동 보관</em></div>` }
+      : { tag: "복원", title: "기기를 바꿔도<br>같은 톡 그대로", body: "폰을 바꾸거나 잃어버려도<br>새로 설치한 톡에 그대로 복원돼요.",
+        card: `<div class="xo-dev"><div class="xo-phones"><i class="ph"></i><span>→</span><i class="ph"></i><i class="pad"></i></div><em>모든 채팅방 · 대화 백업 완료</em></div>` },
   ];
   obPages.forEach((pg, i) => {
     const last = i === obPages.length - 1;
@@ -222,7 +263,7 @@
       </div>
       <div class="xo-card">${pg.card}</div>
       <div class="xo-text"><span class="xo-tag">${pg.tag}</span><h3>${pg.title}</h3><p>${pg.body}</p></div>
-      <div class="nfoot"><button class="ybtn" data-hs="next">${last ? "톡클라우드 알아보기" : "다음"}</button>${last ? '<button class="tbtn">나중에 할게요</button>' : ""}</div>
+      <div class="nfoot"><button class="ybtn" data-hs="next">${last ? (V === 3 ? "톡서랍 구독하기" : "톡클라우드 알아보기") : "다음"}</button>${last ? '<button class="tbtn">나중에 할게요</button>' : ""}</div>
     </div>`;
   });
 
@@ -254,10 +295,11 @@
 
   S.end = () => `<div class="screen" id="s-end"><div class="end">
     <small>v${V} 요약</small>
-    <h3>${V === 1 ? "만료 화면에서\n톡서랍을 이해시키기" : "결제 전에\n톡서랍을 먼저 보여주기"}</h3>
+    <h3>${V === 1 ? "만료 화면에서\n톡서랍을 이해시키기" : V === 2 ? "결제 전에\n톡서랍을 먼저 보여주기" : "잃은 것을 알린 뒤\n톡서랍을 보여주기"}</h3>
     <div class="chg">
       <div><b>Before</b>"만료" 한 줄 → 바로 결제 화면. 톡서랍을 '백업'으로만 기억</div>
       ${V === 1 ? "<div><b>Solution A · 만료 화면 재설계</b>무엇을 잃었는지, 톡서랍이었다면 어땠을지, 앞으로는 무엇이 보관되는지 한 화면에</div>" : ""}
+      ${V === 3 ? "<div><b>Solution C · 잃은 것 → 기능 → 구독</b>'더 알아보기' 다음에 사라진 사진·파일 수와 복구할 수 없다는 사실을 먼저 알리고, 톡서랍 기능 5장을 보여준 뒤 구독으로 이어짐. 만료된 사진이 돌아온다고 오해하지 않도록 매 단계에서 '구독한 날부터'를 강조</div>" : ""}
       ${V === 2 ? "<div><b>Solution B · 결제 전 온보딩</b>만료 화면은 그대로 두고, '더 알아보기' 다음에 온보딩 5장과 톡클라우드 안내 페이지로 톡서랍을 먼저 보여줌</div>" : ""}
     </div>
     <button class="again" data-hs="again">처음부터 다시 보기</button>
@@ -266,17 +308,28 @@
   // ───────── 단계 ─────────
   const before = [
     { ph: "before", s: "chat", hot: "menu", t: "한 달 전 경기 사진을\n다시 찾으려 해요",
-      b: "풋살 모임 단톡방에서 9월 대회 사진 이야기가 나왔어요.\n채팅방 메뉴(☰)를 눌러 서랍을 열어볼게요." },
+      b: "풋살 모임 단톡방에서 8월 대회 사진 이야기가 나왔어요.\n채팅방 메뉴(☰)를 눌러 서랍을 열어볼게요." },
     { ph: "before", s: "menu", hot: "photos", t: "채팅방 서랍 › 사진/동영상",
       b: "채팅방에서 주고받은 사진은 여기서 모아볼 수 있어요." },
     { ph: "before", s: "grid", hot: "expired", scroll: true, t: "오래된 사진이\n회색으로 바뀌어 있어요",
-      b: "스크롤을 내리니 9월 10일 이전 사진은 아이콘만 남은 회색 칸이에요. 눌러볼게요." },
+      b: "스크롤을 내리니 9월 10일 이전 사진은 아이콘만 남은 회색 칸이에요. 8월 30일에 올라온 대회 사진 한 장을 눌러볼게요." },
     { ph: "before", s: "oldExpired", hot: "learn", t: "\"미디어 저장 기간이\n만료되었어요\"",
       b: "왜 사라졌는지, 어떻게 했으면 지킬 수 있었는지는 알려주지 않고 톡클라우드 이름만 보여줘요.",
       th: "기간이 만료됐다고? 톡클라우드를 쓰면 이 사진을 다시 볼 수 있다는 건가?" },
-    { ph: "before", s: "oldSub", hot: "close", t: "더 알아보기를 누르자\n바로 결제 화면",
-      b: "요금 선택 시트가 기능 설명을 덮고 있어요. '자동 백업' 문구만 남고, 톡서랍에서 무엇을 할 수 있는지는 보이지 않아요.",
-      th: "결국 백업 서비스네. 지금 나한테 필요한 건 없는 것 같은데…" },
+    { ph: "before", s: "oldSub", peek: true, hot: "sheet", t: "더 알아보기를 누르자\n바로 결제 화면",
+      b: "'자동 백업'과 '그동안 사라진 162개 사진, 동영상'이 나란히 보여요. 이미 사라진 사진이 돌아오는지는 말해주지 않아요.",
+      th: "그동안 사라진 162개…? 구독하면 이걸 다시 볼 수 있다는 거구나." },
+    { ph: "before", s: "oldSub", hot: "subscribe", t: "요금 시트가 올라오고\n바로 구독해요",
+      b: "요금 시트가 기능 설명을 덮어요. 톡서랍에서 무엇을 할 수 있는지는 보지 못한 채 결제로 넘어가요.",
+      th: "사진 찾으려면 어쩔 수 없지. 구독할게." },
+    { ph: "before", s: "oldDone", hot: "ok", t: "구독 완료",
+      b: "'지금부터 백업해요'라고만 하고, 이미 만료된 사진이 어떻게 되는지는 말하지 않아요." },
+    { ph: "before", s: "grid", hot: "expired", scroll: true, t: "다시 채팅방 사진을\n열어봐요",
+      b: "구독했으니 아까 그 사진을 볼 수 있을 거라 생각하고 다시 들어가요. 그런데 여전히 회색이에요.",
+      th: "구독했는데 왜 아직 회색이지?" },
+    { ph: "before", s: "oldExpiredAfter", t: "구독한 뒤에도\n만료 화면",
+      b: "만료된 사진은 구독과 상관없이 돌아오지 않아요. 사용자는 결제한 뒤에야 그 사실을 알게 돼요.",
+      th: "돈까지 냈는데 결국 못 보는 거였어? 그럼 '사라진 162개'는 왜 보여준 거지…" },
     { ph: "problem", s: "problem", t: "톡서랍에 들어올 수는 있지만,\n무엇을 해주는지는 몰라요",
       b: "사용자 인터뷰에서도 톡서랍은 '백업'으로만 기억됐고, 정리·모아보기 기능은 알지 못했어요.",
       q: ["카피 문구 봤을 때 사진이나 대화, 문서 다 보존된다… 이것만 기억에 남았어요.",
@@ -326,26 +379,46 @@
       b: "막히는 화면은 Before와 같아요. 달라지는 건 '더 알아보기'를 누른 다음부터예요." },
     ...sol2,
   ];
-  const steps = [...before, ...(V === 1 ? sol1 : solB), ...tail];
+  const solC = [
+    sol1[0],
+    sol1[1],
+    { ph: "s1", s: "oldExpired", hot: "learn", t: "만료 화면은\n그대로예요",
+      b: "막히는 화면은 Before와 같아요. 달라지는 건 '더 알아보기'를 누른 다음부터예요." },
+    { ph: "s1", s: "lost", hot: "next", t: "먼저, 무엇을 잃었는지",
+      b: "지금까지 사라진 사진·파일 수를 보여주고, 다시 복구할 수 없다는 점을 분명히 말해요. 구독하면 돌아온다는 오해를 여기서 먼저 막아요.",
+      th: "162개나 사라졌다고? 이제 다시는 못 보는구나…" },
+    { ph: "s1", s: "ob0", hot: "next", t: "톡서랍은\n사진·파일을 모아두는 서랍",
+      b: "잃은 것을 확인한 뒤에, 톡서랍이 무엇인지부터 보여줘요." },
+    { ph: "s1", s: "ob1", hot: "next", t: "보관: 기간이 지나도 그대로",
+      b: "구독한 날부터 주고받는 사진이 계속 보관된다는 점을 보여줘요." },
+    { ph: "s1", s: "ob2", hot: "next", t: "찾기: 사람·태그로",
+      b: "여러 방에 흩어진 사진을 사람별로 묶어 보여줘요. 백업 이상의 쓰임을 처음 알게 되는 장이에요." },
+    { ph: "s1", s: "ob3", hot: "next", t: "정리: 어디에 보관되는지",
+      b: "보관된 사진·파일이 '내 드라이브'에 폴더로 정리된다는 걸 보여줘요. 인터뷰에서 \"아예 몰랐다\"던 기능이에요." },
+    { ph: "s1", s: "ob4", hot: "next", t: "복원: 구독한 뒤의 톡은 그대로",
+      b: "'구독한 날부터'를 넣어, 이미 만료된 사진까지 복원된다고 읽히지 않게 했어요." },
+  ];
+  const steps = [...before, ...(V === 1 ? sol1 : V === 2 ? solB : solC), ...tail];
 
-  const phases = [["before", "Before"], ["problem", "문제"], ["s1", V === 1 ? "Solution A" : "Solution B"], ["end", "정리"]];
+  const phases = [["before", "Before"], ["problem", "문제"], ["s1", V === 1 ? "Solution A" : V === 2 ? "Solution B" : "Solution C"], ["end", "정리"]];
 
   // ───────── 렌더 ─────────
   const app = document.getElementById("app");
+  const DW = V === 3 ? 402 : 390, DH = V === 3 ? 874 : 844; // iPhone 18 Pro 기준(v3)
   app.innerHTML = `<div class="stage">
     <div class="panel">
-      <div class="ver"><b>v${V}</b><span>${V === 1 ? "Before → Solution A" : "Before → Solution B"}</span></div>
+      <div class="ver"><b>v${V}</b><span>${V === 1 ? "Before → Solution A" : V === 2 ? "Before → Solution B" : "Before → Solution C · iPhone 18 Pro"}</span></div>
       <div class="phases">${phases.map(([k, n]) => `<button data-ph="${k}">${n}</button>`).join("")}</div>
-      <div class="autoplay"><button class="ap-btn" type="button" aria-label="일시정지">❚❚</button><div class="ap-txt"><b>Before 자동 재생 중</b><span>누르지 않아도 그대로 보면 돼요</span></div><div class="ap-bar"><i></i></div></div>
       <div class="count"></div>
       <div class="cap"></div>
       <div class="nav"><button class="prev">이전</button><button class="next">다음</button></div>
-      <div class="hint">화면 속 파랗게 깜빡이는 곳을 눌러도 넘어가요 · 키보드 ← →</div>
+      <div class="hint">화면 속 버튼을 눌러도 넘어가요 · 키보드 ← →</div>
     </div>
     <div class="phone-wrap"><div class="device"></div></div>
   </div>`;
 
   const device = app.querySelector(".device");
+  device.style.width = DW + "px"; device.style.height = DH + "px";
   const used = [...new Set(steps.map(s => s.s))];
   device.innerHTML = used.map(k => S[k]()).join("");
 
@@ -361,6 +434,7 @@
     const scr = device.querySelector("#s-" + st.s);
     // 애니메이션 재시작
     scr.querySelectorAll(".obcard,.drawer,.sheet,.xo-card,.xp").forEach(el => { el.style.animation = "none"; el.offsetHeight; el.style.animation = ""; });
+    scr.classList.toggle("peek", !!st.peek);
     const g = scr.querySelector(".gscroll");
     if (g) {
       g.scrollTop = 0;
@@ -421,81 +495,13 @@
     const narrow = innerWidth <= 900;
     const maxH = narrow ? 9999 : innerHeight - 48;
     const maxW = narrow ? innerWidth - 24 : 9999;
-    const s = Math.min(1, maxH / 864, maxW / 410);
+    const s = Math.min(1, maxH / (DH + 20), maxW / (DW + 20));
     device.style.transform = `scale(${s})`;
-    wrap.style.width = 390 * s + "px";
-    wrap.style.height = 844 * s + "px";
+    wrap.style.width = DW * s + "px";
+    wrap.style.height = DH * s + "px";
   }
   addEventListener("resize", fit);
   fit();
 
-  // ───────── Before 자동 재생 (영상처럼) ─────────
-  const finger = document.createElement("div");
-  finger.className = "finger";
-  device.appendChild(finger);
-  const ap = app.querySelector(".autoplay"), apBtn = ap.querySelector(".ap-btn"), apBar = ap.querySelector(".ap-bar i");
-  const beforeEnd = steps.findIndex(s => s.ph !== "before"); // 문제 정리 단계
-  const readTime = [3800, 2200, 3600, 6200, 6200]; // 단계별로 읽을 시간(ms)
-  const total = readTime.reduce((a, b) => a + b, 0) + beforeEnd * 900;
-  let apState = "idle", apRun = 0, apElapsed = 0;
-  const sleep = ms => new Promise(r => {
-    let left = ms; const id = apRun;
-    (function tick() {
-      if (id !== apRun) return r(false);
-      if (left <= 0) return r(true);
-      setTimeout(() => {
-        if (apState === "playing") { left -= 50; apElapsed += 50; apBar.style.width = Math.min(100, apElapsed / total * 100) + "%"; }
-        tick();
-      }, 50);
-    })();
-  });
-  function fingerTo(el) {
-    const d = device.getBoundingClientRect(), r = el.getBoundingClientRect(), k = device.offsetWidth / d.width;
-    const x = (r.left + r.width / 2 - d.left) * k - device.clientLeft, y = (r.top + r.height / 2 - d.top) * k - device.clientTop;
-    finger.classList.add("show");
-    finger.style.transform = `translate(${x}px, ${y}px)`;
-  }
-  async function playBefore() {
-    const id = ++apRun; apElapsed = 0; apBar.style.width = "0"; setAp("playing");
-    finger.classList.remove("show");
-    finger.style.transform = "translate(195px, 700px)";
-    for (let i = 0; i < beforeEnd; i++) {
-      go(i);
-      if (!await sleep(readTime[i] || 3000) || id !== apRun) return;
-      const hot = device.querySelector(".screen.on .hot");
-      if (!hot) continue;
-      fingerTo(hot);
-      if (!await sleep(750) || id !== apRun) return;
-      finger.classList.add("press");
-      if (!await sleep(180) || id !== apRun) return;
-      finger.classList.remove("press");
-    }
-    finger.classList.remove("show");
-    go(beforeEnd);
-    apBar.style.width = "100%";
-    setAp("ended");
-  }
-  function setAp(st) {
-    apState = st; ap.dataset.state = st;
-    apBtn.textContent = st === "playing" ? "❚❚" : st === "paused" ? "▶" : "↺";
-    apBtn.setAttribute("aria-label", st === "playing" ? "일시정지" : st === "paused" ? "계속 재생" : "Before 다시 재생");
-    ap.querySelector("b").textContent = { playing: "Before 자동 재생 중", paused: "일시정지됨", ended: "Before 재생 끝", stopped: "직접 넘겨보는 중" }[st];
-    ap.querySelector("span").textContent = st === "playing" || st === "paused" ? "누르지 않아도 그대로 보면 돼요" : "↺ 버튼으로 Before를 다시 볼 수 있어요";
-  }
-  function stopAp() {
-    if (apState !== "playing" && apState !== "paused") return;
-    apRun++; finger.classList.remove("show", "press"); setAp("stopped");
-  }
-  apBtn.onclick = () => {
-    if (apState === "playing") setAp("paused");
-    else if (apState === "paused") setAp("playing");
-    else playBefore();
-  };
-  // 사람이 직접 조작하면 자동 재생을 멈춤
-  app.addEventListener("click", e => { if (e.isTrusted && !ap.contains(e.target) && e.target.closest("button,[data-hs]")) stopAp(); }, true);
-  document.addEventListener("keydown", e => { if (e.key === "ArrowRight" || e.key === "ArrowLeft") stopAp(); }, true);
-
-  const startAt = (parseInt(location.hash.slice(1)) || 1) - 1;
-  if (startAt === 0) playBefore();
-  else { go(startAt); setAp("stopped"); }
+  go((parseInt(location.hash.slice(1)) || 1) - 1);
 })();

@@ -101,11 +101,6 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 
 /* 핫스팟 */
 .hot { position: relative; z-index: 5; }
-.hot::after {
-  content: ""; position: absolute; inset: -6px; border-radius: 14px;
-  border: 2.5px solid var(--blue); animation: pulse 1.4s ease-out infinite; pointer-events: none;
-}
-@keyframes pulse { 0% { opacity: 1; transform: scale(.96); } 100% { opacity: 0; transform: scale(1.08); } }
 
 /* 썸네일 */
 .th { position: relative; aspect-ratio: 1; overflow: hidden; display: grid; place-items: center; }
@@ -474,3 +469,33 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .xi-bottom p { display: flex; align-items: center; gap: 5px; font-size: 14px; margin-bottom: 10px; }
 .xi-bottom p span { color: #8E8E93; }
 .xi-bottom p em { margin-left: auto; font-style: normal; font-size: 11px; color: #8E8E93; }
+
+/* ───────── v3 · 사라진 사진·파일 ───────── */
+.xl-nav { padding: 6px 19px 0; color: #fff; }
+.xl-nav svg.i { width: 20px; height: 20px; }
+.xl-body { padding: 26px 24px 0; animation: rise .45s ease-out; }
+.xl-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: #FF8A80; background: rgba(255,90,80,.12); padding: 6px 11px; border-radius: 14px; }
+.xl-pill svg.i { width: 15px; height: 15px; }
+.xl-body h3 { font-size: 26px; line-height: 1.38; letter-spacing: -.7px; margin: 16px 0 10px; }
+.xl-body h3 em { font-style: normal; color: var(--yellow); }
+.xl-sub { font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.62); }
+.xl-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin: 24px 0 16px; }
+.xl-grid .th { border-radius: 6px; }
+.xl-grid .th svg.i { width: 18px; height: 18px; }
+.xl-more { aspect-ratio: 1; border-radius: 6px; background: var(--dark2); display: grid; place-items: center; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.7); }
+.xl-rows { background: var(--dark2); border-radius: 14px; padding: 4px 16px; }
+.xl-rows p { display: flex; justify-content: space-between; font-size: 14px; padding: 12px 0; color: rgba(255,255,255,.75); }
+.xl-rows p + p { border-top: 1px solid rgba(255,255,255,.08); }
+.xl-rows b { color: #fff; font-weight: 600; }
+.xl-warn { display: flex; gap: 10px; margin-top: 14px; padding: 14px 16px; border-radius: 14px; border: 1px solid rgba(255,138,128,.35); background: rgba(255,90,80,.08); }
+.xl-warn svg.i { width: 18px; height: 18px; color: #FF8A80; flex: none; margin-top: 1px; }
+.xl-warn b { display: block; font-size: 14px; margin-bottom: 4px; }
+.xl-warn span { font-size: 12.5px; line-height: 1.5; color: rgba(255,255,255,.6); }
+.xl-bridge { text-align: center; font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 12px; }
+
+/* Before 구독 화면: 카드 4장 + 시트 접힘(peek) */
+#s-oldSub .sub-head { padding: 18px 0 20px; }
+#s-oldSub .fcard { padding: 14px 16px; margin-bottom: 8px; }
+#s-oldSub .fcard .ic { color: #fff; border-radius: 8px; }
+#s-oldSub .sheet { transition: transform .45s ease; }
+#s-oldSub.peek .sheet { transform: translateY(calc(100% - 84px)); animation: none; }
