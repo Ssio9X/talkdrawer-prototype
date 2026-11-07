@@ -575,3 +575,17 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .x3-ob .xo-row1 { height: 24px; margin-top: 8px; }
 .x3-ob .xo-row1 .xo-x { width: 24px; height: 24px; display: grid; place-items: center; }
 .x3-ob .xo-prog { margin: 12px 0 0; }
+/* 요금제 전체 화면 (다크) */
+.x3-pp { padding: 8px 19px 0; }
+.x3-pp .xp-promo { color: #fff; margin: 12px 0 16px; }
+.x3-pp .xp-promo em { color: #A98BFF; }
+.x3-pp .xp-card { background: #1C1C1E; border-color: rgba(255,255,255,.1); color: #fff; }
+.x3-pp .xp-card.sel { border: 1px solid #FEE500; }
+.x3-pp .xp-card small { color: #9A9A9E; }
+.x3-pp .xp-radio i { border-color: #6B6B70; }
+.x3-pp .xp-radio i.on { background: radial-gradient(circle, #1C1C1E 0 4.5px, #FEE500 5px); }
+.x3-pp .xp-radio s { color: #7A7A7E; }
+.x3-pp .xp-radio em { background: rgba(61,139,255,.2); color: #6FAAFF; }
+.x3-pp-terms { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #9A9A9E; margin-bottom: 12px; }
+.x3-price-page .ybtn { background: #FEE500; color: #111; }
+.x3-ob .tbtn { color: rgba(255,255,255,.55); }

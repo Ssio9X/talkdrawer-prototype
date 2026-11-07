@@ -233,6 +233,19 @@
     <button class="ybtn" ${last ? 'data-hs="next"' : ""}>필수 약관 동의하고 정기 구독하기</button>
   </div>`;
 
+  // ───────── 솔루션 C: 요금제 선택 (펼친 시트를 전체 화면으로, 다크) ─────────
+  S.x3price = () => `<div class="screen black x3-price-page" id="s-x3price">${status()}
+    <div class="xl-nav"><span>${ic("x")}</span></div>
+    <div class="x3-pp">
+      <p class="xp-promo"><i>%</i>연간 결제로 <em>할인 혜택</em>을 받아보세요!</p>
+      <div class="xp-card"><div class="r1"><b>30GB</b><small>가볍게 시작해보세요</small></div><div class="xp-radio"><i></i>매월 2,900원</div></div>
+      <div class="xp-card sel"><div class="r1"><b>50GB</b><small>많이 선택하는 용량이에요</small></div>
+        <div class="xp-radio"><i class="on"></i>매월 3,900원</div>
+        <div class="xp-radio"><i></i>매년 43,000원 <s>46,800원</s><em>월 3,583원 수준</em></div></div>
+    </div>
+    <div class="nfoot"><p class="x3-pp-terms"><span>톡서랍 필수 약관 전체 보기</span><img src="../assets/img/chevron-down.svg" width="16" height="16" alt=""></p><button class="ybtn" data-hs="subscribe">필수 약관 동의하고 정기 구독하기</button></div>
+  </div>`;
+
   // ───────── 요금 시트 (Xcode PricingSheet) ─────────
   S.pricing = () => `<div class="screen ${V !== 2 ? "black" : ""}" id="s-pricing" ${V === 2 ? 'style="background:#F4F4F5;color:#111"' : ""}>${(V === 1 ? S.newExpired() : V === 3 ? S.ob4() : S.intro()).replace(/^<div class="screen[^"]*" id="[^"]+"[^>]*>/, "").replace(/<\/div>$/, "").replace(/data-hs="[^"]+"/g, "")}
     <div class="dim"></div>
@@ -287,9 +300,9 @@
         <div class="xo-row1"><span class="xo-x">${ic("x")}</span></div>
         <div class="xo-prog">${obPages.map((_, j) => `<i class="${j <= i ? "on" : ""}"></i>`).join("")}</div>
       </div>
-      <div class="xo-card" ${last ? "" : 'data-hs="next"'}>${pg.card}</div>
+      <div class="xo-card">${pg.card}</div>
       <div class="xo-text"><h3>${pg.title}</h3><p>${pg.body}</p></div>
-      ${x3Sheet(last)}
+      <div class="nfoot"><button class="ybtn" data-hs="next">${last ? "톡클라우드 구독" : "다음"}</button>${last ? '<button class="tbtn">다음에 알아보기</button>' : ""}</div>
     </div>`; return; }
     S["ob" + i] = () => `<div class="screen black" id="s-ob${i}">${status()}
       <div class="xo-top">
@@ -431,6 +444,8 @@
       b: "보관된 사진·파일이 '내 드라이브'에 폴더로 정리된다는 걸 보여줘요. 인터뷰에서 \"아예 몰랐다\"던 기능이에요." },
     { ph: "s1", s: "ob4", hot: "next", t: "복원: 구독한 뒤의 톡은 그대로",
       b: "'구독한 날부터'를 넣어, 이미 만료된 사진까지 복원된다고 읽히지 않게 했어요." },
+    { ph: "s1", s: "x3price", hot: "subscribe", t: "요금제는 마지막에",
+      b: "기능을 다 본 뒤에 요금제를 고르고 구독해요." },
     { ph: "s1", s: "done", hot: "ok", t: "구독 완료",
       b: "구독을 마치면 보관된 사진을 어디서 꺼내볼 수 있는지 알려줘요." },
   ];
