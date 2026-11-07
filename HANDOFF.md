@@ -7,20 +7,31 @@
 
 ## 0. Mac mini에서 시작하기
 
-```bash
-# 처음이면
-git clone https://github.com/Ssio9X/talkdrawer-prototype.git
-cd talkdrawer-prototype
-# 이미 있으면
-git fetch origin
+### 0-1. 준비 체크리스트 (사람이 먼저 확인)
+| | 무엇 | 확인 방법 | 없으면 |
+|---|---|---|---|
+| ✅ 필수 | **저장소 코드** (이 MD에는 코드가 없다) | 저장소 폴더에서 `git pull` | `git clone https://github.com/Ssio9X/talkdrawer-prototype.git` |
+| ✅ 필수 | **GitHub 로그인** (푸시·배포용) | `gh auth status` | `gh auth login` (계정 Ssio9X) |
+| ✅ 필수 | **git 작성자 설정** (없으면 커밋 실패) | `git config user.name` | `git config user.name "서승오" && git config user.email "185078593+Ssio9X@users.noreply.github.com"` (저장소 안에서) |
+| ◻︎ 권장 | **구글 문서·폼 연결** (1 Pager 직접 읽기) | Claude에게 "구글 문서 읽을 수 있어?" | 이 맥북과 **같은 Claude 계정**으로 로그인. 안 되면 문서 내용을 복사해 붙여넣기 |
+| ◻︎ 선택 | **Chrome 확장** (화면 캡처 확인) | Claude에게 "브라우저 열어서 확인해줘" | 없어도 작업 가능. 사람이 직접 브라우저로 확인 |
 
-git pull                       # main
-python3 -m http.server 8767    # http://localhost:8767/landing-v9/
+### 0-2. Mac mini로 넘어가지 않는 것
+- **Claude 메모리:** 이 맥북(MacBook Air)에만 있다. Mac mini의 Claude는 이전 대화를 모르므로 **이 문서가 유일한 맥락**이다.
+- **Xcode SwiftUI 원본** `~/Desktop/Phi/IPS/TalkCloudPrototype/`: GitHub에 없다. 랜딩·UT 작업에는 필요 없다. SwiftUI 원본을 봐야 하면 AirDrop 등으로 따로 옮긴다.
+- **바탕화면 사본** `~/Desktop/톡서랍_HANDOFF.md`(MacBook Air): 이 파일의 복사본이다. 최신본은 항상 저장소의 `HANDOFF.md`.
+
+### 0-3. 시작 명령
+```bash
+cd ~/talkdrawer-prototype      # 위치를 모르면: find ~ -maxdepth 4 -type d -name talkdrawer-prototype
+git switch main && git pull
+gh auth status
+python3 -m http.server 8767    # 로컬 확인: http://localhost:8767/landing-v9/
+claude                         # → "HANDOFF.md 읽고 이어서 해줘"
 ```
 
 - **`main`에 푸시하면 바로 공개된다**(GitHub Pages). 그래서 새 랜딩은 기존 `landing/`을 덮어쓰지 않고 **`landing-v9/index.html`** 에 따로 두었다. 공개 중인 `landing/`은 예전 A·B 버전 그대로다.
 - 사용자가 "이걸로 바꿔줘"라고 하면 그때 `landing-v9/index.html`을 `landing/index.html`로 옮긴다(두 파일 모두 `../v3/?embed`를 쓰므로 경로는 그대로 맞는다).
-- git 작성자 설정이 없는 Mac이면 커밋이 실패한다. 기존 커밋 작성자는 `서승오`.
 - 배포 확인: `gh api repos/Ssio9X/talkdrawer-prototype/pages/builds/latest --jq '.status+" "+.commit[0:7]'`. Pages 캐시가 10분이라 직후에는 **Cmd+Shift+R**을 안내한다.
 - 커밋 메시지는 한국어, 바뀐 것을 전부 적고 끝에 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 
