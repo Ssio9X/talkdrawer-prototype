@@ -3,6 +3,11 @@
   // 랜딩 페이지 iframe 안에 넣을 때(?embed): 버전 표시·힌트 숨김, 솔루션 단계부터 시작, 높이를 부모에 알림
   const EMBED = new URLSearchParams(location.search).has("embed");
   if (EMBED) document.documentElement.classList.add("embed");
+  // ?embed&phone: 랜딩 파란 Solution 섹션 안에 폰 화면만 넣을 때. 솔루션 단계만 돌고, 단계 정보를 부모에 알림
+  const PHONE = EMBED && new URLSearchParams(location.search).has("phone");
+  if (PHONE) document.documentElement.classList.add("phone-only");
+  // Figma 캡처용: &step=N(시작 단계), &noscale(실제 크기), &clean(누를 곳 반짝임 없음)
+  const QS = new URLSearchParams(location.search), NOSCALE = QS.has("noscale"), CLEAN = QS.has("clean");
   const ROOM = "주말 풋살 모임";
 
   // ───────── 아이콘 ─────────
@@ -109,8 +114,8 @@
   S.oldExpired = () => `<div class="screen black" id="s-oldExpired">${status()}
     <span class="x-abs">${ic("x")}</span>
     <div class="center-col">
-      <span style="color:#fff">${ic("imgoff", 'style="width:36px;height:36px"')}</span>
-      <p>미디어 저장 기간이 만료되었어요.<br>톡 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요.</p>
+      ${V === 3 ? '<img class="x3-expicon" src="../assets/img/expired-icon.png" width="80" height="80" alt="">' : `<span style="color:#fff">${ic("imgoff", 'style="width:36px;height:36px"')}</span>`}
+      ${V === 3 ? '<p class="x3-exptext"><span>미디어 저장 기간이 만료되어</span> <b>소실됐어요.</b><br><b>톡 데이터를 자동으로 백업해주는 톡클라우드를</b><br><span>이용해 보세요.</span></p>' : '<p>미디어 저장 기간이 만료되었어요.<br>톡 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요.</p>'}
       <button class="pill" data-hs="learn">더 알아보기</button>
     </div>
   </div>`;
@@ -202,9 +207,7 @@
   S.lost = () => `<div class="screen black" id="s-lost">${status()}
     <div class="xl-nav"><span>${ic("x")}</span></div>
     <div class="xl-body">
-      <span class="xl-pill">${ic("imgoff")}보관 기간 만료</span>
       <h3>지금까지 사진·동영상 <em>162개</em>,<br>파일 <em>11개</em>가 사라졌어요</h3>
-      <p class="xl-sub">채팅방 사진·동영상·파일은 보관 기간이 지나면<br>더 이상 열 수 없어요.</p>
       <div class="xl-grid">${Array.from({ length: 11 }, () => th("", { exp: true })).join("")}<div class="xl-more">+162</div></div>
       <div class="xl-rows">
         <p><span>${ROOM}</span><b>사진 9 · 파일 2</b></p>
@@ -212,7 +215,22 @@
       </div>
       <div class="xl-warn">${ic("info")}<div><b>사라진 사진과 파일은 다시 복구할 수 없어요</b><span>지금 구독해도 이미 만료된 사진은 돌아오지 않아요.</span></div></div>
     </div>
-    <div class="nfoot"><p class="xl-bridge">톡서랍에 보관했다면 지금도 볼 수 있었어요</p><button class="ybtn" data-hs="next">톡서랍 알아보기</button></div>
+    <div class="nfoot"><p class="xl-bridge">톡서랍에 보관했다면 지금도 볼 수 있었어요</p><button class="ybtn" data-hs="next">톡클라우드 알아보기</button></div>
+  </div>`;
+
+  // ───────── 솔루션 C: 기능 소개 아래에 붙는 요금 시트 (접힘 → 펼침, 다크) ─────────
+  const x3Sheet = last => `<div class="x3-sheet" data-sheet>
+    <button class="x3-grab" data-sheet-toggle aria-label="요금제 펼치기"></button>
+    <div class="x3-mini"><p class="x3-price"><b>50GB</b><span>/</span>매월 3,900원</p></div>
+    <div class="x3-full">
+      <p class="xp-promo"><i>%</i>연간 결제로 <em>할인 혜택</em>을 받아보세요!</p>
+      <div class="xp-card"><div class="r1"><b>30GB</b><small>가볍게 시작해보세요</small></div><div class="xp-radio"><i></i>매월 2,900원</div></div>
+      <div class="xp-card sel"><div class="r1"><b>50GB</b><small>많이 선택하는 용량이에요</small></div>
+        <div class="xp-radio"><i class="on"></i>매월 3,900원</div>
+        <div class="xp-radio"><i></i>매년 43,000원 <s>46,800원</s><em>월 3,583원 수준</em></div></div>
+    </div>
+    <p class="x3-terms" data-sheet-toggle><span><span class="x3-t-mini">톡클라우드</span><span class="x3-t-full">톡서랍</span> 필수 약관 전체 보기</span><img class="x3-chev" src="../assets/img/chevron-down.svg" width="16" height="16" alt=""></p>
+    <button class="ybtn" ${last ? 'data-hs="next"' : ""}>필수 약관 동의하고 정기 구독하기</button>
   </div>`;
 
   // ───────── 요금 시트 (Xcode PricingSheet) ─────────
@@ -234,7 +252,12 @@
   </div>`;
 
   // ───────── 완료 (Xcode doneView) ─────────
-  S.done = () => `<div class="screen" id="s-done" style="background:#F7F7F7;color:#111">${status(false)}
+  S.done = () => V === 3 ? `<div class="screen black x3-done" id="s-done">${status()}
+    <div class="xd"><div class="xd-ic">${ic("cloud")}</div>
+      <h3>이제부터 ${ROOM} 사진도<br>톡서랍에 보관돼요</h3>
+      <p>채팅방 상단 클라우드 아이콘에서 언제든 꺼내볼 수 있어요.</p></div>
+    <div class="nfoot"><button class="ybtn" data-hs="ok">확인</button></div>
+  </div>` : `<div class="screen" id="s-done" style="background:#F7F7F7;color:#111">${status(false)}
     <div class="xd"><div class="xd-ic">${ic("cloud")}</div>
       <h3>이제부터 ${ROOM} 사진도<br>톡서랍에 보관돼요</h3>
       <p>채팅방 상단 클라우드 아이콘에서 언제든 꺼내볼 수 있어요.</p></div>
@@ -243,12 +266,12 @@
 
   // ───────── 솔루션 B: 온보딩 5장 (Xcode DrawerTourView) ─────────
   const obPages = [
-    { tag: "톡서랍", title: "카톡 사진·파일을<br>모아두는 서랍이에요", body: "채팅방에서 주고받은 사진·동영상·파일·링크를<br>한곳에 보관하고 꺼내볼 수 있어요.",
+    { tag: "톡서랍", title: V === 3 ? "톡클라우드에 카톡, 사진, 파일은<br>모아두는 톡서랍이 있어요" : "카톡 사진·파일을<br>모아두는 서랍이에요", body: V === 3 ? "채팅방에서 주고받은 사진, 동영상, 파일, 링크를<br>톡서랍에서 꺼내볼 수 있어요." : "채팅방에서 주고받은 사진·동영상·파일·링크를<br>한곳에 보관하고 꺼내볼 수 있어요.",
       card: `<div class="xo-hero"><div class="xo-icons">${[["#6F87A6", "img"], ["#A97670", "file"], ["#6F917C", "link"], ["#857D90", "video"]].map(([c, g]) => `<i style="background:${c}">${ic(g)}</i>`).join("")}</div><span class="xo-arrow">↓</span><div class="xo-tray">${ic("tray")}톡서랍</div></div>` },
-    { tag: "보관", title: "채팅방 사진,<br>기간이 지나도 그대로", body: "구독한 날부터 주고받는 사진·동영상·파일이<br>톡서랍에 보관돼요.",
+    { tag: "보관", title: "채팅방 사진,<br>기간이 지나도 그대로", body: V === 3 ? "구독한 날부터 주고받는 사진, 동영상, 파일이<br>톡서랍에 계속 보관돼요." : "구독한 날부터 주고받는 사진·동영상·파일이<br>톡서랍에 보관돼요.",
       card: `<p class="xc-minihead">${ic("bubble")}톡서랍 · ${ROOM} · 사진/동영상</p><div class="xc-grid3">${["lineup", "field", "c1", "c2", "lineup", "c3", "c4", "field", "c5"].map(k => th(k)).join("")}</div>` },
-    { tag: "찾기", title: "사람·태그로<br>원하는 사진을 바로", body: "자주 등장하는 사람별로 묶어주고,<br>동영상·GIF·풍경 같은 태그로 걸러줘요.",
-      card: `<p class="xc-minihead">${ic("bubble")}인물 분류</p><div class="xo-people">${[["#6E747C", "나"], ["#857D90", "친구 A"], ["#6D8091", "친구 B"], ["#6F8A80", "친구 C"]].map(([c, n]) => `<div><i style="background:${c}">${ic("user")}</i>${n}</div>`).join("")}</div><div class="xo-tags">${["전체", "동영상", "GIF", "사람", "풍경"].map(t => `<span class="${t === "사람" ? "on" : ""}">${t}</span>`).join("")}</div><div class="xc-grid3">${["c2", "c4", "c5"].map(k => th(k)).join("")}</div>` },
+    { tag: "찾기", title: V === 3 ? "Kanana가 미디어를<br>자동으로 분류" : "사람·태그로<br>원하는 사진을 바로", body: V === 3 ? "자주 등장하는 사람별로 묶어주고,<br>동영상, GIF, 풍경 같은 태그로 자동 분류돼요." : "자주 등장하는 사람별로 묶어주고,<br>동영상·GIF·풍경 같은 태그로 걸러줘요.",
+      card: `<p class="xc-minihead">${ic("bubble")}인물 분류</p><div class="xo-people">${[["#6E747C", "나"], ["#857D90", "친구 A"], ["#6D8091", "친구 B"], ["#6F8A80", "친구 C"]].map(([c, n]) => `<div><i style="background:${c}">${ic("user")}</i>${n}</div>`).join("")}</div><div class="xo-tags">${V === 3 ? '<span class="x3-plus">+</span>' : ""}${["전체", "동영상", "GIF", "사람", "풍경"].map(t => `<span class="${t === "사람" ? "on" : ""}">${t}</span>`).join("")}</div><div class="xc-grid3">${["c2", "c4", "c5"].map(k => th(k)).join("")}</div>` },
     { tag: "정리", title: "드라이브처럼<br>폴더로 정리해요", body: "받은 파일을 내려받지 않고 톡 안에서 폴더로 정리하고,<br>중요한 파일은 따로 모아봐요.",
       card: `<p class="xc-minihead">${ic("bubble")}내 드라이브</p><div class="xo-row">${ic("folder")}<span>경기 사진</span><small>12개</small></div><div class="xo-row">${ic("folder")}<span>회비 정산</span><small>4개</small></div><hr class="xo-hr"><div class="xo-file"><i style="background:#6F917C"></i><span>참가비 정리.xlsx<small>8.2KB</small></span></div><div class="xo-file"><i style="background:#A97670"></i><span>경기 일정표.pdf<small>1.2MB</small></span></div><p class="xo-star"><b>★</b> 중요 표시 파일 모아보기</p>` },
     V === 3
@@ -259,6 +282,15 @@
   ];
   obPages.forEach((pg, i) => {
     const last = i === obPages.length - 1;
+    if (V === 3) { S["ob" + i] = () => `<div class="screen black x3-ob" id="s-ob${i}">${status()}
+      <div class="xo-top">
+        <div class="xo-row1"><span class="xo-x">${ic("x")}</span></div>
+        <div class="xo-prog">${obPages.map((_, j) => `<i class="${j <= i ? "on" : ""}"></i>`).join("")}</div>
+      </div>
+      <div class="xo-card" ${last ? "" : 'data-hs="next"'}>${pg.card}</div>
+      <div class="xo-text"><h3>${pg.title}</h3><p>${pg.body}</p></div>
+      ${x3Sheet(last)}
+    </div>`; return; }
     S["ob" + i] = () => `<div class="screen black" id="s-ob${i}">${status()}
       <div class="xo-top">
         <div class="xo-prog">${obPages.map((_, j) => `<i class="${j <= i ? "on" : ""}"></i>`).join("")}</div>
@@ -383,7 +415,6 @@
     ...sol2,
   ];
   const solC = [
-    sol1[0],
     sol1[1],
     { ph: "s1", s: "oldExpired", hot: "learn", t: "만료 화면은\n그대로예요",
       b: "막히는 화면은 Before와 같아요. 달라지는 건 '더 알아보기'를 누른 다음부터예요." },
@@ -400,8 +431,10 @@
       b: "보관된 사진·파일이 '내 드라이브'에 폴더로 정리된다는 걸 보여줘요. 인터뷰에서 \"아예 몰랐다\"던 기능이에요." },
     { ph: "s1", s: "ob4", hot: "next", t: "복원: 구독한 뒤의 톡은 그대로",
       b: "'구독한 날부터'를 넣어, 이미 만료된 사진까지 복원된다고 읽히지 않게 했어요." },
+    { ph: "s1", s: "done", hot: "ok", t: "구독 완료",
+      b: "구독을 마치면 보관된 사진을 어디서 꺼내볼 수 있는지 알려줘요." },
   ];
-  const steps = [...before, ...(V === 1 ? sol1 : V === 2 ? solB : solC), ...tail];
+  const steps = PHONE && !QS.has("all") ? (V === 1 ? sol1 : V === 2 ? solB : solC) : [...before, ...(V === 1 ? sol1 : V === 2 ? solB : solC), ...(V === 3 ? tail.slice(-1) : tail)];
 
   const phases = [["before", "Before"], ["problem", "문제"], ["s1", V === 1 ? "Solution A" : V === 2 ? "Solution B" : "Solution C"], ["end", "정리"]];
 
@@ -420,6 +453,8 @@
     <div class="phone-wrap"><div class="device"></div></div>
   </div>`;
 
+  // 폰만 보여줄 때는 왼쪽 안내 패널(단계 칩·제목·이전/다음)을 아예 숨김 (CSS가 캐시돼 있어도 안 보이게)
+  if (PHONE) { app.querySelector(".panel").style.display = "none"; const stg = app.querySelector(".stage"); stg.style.cssText = "min-height:0;height:100vh;padding:0;gap:0;justify-content:center;align-items:center"; document.body.style.cssText = "margin:0;overflow:hidden;background:transparent"; }
   const device = app.querySelector(".device");
   device.style.width = DW + "px"; device.style.height = DH + "px";
   const used = [...new Set(steps.map(s => s.s))];
@@ -438,6 +473,7 @@
     // 애니메이션 재시작
     scr.querySelectorAll(".obcard,.drawer,.sheet,.xo-card,.xp").forEach(el => { el.style.animation = "none"; el.offsetHeight; el.style.animation = ""; });
     scr.classList.toggle("peek", !!st.peek);
+    device.querySelectorAll("[data-sheet].open").forEach(el => el.classList.remove("open"));
     const g = scr.querySelector(".gscroll");
     if (g) {
       g.scrollTop = 0;
@@ -464,7 +500,7 @@
       xs.scrollTo({ top, behavior: "smooth" });
       setTimeout(() => { if (Math.abs(xs.scrollTop - Math.min(top, xs.scrollHeight - xs.clientHeight)) > 4) xs.scrollTop = top; }, 800);
     }
-    if (st.hot) {
+    if (st.hot && !CLEAN) {
       const h = scr.querySelector(`[data-hs="${st.hot}"]`);
       if (h) h.classList.add("hot");
     }
@@ -476,9 +512,14 @@
       ${st.q ? `<div class="quotes">${st.q.map(x => `<div>${x}”</div>`).join("")}<small>사용자 인터뷰 중</small></div>` : ""}`;
     app.querySelector(".prev").disabled = cur === 0;
     app.querySelector(".next").textContent = cur === steps.length - 1 ? "처음으로" : "다음";
-    history.replaceState(null, "", location.search + "#" + (cur + 1));
+    if (!PHONE) history.replaceState(null, "", location.search + "#" + (cur + 1));
     postHeight();
+    if (PHONE && parent !== window) parent.postMessage({ tdStep: { i: cur, n: steps.length, t: st.t, b: st.b || "" } }, "*");
   }
+  if (PHONE) addEventListener("message", e => {
+    const g = e.data && e.data.tdGo;
+    if (g === "next") go(cur + 1); else if (g === "prev") go(cur - 1); else if (typeof g === "number") go(g);
+  });
 
   function postHeight() {
     if (!EMBED || parent === window) return;
@@ -486,6 +527,8 @@
   }
 
   device.addEventListener("click", e => {
+    const tg = e.target.closest("[data-sheet-toggle]");
+    if (tg) { tg.closest("[data-sheet]").classList.toggle("open"); return; }
     const h = e.target.closest("[data-hs]");
     if (!h || !h.classList.contains("hot")) return;
     if (h.dataset.hs === "again") go(0); else go(cur + 1);
@@ -501,6 +544,11 @@
   // 화면 크기에 맞게 폰 축소
   const wrap = app.querySelector(".phone-wrap");
   function fit() {
+    if (PHONE) {
+      const s = NOSCALE ? 1 : Math.min(innerWidth / DW, innerHeight / DH);
+      device.style.transform = `scale(${s})`; wrap.style.width = DW * s + "px"; wrap.style.height = DH * s + "px";
+      return;
+    }
     const narrow = innerWidth <= 900;
     const maxH = narrow ? 9999 : (EMBED ? 780 : innerHeight - 48); // 삽입 모드는 iframe 높이가 내용에 따라 바뀌므로 고정값
     const maxW = narrow ? innerWidth - 24 : 9999;
@@ -513,6 +561,6 @@
   addEventListener("resize", fit);
   fit();
 
-  const startAt = EMBED && !location.hash ? steps.findIndex(s => s.ph === "s1") : (parseInt(location.hash.slice(1)) || 1) - 1;
+  const startAt = PHONE ? Math.max(0, (parseInt(QS.get("step")) || 1) - 1) : EMBED && !location.hash ? steps.findIndex(s => s.ph === "s1") : (parseInt(location.hash.slice(1)) || 1) - 1;
   go(startAt);
 })();

@@ -505,3 +505,73 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .embed .stage { min-height: 0; padding: 24px 0; }
 .embed .ver, .embed .hint { display: none; }
 @media (max-width: 900px) { .embed .stage { padding: 8px 0 16px; } }
+/* 랜딩 삽입 모드에서만 카카오 글씨 (본문=작은글씨, 제목=큰글씨). 단독 v1~v3는 그대로 */
+@font-face { font-family: 'Kakao Big Sans'; src: url('../landing-v9/fonts/KakaoBigSans-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Kakao Big Sans'; src: url('../landing-v9/fonts/KakaoBigSans-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+@font-face { font-family: 'Kakao Big Sans'; src: url('../landing-v9/fonts/KakaoBigSans-ExtraBold.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+@font-face { font-family: 'Kakao Small Sans'; src: url('../landing-v9/fonts/KakaoSmallSans-Light.woff2') format('woff2'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Kakao Small Sans'; src: url('../landing-v9/fonts/KakaoSmallSans-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Kakao Small Sans'; src: url('../landing-v9/fonts/KakaoSmallSans-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+.embed *, .embed *::before, .embed *::after { font-family: 'Kakao Small Sans', Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif !important; }
+.embed h1, .embed h2, .embed h3, .embed h1 *, .embed h2 *, .embed h3 * { font-family: 'Kakao Big Sans', Pretendard, -apple-system, "Apple SD Gothic Neo", sans-serif !important; }
+
+
+/* 랜딩 파란 Solution 섹션용 (?embed&phone): 폰만 꽉 차게 */
+.phone-only, .phone-only body { margin: 0; height: 100%; overflow: hidden; background: transparent; }
+.phone-only .stage { min-height: 0; height: 100%; padding: 0; gap: 0; justify-content: center; align-items: center; }
+.phone-only .panel { display: none; }
+.phone-only .device { transform-origin: 0 0; }
+
+/* ───────── v3 Solution C: Figma 시나리오(261:3706) ───────── */
+.x3-expicon { width: 80px; height: 80px; object-fit: cover; }
+.x3-exptext { color: #fff; letter-spacing: -.16px; }
+.x3-exptext span { color: rgba(255,255,255,.8); }
+.xl-warn { border: 0; background: none; padding: 0 4px; }
+.x3-ob .xo-row1 { justify-content: flex-start; }
+.x3-ob .xo-card[data-hs] { cursor: pointer; }
+.x3-plus { background: var(--dark3); }
+/* 기능 소개 아래 요금 시트: 접힘 ↔ 펼침 (다크) */
+.x3-sheet { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; background: #2C2C2E; color: #fff; border-radius: 24px 24px 0 0; padding: 6px 20px 30px; box-shadow: 0 -6px 24px rgba(0,0,0,.5); transition: box-shadow .3s; }
+.x3-grab { display: block; margin: 0 auto 14px; width: 60px; height: 22px; background: none; border: 0; cursor: pointer; position: relative; }
+.x3-grab i { position: absolute; left: 10px; top: 8px; width: 40px; height: 10px; border-top: 4px solid #8E8E93; border-radius: 50% 50% 0 0 / 100% 100% 0 0; transition: transform .25s; }
+.x3-price { font-size: 19px; font-weight: 700; margin-bottom: 12px; }
+.x3-price b { font-size: 21px; }
+.x3-price span { color: #5A5A5E; margin: 0 6px; }
+.x3-terms { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #9A9A9E; margin-bottom: 20px; cursor: pointer; }
+.x3-terms .x3-t-full { display: none; }
+.x3-terms .x3-chev { color: #8E8E93; }
+.x3-full { display: none; }
+.x3-sheet.open { box-shadow: 0 0 0 100vmax rgba(0,0,0,.55); padding-top: 9px; }
+.x3-sheet.open .x3-grab { width: 38px; height: 5px; margin: 0 auto 10px; border-radius: 3px; background: #5A5A5E; }
+.x3-sheet.open .x3-grab i, .x3-sheet.open .x3-mini { display: none; }
+.x3-sheet.open .x3-full { display: block; animation: rise .3s ease-out; }
+.x3-sheet.open .x3-terms { font-size: 13px; margin: 4px 0 12px; }
+.x3-sheet.open .x3-t-mini { display: none; }
+.x3-sheet.open .x3-t-full { display: inline; }
+.x3-sheet .xp-promo { color: #fff; }
+.x3-sheet .xp-promo em { color: #A98BFF; }
+.x3-sheet .xp-card { background: #1C1C1E; border-color: rgba(255,255,255,.1); color: #fff; }
+.x3-sheet .xp-card.sel { border: 1px solid var(--yellow); }
+.x3-sheet .xp-card small { color: #9A9A9E; }
+.x3-sheet .xp-radio i { border-color: #6B6B70; }
+.x3-sheet .xp-radio i.on { background: radial-gradient(circle, #1C1C1E 0 4.5px, var(--yellow) 5px); }
+.x3-sheet .xp-radio s { color: #7A7A7E; }
+.x3-sheet .xp-radio em { background: rgba(61,139,255,.2); color: #6FAAFF; }
+.x3-done .xd h3 { color: #fff; }
+.x3-done .xd p { color: #9A9A9E; }
+/* 접힌 시트: Figma 250:5855 그대로 */
+.x3-sheet { padding: 10px 20px 34px; }
+.x3-grab { display: block; width: 50px; height: 3px; margin: 0 auto 22px; border-radius: 2px; background: rgba(255,255,255,.1); border: 0; padding: 0; position: static; }
+.x3-price { font-size: 19px; font-weight: 700; line-height: normal; margin: 0 0 12px; color: #fff; }
+.x3-price b { font-size: 21px; font-weight: 700; }
+.x3-price span { color: #5A5A5E; font-size: 21px; margin: 0 5px; }
+.x3-terms { font-size: 14px; font-weight: 500; line-height: 1.4; color: #9A9A9E; margin: 0 0 20px; }
+.x3-chev { width: 16px; height: 16px; display: block; }
+.x3-sheet .ybtn { height: auto; padding: 16px 0; border-radius: 10px; background: #FEE500; color: #191919; font-size: 16px; font-weight: 700; line-height: 1.4; }
+.x3-sheet.open .x3-grab { width: 38px; height: 5px; margin: 0 auto 10px; border-radius: 3px; background: #5A5A5E; }
+.x3-sheet.open .x3-terms { font-size: 13px; font-weight: 400; margin: 4px 0 12px; }
+.x3-sheet.open .ybtn { height: 52px; padding: 0; border-radius: 12px; }
+/* 기능 소개 위쪽: ✕ 먼저, 그 아래 진행 바 (Figma 257:3706) */
+.x3-ob .xo-row1 { height: 24px; margin-top: 8px; }
+.x3-ob .xo-row1 .xo-x { width: 24px; height: 24px; display: grid; place-items: center; }
+.x3-ob .xo-prog { margin: 12px 0 0; }

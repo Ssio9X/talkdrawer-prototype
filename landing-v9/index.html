@@ -320,19 +320,152 @@ html{scroll-padding-top:100px}body{color:#1a1a1a;background:#fff;font-family:-ap
 @media (max-width:760px){.hero-quote-tail{font-size:17px}.hero-stat{font-size:13px}.voc-b blockquote{font-size:15px}.solc-frame{padding:0 8px}.solc-frame iframe{height:1150px;border-radius:16px}.intro .section-lead br{display:none}}
 </style>
 <script>
-// 솔루션 C iframe이 알려주는 내용 높이에 맞춰 늘이고 줄임
-addEventListener("message",e=>{const h=e.data&&e.data.tdEmbedHeight;const f=document.getElementById("solc-iframe");if(h&&f&&e.source===f.contentWindow)f.style.height=Math.ceil(h)+"px"});
+// 파란 Solution C 섹션: iframe(v3 ?embed&phone)이 알려주는 단계 정보로 왼쪽 글·화살표를 맞춤
+addEventListener("message",e=>{const f=document.getElementById("solc-iframe");const d=e.data&&e.data.tdStep;if(!d||!f||e.source!==f.contentWindow)return;
+ const br=x=>x.replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])).replace(/\n/g,"<br>");
+ document.getElementById("solc-count").textContent=`· ${d.i+1} / ${d.n}`;document.getElementById("solc-title").innerHTML=br(d.t);document.getElementById("solc-body").innerHTML=br(d.b);
+ document.getElementById("solc-prev").disabled=d.i===0;document.getElementById("solc-next").disabled=d.i===d.n-1});
+document.addEventListener("click",e=>{const b=e.target.closest("#solc-prev,#solc-next");const f=document.getElementById("solc-iframe");if(!b||b.disabled||!f)return;f.contentWindow.postMessage({tdGo:b.id==="solc-next"?"next":"prev"},"*")});
+</script>
+
+<style id="kakao-fonts">
+/* 카카오 글씨 (OFL): 본문=작은글씨, 제목=큰글씨, 폰 화면 포함 전체 적용 */
+@font-face{font-family:'Kakao Big Sans';src:url('fonts/KakaoBigSans-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Kakao Big Sans';src:url('fonts/KakaoBigSans-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Kakao Big Sans';src:url('fonts/KakaoBigSans-ExtraBold.woff2') format('woff2');font-weight:800;font-style:normal;font-display:swap}
+@font-face{font-family:'Kakao Small Sans';src:url('fonts/KakaoSmallSans-Light.woff2') format('woff2');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Kakao Small Sans';src:url('fonts/KakaoSmallSans-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Kakao Small Sans';src:url('fonts/KakaoSmallSans-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+*,*:before,*:after{font-family:'Kakao Small Sans',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif!important}
+h1,h2,h3,h4,h1 *,h2 *,h3 *,h4 *,.hero-blue,.hero-quote-tail,.eyebrow,.voc-b blockquote,.hero-stat b,.logo,.brand,.v-quote p,.v-label{font-family:'Kakao Big Sans',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif!important}
+</style>
+
+<style id="f9-figma">
+/* 9회차 Figma(242:3692, 242:4510) 기준 Hero · VOC · Problem */
+.f9-big,.f9-big *{font-family:'Kakao Big Sans',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif!important}
+.f9-hero{background:#000;min-height:max(560px,calc(100vh - 68px));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:60px 24px;text-align:center}
+.f9-hero h1{margin:0;color:#fff;font-size:64px;font-weight:800;line-height:1.3;letter-spacing:-1px}
+.f9-hero h1 span{color:#fee500}
+.f9-hero-sub{margin:0;color:rgba(255,255,255,.7);font-size:16px;line-height:1.7}
+.f9-hero-sub b{color:rgba(254,229,0,.8);font-weight:800}
+.f9-wrap{width:900px;max-width:100%;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+.f9-head{display:flex;flex-direction:column;gap:4px}
+.f9-eyebrow{margin:0;color:#595959;font-size:16px;font-weight:700}
+.f9-head h2{margin:0;color:#000;font-size:40px;font-weight:800;line-height:55.08px;letter-spacing:0}
+.f9-voc{background:#f0f1f4;padding:100px 24px 140px}
+.f9-chat{background:#abc1d1;border-radius:32px;padding:60px 32px;display:flex;flex-direction:column;gap:28px}
+.f9-row{display:flex;gap:18px;align-items:flex-start}
+.f9-row--me{justify-content:flex-end}
+.f9-avatar{flex:none;width:52px;height:52px;border-radius:20px;background:#fff}
+.f9-msg{display:flex;flex-direction:column;gap:4px;align-items:flex-start;min-width:0}
+.f9-row--me .f9-msg{align-items:flex-end}
+.f9-name{margin:0;font-size:16px;line-height:1.3;color:rgba(0,0,0,.6)}
+.f9-line{display:flex;gap:8px;align-items:flex-end}
+.f9-meta{flex:none;font-size:12px;line-height:1.3;color:rgba(0,0,0,.6)}
+.f9-bubble{position:relative;padding:16px;border-radius:13.5px;font-size:16px;line-height:normal;color:#000;text-align:left}
+.f9-bubble--w{background:#fff}
+.f9-bubble--y{background:#ffe400}
+.f9-tail{position:absolute;top:0;width:8px;height:14px}
+.f9-bubble--w .f9-tail{right:-3px}
+.f9-bubble--y .f9-tail{left:-3px;transform:scaleX(-1)}
+.f9-problem{background:#fff;padding:160px 24px 250px}
+.f9-slide{width:900px;max-width:100%;margin:0 auto;display:flex;gap:52px;align-items:stretch}
+.f9-slide[hidden]{display:none}
+.f9-copy{flex:1 1 0;min-width:0;display:flex;flex-direction:column;justify-content:space-between;gap:32px}
+.f9-copy>div:first-child{display:flex;flex-direction:column;gap:32px}
+.f9-body{margin:0;color:#333;font-size:20px;line-height:1.7}
+.f9-body b{color:#000;font-weight:800}
+.f9-nav{display:flex;gap:16px}
+.f9-btn{width:52px;height:52px;border:0;border-radius:12px;background:#f3f3f3;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.f9-btn:disabled{cursor:default}
+.f9-btn:disabled .f9-arrow{opacity:.2}
+.f9-arrow{position:relative;width:20px;height:20px}
+.f9-arrow:before{content:'';position:absolute;left:0;top:8px;width:16px;height:4px;background:#333}
+.f9-arrow:after{content:'';position:absolute;left:5px;top:4px;width:12px;height:12px;box-sizing:border-box;border-top:4px solid #333;border-right:4px solid #333;transform:rotate(45deg)}
+.f9-arrow--l{transform:scaleX(-1)}
+.f9-phone{position:relative;flex:none;width:308px;height:670px;border-radius:16px;overflow:hidden}
+.f9-phone img{display:block;width:100%;height:100%}
+.f9-phone--p2{box-sizing:border-box;border:4px solid #000}
+.f9-dim{position:absolute;background:rgba(126,126,126,.42)}
+
+
+.f9-solution{background:#0084ff;padding:160px 24px 212px}
+.f9-sol-in{max-width:1280px;margin:0 auto;display:flex;gap:32px;align-items:stretch}
+.f9-solution .f9-copy{min-height:718px}
+.f9-solution .f9-eyebrow,.f9-solution .f9-head h2,.f9-solution .f9-body,.f9-solution .f9-body b{color:#fff}
+.f9-ba{display:flex;gap:52px;align-items:center;flex:none}
+.f9-ba figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:16px}
+.f9-pill{background:#101010;color:#fff;font-size:16px;line-height:1;padding:8px 20px;border-radius:58px;border:1px solid transparent}
+.f9-pill--on{border-color:#fff}
+.f9-count{font-weight:400;opacity:.8}
+.f9-after{width:308px;height:670px}
+.f9-after iframe{display:block;width:100%;height:100%;border:0;background:transparent}
+.f9-solution .f9-body{min-height:136px}
+.f9-iphone{width:331px;height:670px;box-sizing:border-box;padding:9.5px;border-radius:52px;border:1px solid #d0d4da;background:linear-gradient(109deg,#fff 6%,#e9eaec 41%,#fff 68%);filter:drop-shadow(0 9.5px 14px rgba(62,80,102,.05))}
+.f9-iscreen{position:relative;height:100%;box-sizing:border-box;border:1px solid #bfc3c9;border-radius:42.6px;background:#1c1c1e;overflow:hidden;display:flex;flex-direction:column;color:#fff}
+.f9-ibar{display:flex;justify-content:space-between;height:51px;box-sizing:border-box;padding:16px 21px 0;font-size:11.4px}
+.f9-ibar span{font-size:10.4px;letter-spacing:-.7px}
+.f9-island{position:absolute;left:111px;top:11.4px;width:86px;height:22.7px;border-radius:28px;background:linear-gradient(170deg,#25302c 6%,#080a09 94%);box-shadow:inset 1px 1px 2.8px rgba(255,255,255,.4)}
+.f9-island:after{content:'';position:absolute;left:67px;top:7.6px;width:6.6px;height:6.6px;border-radius:50%;background:#15293a}
+.f9-ihead{display:flex;align-items:center;justify-content:space-between;min-height:45px;box-sizing:border-box;padding:4.7px 17px 10.4px}
+.f9-ihead b{font-size:13.2px;letter-spacing:-.5px;font-weight:700}
+.f9-itabs{display:flex;border-bottom:1px solid #333}
+.f9-itabs span{width:103px;text-align:center;padding:9.5px 0;font-size:10.4px;color:#888}
+.f9-itabs span.on{color:#fff;border-bottom:1.9px solid #fff}
+.f9-igrid{flex:1;overflow:hidden}
+.f9-irow{display:grid;grid-template-columns:repeat(3,1fr);gap:1.9px}
+.f9-idate{margin:0;padding:15px 11.4px 6.6px;font-size:9.5px;color:#929292}
+.f9-tile{display:block;height:101.6px;background:#39393b;position:relative}
+.f9-tile--sky{background:linear-gradient(180deg,#bccfe1 0,#dae1e2 65%,#99ae8f 65%,#8ca178 100%)}
+.f9-tile--sky:after{content:'';position:absolute;left:15px;top:25px;width:46px;height:18px;border-radius:14px;background:rgba(255,255,255,.6);filter:blur(2.8px)}
+.f9-tile--exp i{position:absolute;left:50%;top:50%;width:30px;height:24.6px;margin:-12.3px 0 0 -15px;box-sizing:border-box;border:1px solid #888b84;border-radius:2.8px;overflow:hidden}
+.f9-tile--exp i:before{content:'';position:absolute;left:3.8px;top:9.5px;width:20.8px;height:9.5px;background:#888b84}
+.f9-tile--exp i:after{content:'';position:absolute;left:13px;top:-6px;width:1.9px;height:38px;background:#888b84;transform:rotate(45deg);box-shadow:1px 0 0 #39393b}
+.f9-tile--sel{box-shadow:0 0 0 .5px rgba(61,139,255,.67)}
+.f9-ihome{position:absolute;left:107px;bottom:9.5px;width:94.6px;height:3.8px;border-radius:4px;background:#fff}
+@media (max-width:1200px){.f9-sol-in{flex-direction:column}.f9-solution .f9-copy{min-height:0}.f9-ba{justify-content:center;flex-wrap:wrap}}
+@media (max-width:900px){.f9-solution{padding:80px 20px 100px}.f9-ba{gap:24px}}
+
+.f9-sol-flip{max-width:1280px;justify-content:center;align-items:center;gap:52px}
+.f9-sol-flip .f9-after{flex:none;width:331px;height:720px}
+.f9-sol-flip .f9-copy{flex:0 1 557px;align-self:stretch;min-height:718px}
+.f9-sol-flip .f9-nav{align-self:flex-end}
+.f9-closing{min-height:497px;padding:0}
+@media (max-width:1200px){.f9-sol-flip{flex-direction:column}.f9-sol-flip .f9-copy{min-height:0;align-self:auto;width:100%}.f9-sol-flip .f9-nav{align-self:flex-start}}
+
+.f9-hero{position:relative;overflow:hidden;background:#111}
+.f9-hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.f9-hero:before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at center,rgba(0,0,0,.55) 0,rgba(0,0,0,.25) 70%)}
+.f9-hero>*:not(.f9-hero-video){position:relative;z-index:1}
+.f9-hero .f9-credit{position:absolute;right:24px;bottom:16px;font-size:11px;color:rgba(255,255,255,.45);text-decoration:none}
+.f9-hero .f9-credit:hover{color:rgba(255,255,255,.75)}
+@media (max-width:900px){
+ .f9-hero h1{font-size:36px}
+ .f9-head h2{font-size:28px;line-height:1.38}
+ .f9-chat{padding:32px 16px;border-radius:24px}
+ .f9-avatar{width:40px;height:40px;border-radius:16px}
+ .f9-bubble{font-size:14px}.f9-bubble br{display:none}
+ .f9-problem{padding:80px 20px 100px}
+ .f9-slide{flex-direction:column;align-items:center}
+ .f9-body{font-size:16px}.f9-body br{display:none}
+}
+</style>
+<script>
+document.addEventListener('click',e=>{const b=e.target.closest('.f9-btn[data-go]');if(!b||b.disabled)return;const t=document.querySelector(b.dataset.go);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
 </script>
 </head><body>
-<header class="site-header"><a class="wordmark" href="index.html" aria-label="톡서랍 프로젝트 홈"><span class="brand-symbol"></span>톡서랍<span class="project-word">경험 개선</span></a><nav aria-label="페이지 섹션"><a class="section-link" href="#problem">문제 상황</a><a class="section-link" href="#solution-c">솔루션 C</a><a class="section-link" href="#solution-a">솔루션 A</a><a class="section-link" href="#solution-b">솔루션 B</a><a class="glass compact" href="#before">직접 경험하기</a></nav></header>
-<main><section class="hero"><p class="version-note">카카오톡 UX 프로토타입 · 톡서랍 경험 개선</p><h1>“뭐야, 톡서랍 구독하면<br><span class="hero-blue">사진 복구되는 거 아냐?</span>”</h1><p class="hero-quote-tail">뭔데 왜 없는데;;</p><p class="hero-description">많은 사용자들이 톡서랍 기능에 대해 오해하고 있습니다.</p><p class="hero-stat"><b>인터뷰 4명 중 3명</b>이 구독하면 지난 사진이 복구된다고 생각했어요.</p><a class="glass hero-cta" href="#before">사진 찾기 시작하기 <span class="official-arrow" aria-hidden="true"></span></a><div class="hero-visual" aria-label="만료된 사진과 개선된 보관 경험의 비교"><div class="hero-phone phone-shell"><div class="phone-screen"><div class="status-bar"><b>9:41</b><span>▮▮▮ &nbsp; ▰</span></div><div class="dynamic-island"></div><div class="hero-app"><div class="app-top"><b>톡서랍</b><span class="cloud-icon"></span></div><p class="app-greeting">다시 보고 싶은 순간들</p><div class="photo-tabs"><b>사진·동영상</b><span>파일</span><span>링크</span></div><div class="photo-cluster" id="hero-photos"></div><div class="saved-caption"><span>✓</span> 주말 풋살 모임에 보관한 사진</div></div><div class="home-bar"></div></div></div></div></section>
-<section class="intro section" id="problem"><div class="intro-copy"><p class="eyebrow">왜지?</p><h2>복구될 거라 믿고 구독했다가,<br>그대로인 사진을 보고 해지해요.</h2><p class="section-lead">톡서랍을 쓰지 않는 사용자는 만료된 사진을 누르면 “톡클라우드를 이용해 보세요”라는 안내를 보고,<br>구독하면 복구될 거라 기대하며 [더 알아보기]를 누릅니다.<br>소개 페이지는 설명이 많아 굵은 제목 <b>“그동안 사라진 162개 사진, 동영상”</b>만 읽게 되고,<br>그 아래 “앞으로 주고받는 사진만 백업된다”는 작은 글씨는 놓칩니다.<br>결국 복구되는 줄 알고 구독하지만, 사진이 그대로 만료 상태인 걸 보고 화가 나 바로 해지합니다.</p><div class="story-line"><span>만료된 사진</span><i></i><span>더 알아보기</span><i></i><span>굵은 제목만 읽음</span><i></i><span>구독</span><i></i><span class="story-end">그대로라 해지</span></div></div></section><section class="voc section" id="voc" aria-label="사용자 목소리"><p class="eyebrow">VOC</p><h2>“복구되는 줄 알았죠”</h2><div class="voc-bubbles"><figure class="voc-b"><blockquote>아니 난 복구 되는줄알고 구독했는데 없어서 개빡쳐서 구치했어요.</blockquote><figcaption>김XX</figcaption></figure><figure class="voc-b voc-b--r"><blockquote>복구 되는줄 알았죠</blockquote><figcaption>박XX</figcaption></figure><figure class="voc-b"><blockquote>예? 복구되는거 아니에요?</blockquote><figcaption>전XX</figcaption></figure></div></section>
-<section class="experience section demo-section" id="before"><div class="experience-heading"><p class="eyebrow">문제 · Before</p><h2>먼저, 평소처럼<br>사진을 찾아보세요.</h2><p class="section-lead">채팅방에서 9월 10일 사진을 찾아 눌러보면,<br>그제야 보관 기간이 지났다는 걸 알게 됩니다.</p></div><div class="experience-layout" data-demo="before"><aside class="guide"><div class="guide-copy" aria-live="polite"></div><div class="guide-action"></div><button class="reset" data-action="reset">↺ 처음부터 다시</button><div class="scenario-note">상황을 이해하기 위한 재현 화면입니다.<br>실제 카카오톡 계정과 연결되지 않습니다.</div></aside><div class="prototype-stage"><div class="phone-shell live-phone"><div class="phone-screen"><div class="status-bar"><b>9:41</b><span>▮▮▮ &nbsp; ▰</span></div><div class="dynamic-island"></div><div class="app-screen" aria-label="카카오톡 인터랙티브 프로토타입"></div><div class="home-bar"></div></div></div><div class="stage-caption"></div></div></div></section>
-<section class="voices" id="voices" aria-label="사용자 인터뷰로 본 문제"><div class="voices-inner"><div class="voices-head"><h2>사용자는 톡서랍을 이렇게 기억했어요.</h2><p>백업 서비스, 그 이상은 몰랐어요.</p></div><div class="v-stage"><div class="v-track"><button class="v-card" data-voice="0" aria-label="이유를 알려주지 않아요 보기"><span class="v-avatar">1</span><span class="v-who"><b>이유를 알려주지 않아요</b><small>문제 1 · 만료 화면</small></span></button><button class="v-card" data-voice="1" aria-label="복구된다고 오해해요 보기"><span class="v-avatar">2</span><span class="v-who"><b>복구된다고 오해해요</b><small>문제 2 · 더 알아보기</small></span></button><button class="v-card" data-voice="2" aria-label="결제 화면부터 나와요 보기"><span class="v-avatar">3</span><span class="v-who"><b>결제 화면부터 나와요</b><small>문제 3 · 구독 화면</small></span></button></div></div><div class="v-line"></div><div class="v-panels"><div class="v-panel" data-voice="0"><div class="v-rows"><div class="v-row"><span class="v-label">막힌 화면:</span><div><span class="v-chip">미디어 저장 기간 만료</span><p>‘만료’라는 말만 있고, 왜 사라졌는지와 어떻게 했으면 지킬 수 있었는지가 없어요.</p></div></div><div class="v-row"><span class="v-label">사용자 반응:</span><div><span class="v-chip">기능을 모름</span><p>톡클라우드라는 이름만 남고, 무엇을 해주는지는 전달되지 않아요.</p></div></div></div><blockquote class="v-quote"><p>기능의 <b>내용 자체를 몰랐어요.</b></p><cite>사용자 인터뷰 중</cite></blockquote></div><div class="v-panel" data-voice="1"><div class="v-rows"><div class="v-row"><span class="v-label">기대한 것:</span><div><span class="v-chip">지난 사진 복구</span><p>구독하면 지금 막힌 이 사진을 다시 볼 수 있다고 기대하게 돼요.</p></div></div><div class="v-row"><span class="v-label">실제:</span><div><span class="v-chip">가입 이후부터 보관</span><p>톡클라우드는 가입 이후에 주고받은 데이터만 자동으로 보관해요.</p></div></div></div><blockquote class="v-quote"><p>주고받은 사람에 대한 사진을 저장하려 했는데, <b>뭘 구독하면 예전 것까지 사용할 수 있다</b> 했다가…</p><cite>사용자 인터뷰 중</cite></blockquote></div><div class="v-panel" data-voice="2"><div class="v-rows"><div class="v-row"><span class="v-label">막힌 화면:</span><div><span class="v-chip">요금 선택 시트</span><p>시트가 기능 설명을 덮어 ‘자동 백업’이라는 말만 기억에 남아요.</p></div></div><div class="v-row"><span class="v-label">몰랐던 기능:</span><div><span class="v-chip">드라이브 정리</span><p>“드라이브로 파일 정리할 수 있는 거요? 아뇨, 아예 몰랐어요.”</p></div></div></div><blockquote class="v-quote"><p>카피 문구 봤을 때 <b>사진이나 대화, 문서 다 보존된다</b>… 이것만 기억에 남았어요.</p><cite>사용자 인터뷰 중</cite></blockquote></div></div><div class="v-dots"><button data-voice="0" aria-label="문제 1"></button><button data-voice="1" aria-label="문제 2"></button><button data-voice="2" aria-label="문제 3"></button></div></div></section>
-<section class="experience section demo-section" id="solution-c"><div class="experience-heading"><p class="eyebrow">솔루션 C · 잃은 것 → 기능 → 구독</p><h2>사라진 건 사라졌다고,<br>먼저 솔직하게.</h2><p class="section-lead">만료 화면은 그대로 두고, ‘더 알아보기’ 다음에 사라진 사진·파일 수와 복구할 수 없다는 사실을 먼저 알립니다.<br>톡서랍 기능 다섯 장을 보여준 뒤 구독으로 이어지고, 매 단계에서 ‘구독한 날부터’를 강조합니다.</p></div><div class="solc-frame"><iframe id="solc-iframe" src="../v3/?embed" title="솔루션 C 인터랙티브 프로토타입 (iPhone 18 Pro)" loading="lazy"></iframe></div><div class="demo-points"><article><span class="pt-n">1</span><b>사라진 사진·파일 수</b><p>이 채팅방에서 무엇이 몇 개 사라졌는지 먼저 보여줘요.</p></article><article><span class="pt-n">2</span><b>복구할 수 없다는 사실</b><p>지난 사진은 돌아오지 않는다는 점을 굵게, 먼저 말해요.</p></article><article><span class="pt-n">3</span><b>톡서랍 기능 다섯 장</b><p>보관 · 찾기 · 정리 · 복원을 실제 화면처럼 보여줘요.</p></article><article><span class="pt-n">4</span><b>구독은 마지막에</b><p>‘구독한 날부터 보관돼요’를 다시 확인한 뒤 구독해요.</p></article></div></section><!-- 기대 효과: 1 Pager(9회차) 4번이 아직 비어 있어 섹션 자리만 둠. 문장이 정해지면 여기에 <section class="section" id="effect"> 추가 --><section class="experience section demo-section" id="solution-a"><div class="experience-heading"><p class="eyebrow">솔루션 A · 만료 화면 재설계</p><h2>막히는 순간에,<br>무엇을 잃었는지부터.</h2><p class="section-lead">만료 화면 한 장이 상황을 설명하도록 바꿨습니다.<br>잃은 것 → 톡서랍이 있었다면 → 앞으로는, 순서로 읽힙니다.</p></div><div class="experience-layout" data-demo="a"><aside class="guide"><div class="guide-copy" aria-live="polite"></div><div class="guide-action"></div><button class="reset" data-action="reset">↺ 처음부터 다시</button><div class="scenario-note">상황을 이해하기 위한 재현 화면입니다.<br>실제 카카오톡 계정과 연결되지 않습니다.</div></aside><div class="prototype-stage"><div class="phone-shell live-phone"><div class="phone-screen"><div class="status-bar"><b>9:41</b><span>▮▮▮ &nbsp; ▰</span></div><div class="dynamic-island"></div><div class="app-screen" aria-label="카카오톡 인터랙티브 프로토타입"></div><div class="home-bar"></div></div></div><div class="stage-caption"></div></div></div><div class="demo-points"><article><span class="pt-n">1</span><b>사라진 사진</b><p>어떤 사진이 왜 사라졌는지, 이 채팅방에서 몇 개나 사라졌는지 알려줘요.</p></article><article><span class="pt-n">2</span><b>톡서랍이 있었다면</b><p>같은 사진이 톡서랍에 보관된 모습을 예시로 보여주고, 모아보기·찾기·정리 기능을 짚어줘요.</p></article><article><span class="pt-n">3</span><b>앞으로는</b><p>지난 사진은 되돌릴 수 없고, 구독한 날부터 보관된다는 점을 먼저 말해요.</p></article><article><span class="pt-n">4</span><b>기대치를 맞춘 요금 시트</b><p>‘앞으로 받는 사진부터 보관돼요’를 제목으로, 복구 불가 안내를 함께 둬요.</p></article></div></section>
-<section class="experience section demo-section" id="solution-b"><div class="experience-heading"><p class="eyebrow">솔루션 B · 결제 전 톡서랍 온보딩</p><h2>구독하기 전에,<br>톡서랍을 먼저 보여주기.</h2><p class="section-lead">만료 화면은 그대로 두고, ‘더 알아보기’ 다음에 결제 화면 대신<br>톡서랍 온보딩 다섯 장과 톡클라우드 안내 페이지를 보여줍니다.</p></div><div class="experience-layout" data-demo="b"><aside class="guide"><div class="guide-copy" aria-live="polite"></div><div class="guide-action"></div><button class="reset" data-action="reset">↺ 처음부터 다시</button><div class="scenario-note">상황을 이해하기 위한 재현 화면입니다.<br>실제 카카오톡 계정과 연결되지 않습니다.</div></aside><div class="prototype-stage"><div class="phone-shell live-phone"><div class="phone-screen"><div class="status-bar"><b>9:41</b><span>▮▮▮ &nbsp; ▰</span></div><div class="dynamic-island"></div><div class="app-screen" aria-label="카카오톡 인터랙티브 프로토타입"></div><div class="home-bar"></div></div></div><div class="stage-caption"></div></div></div><div class="demo-points"><article><span class="pt-n">1</span><b>온보딩 다섯 장</b><p>톡서랍 · 보관 · 찾기 · 정리 · 복원을 실제 화면처럼 먼저 보여줘요.</p></article><article><span class="pt-n">2</span><b>톡클라우드 안내 페이지</b><p>보관 · 찾기 · 정리 · 복원 탭과 화면 목업으로 기능을 자세히 설명해요.</p></article><article><span class="pt-n">3</span><b>다른 드라이브와 비교</b><p>자동 저장 · 채팅방별 모아보기 · 대화 복원의 차이를 표로 보여줘요.</p></article><article><span class="pt-n">4</span><b>요금은 마지막에</b><p>요금 시트가 처음부터 열리지 않고, 다 본 뒤 하단 바에서 열어요.</p></article></div></section>
-<section class="closing section"><p class="eyebrow">세 가지 해결책</p><h2>같은 막힘에서,<br>세 가지 방향으로.</h2><p class="section-lead">솔루션 C는 잃은 것을 먼저 말하고, A는 막히는 순간의 화면을, B는 결제 직전의 화면을 바꿉니다.<br>셋 다 이미 사라진 사진의 복구를 약속하지 않고, 앞으로 받는 사진의 보관으로 이어집니다.</p><a class="glass" href="#solution-c">솔루션 C 다시 보기 <span class="official-arrow" aria-hidden="true"></span></a><a class="next-version" href="#solution-a">솔루션 A · B 보기 →</a></section>
-</main><footer><div class="footer-title"><span class="brand-symbol"></span>톡서랍 경험 개선</div><span>UX 과제용 프로토타입 · 카카오 공식 서비스가 아닙니다.<br><a class="source-attribution" href="https://www.kakaocorp.com/page/sustainability" target="_blank" rel="noopener">이미지·그래픽 출처: 카카오 지속가능성</a></span><div><a href="#solution-c">솔루션 C</a><a href="#solution-a">솔루션 A</a><a href="#solution-b">솔루션 B</a></div></footer><script>
+<header class="site-header"><a class="wordmark" href="index.html" aria-label="톡서랍 프로젝트 홈"><span class="brand-symbol"></span>톡서랍<span class="project-word">경험 개선</span></a></header>
+<main><section class="f9-hero" aria-label="소개"><video class="f9-hero-video" autoplay muted loop playsinline preload="auto" poster="img/kakao-hero-poster.png" aria-hidden="true"><source src="img/kakao-hero-mo.mp4" type="video/mp4" media="(max-width: 900px)"><source src="img/kakao-hero-pc.mp4" type="video/mp4"></video><a class="f9-credit" href="https://www.kakaocorp.com/page/" target="_blank" rel="noopener">배경 영상 출처: 카카오</a><h1 class="f9-big">“뭐야, 톡서랍 구독하면<br><span>사진 복구되는 거 아냐?</span>”</h1><p class="f9-hero-sub">많은 사용자들이 톡서랍 기능에 대해 오해하고 있어요.<br><b class="f9-big">인터뷰 6명 중 3명</b>이 구독하면 지난 사진이 복구된다고 생각했어요.</p></section>
+<section class="f9-voc" id="voc" aria-label="사용자 목소리"><div class="f9-wrap"><div class="f9-head"><p class="f9-eyebrow f9-big">VOC</p><h2 class="f9-big">톡서랍 구독하면,<br>만료된 사진도 복구되는 줄 알았죠..</h2></div><div class="f9-chat"><div class="f9-row f9-row--me"><div class="f9-msg"><p class="f9-name">서승오</p><div class="f9-line"><span class="f9-meta">Q1</span><div class="f9-bubble f9-bubble--w">카카오톡 톡서랍을 왜 구독하셨던 거에요?<img class="f9-tail" src="img/tail-white.svg" width="8" height="14" alt=""></div></div></div><div class="f9-avatar" aria-hidden="true"></div></div><div class="f9-row"><div class="f9-avatar" aria-hidden="true"></div><div class="f9-msg"><p class="f9-name">XX민</p><div class="f9-line"><div class="f9-bubble f9-bubble--y"><img class="f9-tail" src="img/tail-yellow.svg" width="8" height="14" alt="">아니, 난 사진 복구하려고 했거든요. 복구되는 줄 알고<br>구독했는데 확인해보니 없어서 너무 화가 나서 구독 취소했어요.</div><span class="f9-meta">11월 1일</span></div></div></div><div class="f9-row"><div class="f9-avatar" aria-hidden="true"></div><div class="f9-msg"><p class="f9-name">XX희</p><div class="f9-line"><div class="f9-bubble f9-bubble--y"><img class="f9-tail" src="img/tail-yellow.svg" width="8" height="14" alt="">구독하면 예전 사진까지 볼 수 있는 줄 알고<br>결제했다가 바로 취소했어요.</div><span class="f9-meta">11월 5일</span></div></div></div><div class="f9-row f9-row--me"><div class="f9-msg"><p class="f9-name">서승오</p><div class="f9-line"><span class="f9-meta">Q2</span><div class="f9-bubble f9-bubble--w">어떤 기능이 있는 것 같아요?<img class="f9-tail" src="img/tail-white.svg" width="8" height="14" alt=""></div></div></div><div class="f9-avatar" aria-hidden="true"></div></div><div class="f9-row"><div class="f9-avatar" aria-hidden="true"></div><div class="f9-msg"><p class="f9-name">XX형</p><div class="f9-line"><div class="f9-bubble f9-bubble--y"><img class="f9-tail" src="img/tail-yellow.svg" width="8" height="14" alt="">그동안 사라진 1500개의 사진과 동영상이 자동으로<br>백업되고 사라질 걱정이 없다. 이게 가장 좋을 것 같고...</div><span class="f9-meta">11월 1일</span></div></div></div></div></div></section>
+<section class="f9-problem" id="problem" aria-label="Problem 1"><div class="f9-slide" aria-label="Problem 1"><div class="f9-copy"><div><div class="f9-head"><p class="f9-eyebrow f9-big">Problem 1</p><h2 class="f9-big">미디어 저장 기간 만료를<br>톡서랍을 구독하면,<br>기간 연장하는 것으로 오해해요.</h2></div><p class="f9-body f9-big">톡서랍을 쓰지 않는 사용자들을 잃어 버린 사진을 찾으려고<br>만료된 사진을 누르고 <b>“톡클라우드를 이용해 보세요” 안내를 봐요.</b><br><b>그리고 구독하면 복구될 거라 기대</b>하며 더 알아보기를 눌러요.</p></div></div><div class="f9-phone"><img src="img/problem1-phone.png" width="308" height="670" alt="만료된 사진 화면: 톡클라우드를 이용해 보세요 안내와 더 알아보기 버튼"></div></div></section>
+<section class="f9-problem" id="problem-2" aria-label="Problem 2"><div class="f9-slide" aria-label="Problem 2"><div class="f9-copy"><div><div class="f9-head"><p class="f9-eyebrow f9-big">Problem 2</p><h2 class="f9-big">안내를 정확히 읽지 않아,<br>기능을 오해하고 있어요.</h2></div><p class="f9-body f9-big">소개 페이지는 설명이 많아 굵은 제목<br><b>“그동안 사라진 162개 사진, 동영상”만 읽게 되고,</b><br>그 아래 <b>“앞으로 주고받는 사진만 백업된다”는 작은 글씨를 놓쳐요.</b><br>결국 복구되는 줄 알고 구독하지만, 사진이 그대로 만료 상태를 보고 화가 나 바로 해지해요.</p></div><div class="f9-nav"><button type="button" class="f9-btn f9-prev" data-go="#problem" aria-label="이전 문제"><span class="f9-arrow f9-arrow--l"></span></button><button type="button" class="f9-btn f9-next" aria-label="다음 문제" disabled><span class="f9-arrow"></span></button></div></div><div class="f9-phone f9-phone--p2"><img src="img/problem2-phone.png" width="308" height="670" alt="톡클라우드 소개 페이지: 그동안 사라진 162개 사진, 동영상 항목만 강조"><i class="f9-dim" style="left:0;top:0;width:100%;height:365px"></i><i class="f9-dim" style="left:0;top:365px;width:59px;height:56px"></i><i class="f9-dim" style="left:282px;top:365px;right:0;height:56px"></i><i class="f9-dim" style="left:0;top:421px;width:100%;bottom:0"></i></div></div></section>
+<section class="f9-solution" id="solution-c" aria-label="Solution C"><div class="f9-sol-in f9-sol-flip"><div class="f9-after"><iframe id="solc-iframe" src="../v3/?embed&amp;phone&amp;v=15" title="솔루션 C 단계별 화면 (iPhone 18 Pro)"></iframe></div><div class="f9-copy"><div><div class="f9-head"><p class="f9-eyebrow f9-big">Solution <span class="f9-count" id="solc-count"></span></p><h2 class="f9-big" id="solc-title">같은 회색 사진을 눌러요</h2></div><p class="f9-body f9-big" id="solc-body"></p></div><div class="f9-nav"><button type="button" class="f9-btn f9-prev" id="solc-prev" aria-label="이전 단계" disabled><span class="f9-arrow f9-arrow--l"></span></button><button type="button" class="f9-btn f9-next" id="solc-next" aria-label="다음 단계"><span class="f9-arrow"></span></button></div></div></div></section>
+
+
+<!-- 기대 효과: 1 Pager(9회차) 4번이 아직 비어 있어 섹션 자리만 둠. 문장이 정해지면 여기에 <section class="section" id="effect"> 추가 -->
+
+<section class="closing section f9-closing" aria-hidden="true"></section>
+</main><script>
 'use strict';
 /* 톡서랍 랜딩 — 문제(Before)·솔루션 A·솔루션 B를 섹션마다 독립된 폰 데모로 보여준다 */
 const icons={sync:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.3-4.3L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14.3 4.3L20 15"/><path d="M20 20v-5h-5"/></svg>',user:'<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8.5" r="4"/><path d="M4.5 20c.9-4 3.9-6 7.5-6s6.6 2 7.5 6z"/></svg>',img:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m5 17 5-5 4 4 2-2 3 3"/></svg>',doc:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z" opacity=".95"/></svg>',link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',video:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m17 10 4-2.5v9L17 14z"/></svg>',tray:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 13h4.5l1.5 2.5h4l1.5-2.5H20v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M6 4h12l2 8h-5l-1.5 2.5h-3L9 12H4z" opacity=".6"/></svg>',stack:'<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="7" width="16" height="13" rx="2.5"/><rect x="6" y="4" width="12" height="2" rx="1" opacity=".6"/></svg>',person:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.5c.6-1.7 1.8-2.5 3.2-2.5s2.6.8 3.2 2.5M14.5 10h4M14.5 13.5h3"/></svg>',folderf:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5h3.6l2 2h7.4A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/></svg>',bubble:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4C7 4 3 7.1 3 11c0 2.4 1.5 4.5 3.9 5.8L6 20l3.7-2.2c.7.1 1.5.2 2.3.2 5 0 9-3.1 9-7s-4-7-9-7z"/></svg>',close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6 6 18"/></svg>',cloud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18.4 11a3.75 3.75 0 0 1-.4 7.5z"/><path d="m9.5 14 2 2 3.5-3.5"/></svg>',info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.8v.4"/></svg>',menu:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg>',back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m14 5-7 7 7 7"/></svg>'};
