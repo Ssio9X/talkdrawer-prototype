@@ -1,5 +1,8 @@
 (() => {
   const V = window.APP_VERSION || 1;
+  // 랜딩 페이지 iframe 안에 넣을 때(?embed): 버전 표시·힌트 숨김, 솔루션 단계부터 시작, 높이를 부모에 알림
+  const EMBED = new URLSearchParams(location.search).has("embed");
+  if (EMBED) document.documentElement.classList.add("embed");
   const ROOM = "주말 풋살 모임";
 
   // ───────── 아이콘 ─────────
@@ -337,7 +340,7 @@
           "모르겠어요, 필요한 게 없어서."] },
   ];
   const sol1 = [
-    { ph: "s1", s: "s1intro", hot: "start", t: V === 1 ? "Solution A" : "Solution B",
+    { ph: "s1", s: "s1intro", hot: "start", t: V === 1 ? "Solution A" : V === 2 ? "Solution B" : "Solution C",
       b: "같은 상황, 같은 회색 사진에서 다시 시작해요." },
     { ph: "s1", s: "grid", hot: "expired", scroll: true, t: "같은 회색 사진을 눌러요", b: "들어오는 경로는 그대로 두고, 그 다음 화면을 바꿨어요." },
     { ph: "s1", s: "newExpired", xcs: 1, t: "① 사라진 사진",
@@ -473,7 +476,13 @@
       ${st.q ? `<div class="quotes">${st.q.map(x => `<div>${x}”</div>`).join("")}<small>사용자 인터뷰 중</small></div>` : ""}`;
     app.querySelector(".prev").disabled = cur === 0;
     app.querySelector(".next").textContent = cur === steps.length - 1 ? "처음으로" : "다음";
-    history.replaceState(null, "", "#" + (cur + 1));
+    history.replaceState(null, "", location.search + "#" + (cur + 1));
+    postHeight();
+  }
+
+  function postHeight() {
+    if (!EMBED || parent === window) return;
+    requestAnimationFrame(() => parent.postMessage({ tdEmbedHeight: app.querySelector(".stage").scrollHeight }, "*"));
   }
 
   device.addEventListener("click", e => {
@@ -493,15 +502,17 @@
   const wrap = app.querySelector(".phone-wrap");
   function fit() {
     const narrow = innerWidth <= 900;
-    const maxH = narrow ? 9999 : innerHeight - 48;
+    const maxH = narrow ? 9999 : (EMBED ? 780 : innerHeight - 48); // 삽입 모드는 iframe 높이가 내용에 따라 바뀌므로 고정값
     const maxW = narrow ? innerWidth - 24 : 9999;
     const s = Math.min(1, maxH / (DH + 20), maxW / (DW + 20));
     device.style.transform = `scale(${s})`;
     wrap.style.width = DW * s + "px";
     wrap.style.height = DH * s + "px";
+    postHeight();
   }
   addEventListener("resize", fit);
   fit();
 
-  go((parseInt(location.hash.slice(1)) || 1) - 1);
+  const startAt = EMBED && !location.hash ? steps.findIndex(s => s.ph === "s1") : (parseInt(location.hash.slice(1)) || 1) - 1;
+  go(startAt);
 })();

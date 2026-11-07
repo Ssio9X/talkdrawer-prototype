@@ -499,3 +499,9 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 #s-oldSub .fcard .ic { color: #fff; border-radius: 8px; }
 #s-oldSub .sheet { transition: transform .45s ease; }
 #s-oldSub.peek .sheet { transform: translateY(calc(100% - 84px)); animation: none; }
+
+/* ───────── 랜딩 삽입 모드 (?embed) ───────── */
+.embed, .embed body { height: auto; background: transparent; }
+.embed .stage { min-height: 0; padding: 24px 0; }
+.embed .ver, .embed .hint { display: none; }
+@media (max-width: 900px) { .embed .stage { padding: 8px 0 16px; } }
