@@ -254,7 +254,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 
   <div class="feat rv">
     <div class="fl">
-      <p class="lede">부모님 여행 포토북을 만들려고, 복구 불가능한 사진을 톡클라우드를 통해 백업 가능하다고 오해하고 있다.</p>
+      <p class="lede">부모님 여행 포토북을 만들려고,<br>복구 불가능한 사진을 톡클라우드를 통해 백업 가능하다고 오해하고 있다.</p>
       <ol class="tabs" role="tablist">
         <li><button class="tab on" role="tab" aria-selected="true" data-i="0"><span class="tt">만료된 사진을 누르면</span><span class="td">"미디어 저장 기간이 만료되어 소실됐어요"<br>바로 다음에 톡클라우드를 권해요.</span></button></li>
         <li><button class="tab" role="tab" aria-selected="false" data-i="1"><span class="tt">톡클라우드 소개</span><span class="td">"그동안 사라진 162개 사진, 동영상"이 크게 보여요.<br>"앞으로 주고받는 사진만 백업"은 작게 나와요.</span></button></li>
@@ -351,7 +351,7 @@ if(!('IntersectionObserver' in window)){els.forEach(show)}else{
 const SH=[["img/t1-grid.png","img/t1-expired.png","사진/동영상 서랍: 오래된 사진이 흐린 미리보기와 만료 표시로 남아 있음"],
           ["img/bf-intro.png",null,"톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업"],
           ["img/bf-backup.png","img/bf-backup-done.png","지금부터 주고받은 카카오톡 데이터를 보관합니다 / 데이터가 안전하게 보관되었습니다"],
-          ["img/bf-still.png","img/bf-backup-done.png","다시 연 사진/동영상 서랍: 사진은 여전히 만료 상태"]];
+          ["img/t1-grid.png",null,"다시 연 사진/동영상 서랍: 사진은 여전히 만료 상태"]];
 const tabs=[...document.querySelectorAll('.tab')], fr=document.querySelector('.fr'), fImg=fr.querySelector('.front'), bImg=fr.querySelector('.back');
 SH.flat().forEach(src=>{if(src&&src.endsWith('.png')){const i=new Image();i.src=src}});
 let cur=0, timer;
