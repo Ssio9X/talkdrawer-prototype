@@ -200,6 +200,9 @@ a{color:inherit;text-decoration:none}
 .ps-foot b{font-size:28px;font-weight:800;letter-spacing:-.03em}
 .ps-reset{all:unset;cursor:pointer;background:#fff;border-radius:9999px;padding:10px 18px;font-size:14px;font-weight:600}
 .ps-reset:hover{background:#ececec}
+.ps-btns{display:flex;gap:8px}
+#phots button.tap{background:rgba(254,229,0,.35)}
+#phots button.tap::after{animation:none;opacity:1}
 
 /* 4 cta */
 .cta{background:var(--dark);color:#fff;padding:140px 0;text-align:center}
@@ -361,7 +364,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
         <li><button data-s="6"><span>앞으로 지켜주는 것</span><i>4</i></button></li>
         <li><button data-s="9"><span>구독 완료</span><i>5</i></button></li>
       </ol>
-      <div class="ps-foot"><div><small>지금</small><b id="pnow">1 / 5</b></div><button class="ps-reset" id="preset">처음부터</button></div>
+      <div class="ps-foot"><div><small>지금</small><b id="pnow">1 / 5</b></div><span class="ps-btns"><button class="ps-reset" id="pplay" aria-pressed="true">일시정지</button><button class="ps-reset" id="preset">처음부터</button></span></div>
     </div>
   </div>
 </div></section>
@@ -426,9 +429,23 @@ function pgo(n){const p=PS[n]; pimg.src='img/'+p.img; pimg.alt=p.hint; phint.tex
     b.style.cssText=`left:${h.x/402*100}%;top:${h.y/874*100}%;width:${h.w/402*100}%;height:${h.h/874*100}%`;
     b.setAttribute('aria-label',k===0?p.hint:'구독하기'); if(k===0) b.className='main';
     b.addEventListener('click',()=>pgo(h.to)); phots.appendChild(b);});}
-pbtns.forEach(b=>b.addEventListener('click',()=>pgo(+b.dataset.s)));
-document.getElementById('preset').addEventListener('click',()=>pgo(0));
+// 자동 재생: 다음에 누를 곳을 잠깐 눌린 것처럼 보여주고 넘어감. 사용자가 누르면 잠시 멈췄다가 다시 재생
+let pcur=0, pplaying=true, ptmr=null, pidle=null;
+const pplay=document.getElementById('pplay');
+const _pgo=pgo; pgo=n=>{pcur=n;_pgo(n)};
+function tick(){clearTimeout(ptmr); if(!pplaying) return;
+  ptmr=setTimeout(()=>{const m=phots.querySelector('button.main'); if(m) m.classList.add('tap');
+    ptmr=setTimeout(()=>{pgo(PS[pcur].hot[0].to); tick();},450);}, pcur===0?1800:2300);}
+function setPlay(v){pplaying=v; pplay.textContent=v?'일시정지':'자동 재생'; pplay.setAttribute('aria-pressed',v); clearTimeout(pidle); v?tick():clearTimeout(ptmr);}
+function userAct(){clearTimeout(ptmr); if(!pplaying) return; clearTimeout(pidle); pidle=setTimeout(tick,6000);}
+phots.addEventListener('click',userAct,true);
+pbtns.forEach(b=>b.addEventListener('click',()=>{pgo(+b.dataset.s);userAct()}));
+document.getElementById('preset').addEventListener('click',()=>{pgo(0);userAct()});
+pplay.addEventListener('click',()=>setPlay(!pplaying));
 pgo(0);
+// 화면에 보일 때 처음부터 재생 시작, 안 보이면 멈춤
+let pstarted=false;
+new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ if(!pstarted){pstarted=true;pgo(0);} if(pplaying) tick(); } else clearTimeout(ptmr); }),{threshold:.4}).observe(document.querySelector('.proto'));
 </script>
 </body>
 </html>
