@@ -97,6 +97,7 @@ a{color:inherit;text-decoration:none}
 .fr .front{left:12%;top:48px;z-index:2;box-shadow:0 24px 48px rgba(0,0,0,.12)}
 .fr .back{right:8%;top:136px;width:230px;opacity:.9}
 .fr.swap .ph{opacity:0;transform:translateY(8px)}
+.fr .ph.solo{width:330px;left:calc(50% - 165px);top:40px}
 .fr .ph.bare{box-sizing:border-box;border:7px solid #111;border-radius:36px;background:#111}
 
 /* 2 voc = Mobbin 고객 섹션 구조 */
@@ -231,6 +232,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .lede{font-size:20px}
   .fr{min-height:420px}
   .fr .ph{width:180px}.fr .back{width:160px;top:96px;right:6%}.fr .front{left:8%;top:32px}
+  .fr .ph.solo{width:250px;left:calc(50% - 125px);top:28px}
   .cta .act{flex-direction:column;align-items:center}
 }
 </style>
@@ -349,15 +351,15 @@ if(!('IntersectionObserver' in window)){els.forEach(show)}else{
 }
 
 const SH=[["img/t1-grid.png","img/t1-expired.png","사진/동영상 서랍: 오래된 사진이 흐린 미리보기와 만료 표시로 남아 있음"],
-          ["img/bf-intro.png","img/bf-expired.png","톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업"],
+          ["img/bf-intro.png",null,"톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업"],
           ["img/bf-backup-done.png","img/bf-subscribed.png","데이터가 안전하게 보관되었습니다 / 톡클라우드 구독을 시작했어요"],
           ["img/bf-still.png","img/bf-backup-done.png","다시 연 사진/동영상 서랍: 사진은 여전히 만료 상태"]];
 const tabs=[...document.querySelectorAll('.tab')], fr=document.querySelector('.fr'), fImg=fr.querySelector('.front'), bImg=fr.querySelector('.back');
-SH.flat().forEach(src=>{if(src.endsWith('.png')){const i=new Image();i.src=src}});
+SH.flat().forEach(src=>{if(src&&src.endsWith('.png')){const i=new Image();i.src=src}});
 let cur=0, timer;
 function pick(i){ if(i===cur) return; cur=i;
   tabs.forEach((t,k)=>{t.classList.toggle('on',k===i);t.setAttribute('aria-selected',k===i)});
-  fr.classList.add('swap'); setTimeout(()=>{fImg.src=SH[i][0];fImg.classList.toggle('bare',SH[i][0].includes('t1-grid'));fImg.alt=SH[i][2];bImg.src=SH[i][1];fr.classList.remove('swap')},250);}
+  fr.classList.add('swap'); setTimeout(()=>{fImg.src=SH[i][0];fImg.classList.toggle('bare',SH[i][0].includes('t1-grid'));fImg.alt=SH[i][2];fImg.classList.toggle('solo',!SH[i][1]);bImg.style.display=SH[i][1]?'':'none';if(SH[i][1])bImg.src=SH[i][1];fr.classList.remove('swap')},250);}
 function auto(){clearInterval(timer); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) timer=setInterval(()=>pick((cur+1)%SH.length),4500)}
 tabs.forEach((t,k)=>t.addEventListener('click',()=>{pick(k);auto()}));
 auto();
