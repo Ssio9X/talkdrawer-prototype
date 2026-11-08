@@ -97,6 +97,7 @@ a{color:inherit;text-decoration:none}
 .fr .front{left:12%;top:48px;z-index:2;box-shadow:0 24px 48px rgba(0,0,0,.12)}
 .fr .back{right:8%;top:136px;width:230px;opacity:.9}
 .fr.swap .ph{opacity:0;transform:translateY(8px)}
+.fr .ph.bare{box-sizing:border-box;border:7px solid #111;border-radius:36px;background:#111}
 
 /* 2 voc = Mobbin 고객 섹션 구조 */
 .voc{padding:160px 0}
@@ -260,8 +261,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
       <p class="foot">ⓘ 구독하고 보관까지 마쳐도 사진은 돌아오지 않아요.<br>환갑 전에 사진도 돈도 잃었어요.</p>
     </div>
     <div class="fr" aria-live="polite">
-      <img class="ph back" src="img/bf-expired.png" width="402" height="874" alt="">
-      <img class="ph front" src="img/bf-gray.png" width="402" height="874" alt="사진/동영상 서랍: 오래된 사진이 흐린 미리보기로만 남아 있음">
+      <img class="ph back" src="img/t1-expired.png" width="402" height="874" alt="">
+      <img class="ph front bare" src="img/t1-grid.png" width="382" height="854" alt="사진/동영상 서랍: 오래된 사진이 흐린 미리보기와 만료 표시로 남아 있음">
     </div>
   </div>
 </div></section>
@@ -347,7 +348,7 @@ if(!('IntersectionObserver' in window)){els.forEach(show)}else{
   els.forEach(el=>{const r=el.getBoundingClientRect(); if(r.top<innerHeight) show(el); else io.observe(el)});
 }
 
-const SH=[["img/bf-gray.png","img/bf-expired.png","사진/동영상 서랍: 오래된 사진이 흐린 미리보기로만 남아 있음"],
+const SH=[["img/t1-grid.png","img/t1-expired.png","사진/동영상 서랍: 오래된 사진이 흐린 미리보기와 만료 표시로 남아 있음"],
           ["img/bf-intro.png","img/bf-expired.png","톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업"],
           ["img/bf-backup-done.png","img/bf-subscribed.png","데이터가 안전하게 보관되었습니다 / 톡클라우드 구독을 시작했어요"],
           ["img/bf-still.png","img/bf-backup-done.png","다시 연 사진/동영상 서랍: 사진은 여전히 만료 상태"]];
@@ -356,7 +357,7 @@ SH.flat().forEach(src=>{if(src.endsWith('.png')){const i=new Image();i.src=src}}
 let cur=0, timer;
 function pick(i){ if(i===cur) return; cur=i;
   tabs.forEach((t,k)=>{t.classList.toggle('on',k===i);t.setAttribute('aria-selected',k===i)});
-  fr.classList.add('swap'); setTimeout(()=>{fImg.src=SH[i][0];fImg.alt=SH[i][2];bImg.src=SH[i][1];fr.classList.remove('swap')},250);}
+  fr.classList.add('swap'); setTimeout(()=>{fImg.src=SH[i][0];fImg.classList.toggle('bare',SH[i][0].includes('t1-grid'));fImg.alt=SH[i][2];bImg.src=SH[i][1];fr.classList.remove('swap')},250);}
 function auto(){clearInterval(timer); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) timer=setInterval(()=>pick((cur+1)%SH.length),4500)}
 tabs.forEach((t,k)=>t.addEventListener('click',()=>{pick(k);auto()}));
 auto();
