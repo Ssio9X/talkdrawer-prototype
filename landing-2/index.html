@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ko">
+<script>document.documentElement.classList.add('js')</script>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>톡서랍 경험 개선 — "사진 그대로 만료임;;"</title>
+<style>
+/* 기준: Figma "Phi - 작업장" 2차 프레임(325:3819). 카카오 로그인 가이드(#FEE500, 검정 글자) + 카카오 웹 토큰(외부 정리본) 참고 */
+:root{
+  --yellow:#FEE500; --black:#000; --ink:#1E1E1E;
+  --g50:#FAFAFA; --g150:#F3F3F3; --g200:#EEE; --g400:#A8A8A8; --g500:#888; --g600:#666; --g700:#333;
+  --chat:#B2C7DA;
+  --wrap:1100px;
+  --font:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font);color:var(--black);background:#fff;word-break:keep-all;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(var(--wrap), calc(100% - 48px));margin:0 auto}
+
+/* header */
+.hd{position:sticky;top:0;z-index:10;height:68px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--g200)}
+.hd .wrap{height:100%;display:flex;align-items:center;gap:10px}
+.hd b{font-size:20px;font-weight:800;letter-spacing:-.03em}
+.hd span{font-size:12px;color:var(--g600);background:var(--g150);border-radius:8px;padding:4px 8px}
+
+/* type */
+.label{font-size:18px;line-height:28px;font-weight:600;color:var(--g500)}
+.h2{font-size:40px;line-height:52px;font-weight:700;letter-spacing:-.04em;margin-top:16px}
+.lead{font-size:18px;line-height:29px;color:var(--g600);margin-top:16px;max-width:720px}
+section{padding:160px 0}
+
+/* chat */
+.chat{display:flex;flex-direction:column;gap:32px;width:100%}
+.row{display:flex}
+.row.me{justify-content:flex-end}
+.other{display:flex;gap:16px;align-items:flex-start}
+.av{flex:none;width:64px;height:64px;border-radius:24px;background:#E58FA8;display:grid;place-items:center}
+.av svg{width:36px;height:36px}
+.who{font-size:20px;line-height:28px;font-weight:500;color:var(--g400);margin-bottom:8px}
+.bub{display:inline-block;background:#fff;border-radius:6px 24px 24px 24px;padding:20px 28px;font-size:36px;line-height:48px;font-weight:600;letter-spacing:-.02em}
+.bub.y{background:var(--yellow);border-radius:24px 6px 24px 24px;padding:24px 32px}
+.bub .punch{display:block;font-size:60px;line-height:72px;font-weight:800;letter-spacing:-.04em;margin-top:4px}
+
+/* 1 hero */
+.hero{background:var(--black);color:#fff;padding:200px 0;text-align:center}
+.hero .eyebrow,.cta .eyebrow{font-size:18px;line-height:28px;font-weight:600;color:var(--yellow)}
+.hero .chat{margin:72px 0;text-align:left;color:#000}
+.hero .sub{font-size:20px;line-height:32px;color:var(--g400)}
+
+/* 2 problem */
+.problem .wrap{display:flex;gap:80px;align-items:center}
+.problem .left{flex:1;min-width:0}
+.steps{display:flex;flex-direction:column;gap:16px;margin-top:48px}
+.step{display:flex;gap:24px;background:var(--g150);border-radius:24px;padding:28px}
+.step .n{flex:none;width:48px;height:48px;border-radius:50%;background:#000;color:var(--yellow);display:grid;place-items:center;font-weight:700;font-size:16px}
+.step h3{font-size:24px;line-height:32px;font-weight:700;letter-spacing:-.035em}
+.step p{font-size:18px;line-height:29px;color:var(--g600);margin-top:8px}
+.shots{flex:none;display:flex;gap:24px}
+.problem figure{width:240px;text-align:center}
+.ph{border-radius:13% / 6%}
+.problem figcaption{font-size:16px;line-height:26px;color:var(--g500);margin-top:16px}
+
+/* 3 voc */
+.voc{background:var(--g150)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:64px}
+.stat{background:#fff;border-radius:24px;padding:32px}
+.stat b{display:block;font-size:60px;line-height:70px;font-weight:800;letter-spacing:-.04em}
+.stat span{display:block;font-size:18px;line-height:29px;color:var(--g600);font-weight:500;margin-top:8px}
+.quotes{display:grid;grid-template-columns:1fr 420px;gap:28px;margin-top:64px}
+.qcol{display:flex;flex-direction:column;gap:16px}
+.q{background:#fff;border-radius:24px;padding:28px}
+.q p{font-size:20px;line-height:32px;font-weight:600;letter-spacing:-.02em}
+.q a{display:inline-block;margin-top:16px;background:var(--g150);border-radius:8px;padding:6px 12px;font-size:14px;line-height:22px;color:var(--g600);font-weight:500}
+.q a:hover{background:var(--g200)}
+.faq{background:#000;color:#fff;border-radius:24px;padding:40px;display:flex;flex-direction:column;gap:20px}
+.faq .k{font-size:16px;line-height:26px;font-weight:600;color:var(--yellow)}
+.faq h3{font-size:28px;line-height:38px;font-weight:700;letter-spacing:-.035em}
+.faq p{font-size:18px;line-height:29px;color:var(--g400)}
+.faq a{margin-top:auto;font-size:14px;color:var(--g400);text-decoration:underline;text-underline-offset:3px}
+
+/* 4 solution */
+.solution{background:var(--ink);color:#fff}
+.solution .label{color:var(--yellow)}
+.solution .lead{color:var(--g400)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;margin-top:64px}
+.flow li{list-style:none}
+.flow .ph{outline:4px solid transparent;outline-offset:6px}
+.flow li.key .ph{outline-color:var(--yellow)}
+.flow h3{font-size:18px;line-height:28px;font-weight:700;margin-top:16px}
+.flow li.key h3{color:var(--yellow)}
+.flow p{font-size:15px;line-height:24px;color:var(--g400);margin-top:4px}
+
+/* 5 cta */
+.cta{background:var(--chat);padding:200px 0;text-align:center}
+.cta .eyebrow{color:var(--g700)}
+.cta .chat{margin:72px 0;text-align:left}
+.cta .who{color:#4A5A6A}
+.cta .sub{font-size:22px;line-height:34px;font-weight:500;color:var(--g700)}
+.btn{display:inline-block;margin-top:40px;background:var(--yellow);color:#000;border-radius:9999px;padding:20px 44px;font-size:20px;line-height:28px;font-weight:700;letter-spacing:-.02em;transition:transform .25s cubic-bezier(.2,.7,.2,1)}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible{outline:2px solid #000;outline-offset:4px}
+
+footer{background:#000;color:var(--g500);font-size:13px;line-height:20px;padding:32px 0}
+
+/* reveal */
+.js .rv{opacity:0;transform:translateY(24px);transition:opacity .5s cubic-bezier(.2,.7,.2,1),transform .5s cubic-bezier(.2,.7,.2,1)}
+.js .rv.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .rv{opacity:1;transform:none;transition:none}}
+
+/* tablet */
+@media (max-width:1100px){
+  .problem .wrap{gap:56px}
+  .problem figure{width:200px}
+  .quotes{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(3,1fr);row-gap:40px}
+}
+/* mobile */
+@media (max-width:760px){
+  section{padding:96px 0}
+  .hero,.cta{padding:120px 0}
+  .h2{font-size:28px;line-height:38px}
+  .lead{font-size:16px;line-height:26px}
+  .av{width:44px;height:44px;border-radius:16px}.av svg{width:26px;height:26px}
+  .who{font-size:15px;line-height:22px}
+  .bub{font-size:20px;line-height:28px;padding:14px 18px}
+  .bub.y{padding:16px 20px}
+  .bub .punch{font-size:32px;line-height:40px}
+  .hero .chat,.cta .chat{margin:48px 0}
+  .hero .sub{font-size:16px;line-height:26px}
+  .problem .wrap{flex-direction:column;align-items:stretch}
+  .shots{justify-content:center;gap:12px}.problem figure{width:calc(50% - 6px);max-width:220px}
+  .step{padding:20px;gap:16px}
+  .step .n{width:40px;height:40px}
+  .step h3{font-size:20px;line-height:28px}
+  .step p{font-size:16px;line-height:26px}
+  .stats{grid-template-columns:1fr;gap:12px;margin-top:40px}
+  .stat{padding:24px}.stat b{font-size:44px;line-height:52px}
+  .quotes{margin-top:40px}
+  .q p{font-size:17px;line-height:28px}
+  .faq{padding:28px}.faq h3{font-size:22px;line-height:32px}
+  .flow{grid-template-columns:repeat(2,1fr);gap:16px;row-gap:32px}
+  .flow p{font-size:14px;line-height:22px}
+  .cta .sub{font-size:17px;line-height:28px}
+  .btn{font-size:17px;padding:16px 32px}
+}
+</style>
+</head>
+<body>
+
+<header class="hd"><div class="wrap">
+  <svg width="22" height="20" viewBox="0 0 22 20" aria-hidden="true"><path d="M11 0C4.9 0 0 3.9 0 8.6c0 3 2 5.7 5 7.2l-1.2 4.2 4.8-3.2c.8.1 1.6.2 2.4.2 6.1 0 11-3.9 11-8.6S17.1 0 11 0z" fill="#000"/></svg>
+  <b>톡서랍</b><span>경험 개선</span>
+</div></header>
+
+<main>
+<!-- 1 Hero · 원칙 1 이야기로 시작 -->
+<section class="hero"><div class="wrap">
+  <p class="eyebrow">톡서랍 경험 개선</p>
+  <div class="chat">
+    <div class="row rv"><div class="other">
+      <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="#fff"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z" fill="#fff"/></svg></div>
+      <div><p class="who">누나</p><p class="bub">포토북 사진 다 모았어?</p></div>
+    </div></div>
+    <div class="row me rv"><p class="bub y">톡서랍 결제하면 된대서 했는데…<span class="punch">사진 그대로 만료임;;</span></p></div>
+  </div>
+  <p class="sub rv">6명 중 3명은 구독하면 복구되는 줄 알았고,<br>카카오 고객센터에는 같은 질문이 FAQ로 올라와 있어요.</p>
+</div></section>
+
+<!-- 2 Problem · 원칙 2 문제 정의 -->
+<section class="problem"><div class="wrap">
+  <div class="left">
+    <p class="label">Problem</p>
+    <h2 class="h2">구독하면 되찾을 줄 알고 결제했지만,<br>사진도 돈도 잃었어요.</h2>
+    <ol class="steps">
+      <li class="step rv"><span class="n">01</span><div><h3>원본도 카카오에 있다고 믿어요</h3><p>가족 단톡방의 몇 년 치 여행 사진. 흐린 미리보기가 남아 있으니 원본도 있다고 생각해요.</p></div></li>
+      <li class="step rv"><span class="n">02</span><div><h3>"소실됐어요" 바로 다음에 톡클라우드를 권해요</h3><p>"미디어 저장 기간이 만료되어 소실됐어요. 이제는 … 톡클라우드를 이용해 보세요." 사라졌다는 말 뒤에 바로 서비스를 권하니, 이걸로 되찾는다고 읽혀요.</p></div></li>
+      <li class="step rv"><span class="n">03</span><div><h3>소개 화면엔 "그동안 사라진 162개 사진"이 크게</h3><p>바로 아래 "앞으로 주고받는 사진만 자동 백업"은 작은 글씨라 놓쳐요.</p></div></li>
+      <li class="step rv"><span class="n">04</span><div><h3>구독·보관까지 마쳐도 사진은 그대로 만료</h3><p>환갑 전에 사진도 돈도 잃어요.</p></div></li>
+    </ol>
+  </div>
+  <div class="shots">
+    <figure class="rv"><img class="ph" src="img/now-expired.png" width="402" height="874" alt="현재 만료 안내: 미디어 저장 기간이 만료되어 소실됐어요. 이제는 톡 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요. 더 알아보기"><figcaption>① 지금의 만료 안내</figcaption></figure>
+    <figure class="rv"><img class="ph" src="img/now-intro.png" width="402" height="874" alt="현재 톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업되어 사라질 걱정 없어요"><figcaption>② 지금의 톡클라우드 소개</figcaption></figure>
+  </div>
+</div></section>
+
+<!-- 3 VOC · 원칙 2 실제 사례 -->
+<section class="voc"><div class="wrap">
+  <p class="label">Voice of Customer</p>
+  <h2 class="h2">"구독했는데 왜 그대로야?"<br>같은 말이 계속 나와요.</h2>
+  <p class="lead">클리앙·에펨코리아 커뮤니티 글에서 모은 사용자 목소리예요.</p>
+  <div class="stats">
+    <div class="stat rv"><b>13건</b><span>모은 사용자 목소리</span></div>
+    <div class="stat rv"><b>5건</b><span>구독하면 복구될 거라 기대</span></div>
+    <div class="stat rv"><b>8건</b><span>구독한 뒤에야 혼란·불만</span></div>
+  </div>
+  <div class="quotes">
+    <div class="qcol">
+      <div class="q rv"><p>"톡서랍 복구하면 원본 파일이 만료된 것도 불러올 수 있는지 궁금합니다."</p><a href="https://www.clien.net/service/board/kin/17912311" target="_blank" rel="noopener">클리앙 · 복구 기대</a></div>
+      <div class="q rv"><p>"톡서랍에 사진 다 넣어놓으면 폰에서 지워도 계속 거기에 남아있나요?"</p><a href="https://www.fmkorea.com/5973567684" target="_blank" rel="noopener">에펨코리아 · 복구 기대</a></div>
+      <div class="q rv"><p>"'실질적인' 복원은 지원하지 않는다는 걸 나중에서야 알고 맨붕에 빠졌습니다."</p><a href="https://www.clien.net/service/board/park/18129568" target="_blank" rel="noopener">클리앙 · 구독 후 혼란</a></div>
+      <div class="q rv"><p>"2만 개가 넘는 파일을 10개씩 선택해서 복구해야 할 줄은 몰랐습니다 ㅠㅠ"</p><a href="https://www.clien.net/service/board/park/18129568" target="_blank" rel="noopener">클리앙 · 구독 후 혼란</a></div>
+    </div>
+    <div class="faq rv">
+      <p class="k">카카오 고객센터 FAQ</p>
+      <h3>"톡클라우드를 구독중인데도 만료된 사진, 파일이 생겼어요."</h3>
+      <p>같은 질문이 공식 FAQ가 될 만큼 반복되고 있어요.</p>
+      <a href="https://cs.kakao.com/helps_html/1073206338?locale=ko" target="_blank" rel="noopener">FAQ 보기</a>
+    </div>
+  </div>
+</div></section>
+
+<!-- 4 Solution · 원칙 3 솔루션 -->
+<section class="solution"><div class="wrap">
+  <p class="label">Solution</p>
+  <h2 class="h2">되찾을 수 없다는 사실을,<br>결제 전에 먼저 알려줘요.</h2>
+  <p class="lead">구독 화면 첫 장에서 이미 사라진 사진을 먼저 알려주고, 그다음에 톡서랍이 앞으로 지켜주는 것을 보여줘요.</p>
+  <ol class="flow">
+    <li class="key rv"><img class="ph" src="img/lost.png" width="402" height="874" alt="우리 가족 사진/동영상 162개, 파일 11개가 사라졌어요. 이미 사라진 사진과 파일은 다시 복구할 수 없어요"><h3>① 잃은 것을 먼저</h3><p>이미 사라진 사진은 복구할 수 없다고 첫 장에서 말해요</p></li>
+    <li class="rv"><img class="ph" src="img/keep.png" width="402" height="874" alt="채팅방 사진, 언제나 그대로"><h3>② 보관</h3><p>구독한 날부터 계속 보관돼요</p></li>
+    <li class="rv"><img class="ph" src="img/find.png" width="402" height="874" alt="채팅방 이미지들은 톡클라우드에 정리해요"><h3>② 찾기</h3><p>사람·태그로 찾아요</p></li>
+    <li class="rv"><img class="ph" src="img/restore.png" width="402" height="874" alt="구독한 뒤의 톡은 기기를 바꿔도 그대로"><h3>② 복원</h3><p>기기를 바꿔도 그대로</p></li>
+    <li class="rv"><img class="ph" src="img/done.png" width="402" height="874" alt="이제부터 우리 가족 사진도 톡서랍에 보관돼요"><h3>③ 구독 완료</h3><p>어디서 꺼내보는지 알려줘요</p></li>
+  </ol>
+</div></section>
+
+<!-- 5 CTA · 원칙 12 원하는 것 말하기, 14 보는 사람에 맞추기 -->
+<section class="cta"><div class="wrap">
+  <p class="eyebrow">개선한 뒤의 같은 대화</p>
+  <div class="chat">
+    <div class="row rv"><div class="other">
+      <div class="av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="#fff"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z" fill="#fff"/></svg></div>
+      <div><p class="who">누나</p><p class="bub">포토북 사진 다 모았어?</p></div>
+    </div></div>
+    <div class="row me rv"><p class="bub y">옛날 건 이미 만료됐대.<span class="punch">대신 앞으로는 다 남는대!</span></p></div>
+  </div>
+  <p class="sub rv">첫 장에 한 줄만 먼저 보여주면, 화가 아니라 이해로 끝나요.</p>
+  <a class="btn rv" href="../v3/">개선안 프로토타입 보기</a>
+</div></section>
+</main>
+
+<footer><div class="wrap">Iterative Problem Solving · 톡서랍 경험 개선 제안 (학교 과제). 인용한 사용자 글의 저작권은 각 작성자에게 있어요.</div></footer>
+
+<script>
+const els=[...document.querySelectorAll('.rv')];
+const show=el=>el.classList.add('on');
+if(!('IntersectionObserver' in window)){els.forEach(show)}else{
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){show(e.target);io.unobserve(e.target)}}),{threshold:.15});
+  els.forEach(el=>{const r=el.getBoundingClientRect(); if(r.top<innerHeight) show(el); else io.observe(el)});
+}
+</script>
+</body>
+</html>

@@ -25,6 +25,7 @@
 | 11-07 | 9회차 | 1 Pager 기준 랜딩 개편본을 `landing-v9/`에 따로 배포, HANDOFF 작성 | 09823d3, f91f6ce |
 | 11-08 | 9회차 | Figma 랜딩(242:3692) 디자인으로 개편하고 `landing/` 교체, Problem 2 화살표 제거, Solution C를 Figma 시나리오(261:3706) 순서로 변경(요금제는 전체 화면), Hero 영상에 60% 검은 막 → **9회차 고정본** | ed4c3a4~d12d045 |
 | 11-08 | — | `versions/8`, `versions/9` 고정, 목록 페이지, `scripts/snapshot.sh` 추가 | 5354bd1 |
+| 11-08 | 10회차 후보 | **랜딩 2차 `landing-2/`** 따로 배포 (https://ssio9x.github.io/talkdrawer-prototype/landing-2/). Figma 2차 프레임(325:3819) 기준, 1 Pager ver_2 + 피치덱 원칙(9단계 제외), 카카오 관계자용. 가족 단톡방·환갑 포토북 이야기, VOC 13건, 현재 화면(Figma 280:3937), 솔루션 화면은 가족 버전 복사본(333:5582). 폰 화면 PNG는 `landing-2/img`, 폰트는 시스템 SF Pro | (이 커밋) |
 
 ### 저장소 밖에서 한 일 (11-08, 구글 문서·Figma)
 - **구글 문서 [9회차] 1 Pager 탭**
