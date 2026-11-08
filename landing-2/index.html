@@ -181,6 +181,12 @@ a{color:inherit;text-decoration:none}
 .proto{margin:56px auto 0;max-width:880px;background:var(--panel);border-radius:28px;padding:40px;display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:stretch}
 .pphone{position:relative;width:320px;aspect-ratio:402/874;border-radius:13% / 6%;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.08);background:#111}
 .pphone img{width:100%;height:100%;display:block}
+.pphone .pover{position:absolute;inset:0;opacity:0;transform:translateX(14%);transition:opacity .55s cubic-bezier(.2,.7,.2,1),transform .6s cubic-bezier(.2,.7,.2,1)}
+.pphone .pover.back{transform:translateX(-14%)}
+.pphone .pover.in{opacity:1;transform:none}
+.ps-q.show{animation:hintIn .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes hintIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.psteps button{transition:background .35s,color .35s}
 #phots button{all:unset;position:absolute;cursor:pointer;border-radius:12px}
 #phots button:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
 #phots button.main::after{content:"";position:absolute;inset:-4px;border:3px solid var(--yellow);border-radius:14px;animation:pulse 1.6s ease-in-out infinite;pointer-events:none}
@@ -201,8 +207,17 @@ a{color:inherit;text-decoration:none}
 .ps-reset{all:unset;cursor:pointer;background:#fff;border-radius:9999px;padding:10px 18px;font-size:14px;font-weight:600}
 .ps-reset:hover{background:#ececec}
 .ps-btns{display:flex;gap:8px}
-#phots button.tap{background:rgba(254,229,0,.35)}
+#phots button.tap{background:rgba(254,229,0,.22);transition:background .25s}
+#phots button.tap::before{content:"";position:absolute;left:50%;top:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(0,0,0,.18);animation:ripple .6s ease-out forwards}
+@keyframes ripple{from{transform:scale(.3);opacity:.9}to{transform:scale(2.2);opacity:0}}
 #phots button.tap::after{animation:none;opacity:1}
+
+
+/* 마무리 배너 = Figma 326:4867 (1461×497, 문구 x171 y80, 52px Bold) */
+.outro{background:#202020}
+.outro-in{position:relative;max-width:1461px;margin:0 auto;aspect-ratio:1461/497;background:url(img/outro-bg.png) center/cover no-repeat}
+.outro h2{position:absolute;left:11.7%;top:16.1%;color:#fff;font-size:clamp(28px,3.6vw,52px);line-height:1.4;font-weight:700;letter-spacing:-.03em}
+@media (max-width:640px){.outro-in{aspect-ratio:auto;height:360px;background-position:72% center;background-size:auto 100%}.outro h2{left:24px;top:48px;font-size:28px}}
 
 /* 4 cta */
 .cta{background:var(--dark);color:#fff;padding:140px 0;text-align:center}
@@ -369,16 +384,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   </div>
 </div></section>
 
-<!-- 4 CTA · 원칙 12 원하는 것 말하기, 14 보는 사람에 맞추기 -->
-<section class="cta"><div class="wrap">
-  <h2 class="stack rv">첫 장에 한 줄만 더하면<br><span class="g">화 대신 이해로 끝나요</span></h2>
-  <div class="window rv">
-    <div class="room"><div class="convo">
-      <div class="msg"><span class="who">누나</span><p class="bub">포토북 사진 다 모았어?</p></div>
-      <div class="msg me"><span class="who">나</span><p class="bub">옛날 건 이미 만료됐대.<b>대신 앞으로는 다 남는대!</b></p></div>
-    </div></div>
-  </div>
-  <div class="act rv"><a class="pill y" href="../v3/">개선안 직접 써보기</a><a class="pill light" href="#problem">처음부터 다시 보기</a></div>
+<!-- 4 마무리 · Figma 326:4867 -->
+<section class="outro" aria-label="마무리"><div class="outro-in">
+  <h2 class="rv">더이상 오해하지 않게,<br>더 가깝게, 카카오</h2>
 </div></section>
 </main>
 
@@ -423,7 +431,12 @@ const PS=[
 const pimg=document.getElementById('pimg'), phots=document.getElementById('phots'), phint=document.getElementById('phint'), pnow=document.getElementById('pnow');
 const pbtns=[...document.querySelectorAll('#psteps button')];
 PS.forEach(p=>{const i=new Image();i.src='img/'+p.img});
-function pgo(n){const p=PS[n]; pimg.src='img/'+p.img; pimg.alt=p.hint; phint.textContent=p.hint; pnow.textContent=(p.step+1)+' / 5';
+let pfirst=true;
+function pswap(src,back){ if(pfirst||matchMedia('(prefers-reduced-motion: reduce)').matches){pfirst=false;pimg.src=src;return;}
+  const o=document.createElement('img'); o.src=src; o.className='pover'+(back?' back':''); pimg.parentNode.insertBefore(o,phots);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>o.classList.add('in')));
+  setTimeout(()=>{pimg.src=src; o.remove();},620);}
+function pgo(n){const p=PS[n]; const back=n<(window.pcur??0); pswap('img/'+p.img,back); pimg.alt=p.hint; phint.classList.remove('show'); void phint.offsetWidth; phint.textContent=p.hint; phint.classList.add('show'); pnow.textContent=(p.step+1)+' / 5';
   pbtns.forEach((b,k)=>b.classList.toggle('on',k===p.step));
   phots.innerHTML=''; p.hot.forEach((h,k)=>{const b=document.createElement('button');
     b.style.cssText=`left:${h.x/402*100}%;top:${h.y/874*100}%;width:${h.w/402*100}%;height:${h.h/874*100}%`;
@@ -432,10 +445,10 @@ function pgo(n){const p=PS[n]; pimg.src='img/'+p.img; pimg.alt=p.hint; phint.tex
 // 자동 재생: 다음에 누를 곳을 잠깐 눌린 것처럼 보여주고 넘어감. 사용자가 누르면 잠시 멈췄다가 다시 재생
 let pcur=0, pplaying=true, ptmr=null, pidle=null;
 const pplay=document.getElementById('pplay');
-const _pgo=pgo; pgo=n=>{pcur=n;_pgo(n)};
+const _pgo=pgo; pgo=n=>{_pgo(n);pcur=n;window.pcur=n};
 function tick(){clearTimeout(ptmr); if(!pplaying) return;
   ptmr=setTimeout(()=>{const m=phots.querySelector('button.main'); if(m) m.classList.add('tap');
-    ptmr=setTimeout(()=>{pgo(PS[pcur].hot[0].to); tick();},450);}, pcur===0?1800:2300);}
+    ptmr=setTimeout(()=>{pgo(PS[pcur].hot[0].to); tick();},700);}, pcur===0?2600:3800);}
 function setPlay(v){pplaying=v; pplay.textContent=v?'일시정지':'자동 재생'; pplay.setAttribute('aria-pressed',v); clearTimeout(pidle); v?tick():clearTimeout(ptmr);}
 function userAct(){clearTimeout(ptmr); if(!pplaying) return; clearTimeout(pidle); pidle=setTimeout(tick,6000);}
 phots.addEventListener('click',userAct,true);
