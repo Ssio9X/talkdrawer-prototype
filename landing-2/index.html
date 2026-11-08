@@ -17,7 +17,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{font-family:var(--font);color:var(--black);background:#fff;word-break:keep-all;-webkit-font-smoothing:antialiased}
-img{display:block;max-width:100%}
+img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
 .wrap{width:min(var(--wrap), calc(100% - 48px));margin:0 auto}
 
@@ -52,18 +52,16 @@ section{padding:160px 0}
 .hero .sub{font-size:20px;line-height:32px;color:var(--g400)}
 
 /* 2 problem */
-.problem .wrap{display:flex;gap:80px;align-items:center}
-.problem .left{flex:1;min-width:0}
-.steps{display:flex;flex-direction:column;gap:16px;margin-top:48px}
-.step{display:flex;gap:24px;background:var(--g150);border-radius:24px;padding:28px}
-.step .n{flex:none;width:48px;height:48px;border-radius:50%;background:#000;color:var(--yellow);display:grid;place-items:center;font-weight:700;font-size:16px}
-.step h3{font-size:24px;line-height:32px;font-weight:700;letter-spacing:-.035em}
-.step p{font-size:18px;line-height:29px;color:var(--g600);margin-top:8px}
-.shots{flex:none;display:flex;gap:24px}
-.problem figure{width:240px;text-align:center}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:64px;list-style:none}
+.pgrid .ph{width:100%;max-width:300px;margin:0 auto}
 .ph{border-radius:13% / 6%}
-.problem figcaption{font-size:16px;line-height:26px;color:var(--g500);margin-top:16px}
-
+.pt{margin-top:28px}
+.n{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:#000;color:var(--yellow);font-weight:700;font-size:15px}
+.pt h3,.result h3{font-size:24px;line-height:32px;font-weight:700;letter-spacing:-.035em;margin-top:16px}
+.pt p,.result p{font-size:18px;line-height:29px;color:var(--g600);margin-top:8px}
+.result{display:flex;gap:24px;align-items:flex-start;background:var(--g150);border-radius:24px;padding:32px;margin-top:48px}
+.result .n{flex:none}
+.result h3{margin-top:4px}
 /* 3 voc */
 .voc{background:var(--g150)}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:64px}
@@ -113,10 +111,10 @@ footer{background:#000;color:var(--g500);font-size:13px;line-height:20px;padding
 
 /* tablet */
 @media (max-width:1100px){
-  .problem .wrap{gap:56px}
-  .problem figure{width:200px}
   .quotes{grid-template-columns:1fr}
   .flow{grid-template-columns:repeat(3,1fr);row-gap:40px}
+  .pgrid{gap:24px}
+  .pt h3{font-size:20px;line-height:28px}
 }
 /* mobile */
 @media (max-width:760px){
@@ -131,12 +129,12 @@ footer{background:#000;color:var(--g500);font-size:13px;line-height:20px;padding
   .bub .punch{font-size:32px;line-height:40px}
   .hero .chat,.cta .chat{margin:48px 0}
   .hero .sub{font-size:16px;line-height:26px}
-  .problem .wrap{flex-direction:column;align-items:stretch}
-  .shots{justify-content:center;gap:12px}.problem figure{width:calc(50% - 6px);max-width:220px}
-  .step{padding:20px;gap:16px}
-  .step .n{width:40px;height:40px}
-  .step h3{font-size:20px;line-height:28px}
-  .step p{font-size:16px;line-height:26px}
+  .pgrid{grid-template-columns:1fr;gap:56px;margin-top:40px}
+  .pgrid .ph{max-width:260px}
+  .pt{text-align:left}
+  .result{padding:24px;gap:16px}
+  .result h3{font-size:20px;line-height:28px}
+  .pt p,.result p{font-size:16px;line-height:26px}
   .stats{grid-template-columns:1fr;gap:12px;margin-top:40px}
   .stat{padding:24px}.stat b{font-size:44px;line-height:52px}
   .quotes{margin-top:40px}
@@ -170,22 +168,19 @@ footer{background:#000;color:var(--g500);font-size:13px;line-height:20px;padding
   <p class="sub rv">6명 중 3명은 구독하면 복구되는 줄 알았고,<br>카카오 고객센터에는 같은 질문이 FAQ로 올라와 있어요.</p>
 </div></section>
 
-<!-- 2 Problem · 원칙 2 문제 정의 -->
+<!-- 2 Problem · 원칙 2 문제 정의 (Figma 333:5582 가족 단톡방 버전의 현재 카카오톡 흐름) -->
 <section class="problem"><div class="wrap">
-  <div class="left">
-    <p class="label">Problem</p>
-    <h2 class="h2">구독하면 되찾을 줄 알고 결제했지만,<br>사진도 돈도 잃었어요.</h2>
-    <ol class="steps">
-      <li class="step rv"><span class="n">01</span><div><h3>원본도 카카오에 있다고 믿어요</h3><p>가족 단톡방의 몇 년 치 여행 사진. 흐린 미리보기가 남아 있으니 원본도 있다고 생각해요.</p></div></li>
-      <li class="step rv"><span class="n">02</span><div><h3>"소실됐어요" 바로 다음에 톡클라우드를 권해요</h3><p>"미디어 저장 기간이 만료되어 소실됐어요. 이제는 … 톡클라우드를 이용해 보세요." 사라졌다는 말 뒤에 바로 서비스를 권하니, 이걸로 되찾는다고 읽혀요.</p></div></li>
-      <li class="step rv"><span class="n">03</span><div><h3>소개 화면엔 "그동안 사라진 162개 사진"이 크게</h3><p>바로 아래 "앞으로 주고받는 사진만 자동 백업"은 작은 글씨라 놓쳐요.</p></div></li>
-      <li class="step rv"><span class="n">04</span><div><h3>구독·보관까지 마쳐도 사진은 그대로 만료</h3><p>환갑 전에 사진도 돈도 잃어요.</p></div></li>
-    </ol>
-  </div>
-  <div class="shots">
-    <figure class="rv"><img class="ph" src="img/now-expired.png" width="402" height="874" alt="현재 만료 안내: 미디어 저장 기간이 만료되어 소실됐어요. 이제는 톡 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요. 더 알아보기"><figcaption>① 지금의 만료 안내</figcaption></figure>
-    <figure class="rv"><img class="ph" src="img/now-intro.png" width="402" height="874" alt="현재 톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업되어 사라질 걱정 없어요"><figcaption>② 지금의 톡클라우드 소개</figcaption></figure>
-  </div>
+  <p class="label">Problem</p>
+  <h2 class="h2">구독하면 되찾을 줄 알고 결제했지만,<br>사진도 돈도 잃었어요.</h2>
+  <ol class="pgrid">
+    <li class="rv"><img class="ph" src="img/cur-chat.png" width="402" height="874" alt="우리 가족 단톡방: 누나가 'OO아 몇 년 치 여행 사진 다 모아줘'라고 보냄">
+      <div class="pt"><span class="n">01</span><h3>누나가 포토북용 여행 사진을 모아달래요</h3><p>엄마 환갑 포토북. 가족 단톡방에 몇 년 치 여행 사진이 있어요.</p></div></li>
+    <li class="rv"><img class="ph" src="img/cur-gray.png" width="402" height="874" alt="사진/동영상 서랍: 오래된 사진이 회색 미리보기로만 남아 있음">
+      <div class="pt"><span class="n">02</span><h3>미리보기가 있으니 원본도 있다고 믿어요</h3><p>오래된 사진은 흐린 회색 미리보기로 남아 있어요.</p></div></li>
+    <li class="rv"><img class="ph" src="img/cur-popup.png" width="402" height="874" alt="만료 안내: 이미지가 저장 기간이 만료되어 사라졌어요. 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요. 다음에 / 더 알아보기">
+      <div class="pt"><span class="n">03</span><h3>"사라졌어요" 바로 다음에 톡클라우드를 권해요</h3><p>"이미지가 저장 기간이 만료되어 사라졌어요. 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요." 이걸로 되찾는다고 읽혀요.</p></div></li>
+  </ol>
+  <div class="result rv"><span class="n">04</span><div><h3>구독·보관까지 마쳐도 사진은 그대로 만료예요</h3><p>소개 화면엔 "그동안 사라진 162개 사진, 동영상"이 크게, "앞으로 주고받는 사진만 백업"은 작게 나와요. 결제했지만 환갑 전에 사진도 돈도 잃어요.</p></div></div>
 </div></section>
 
 <!-- 3 VOC · 원칙 2 실제 사례 -->
