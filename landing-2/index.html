@@ -18,6 +18,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--font);color:var(--ink);background:#fff;word-break:keep-all;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%;height:auto}
+.mo{display:none}
 a{color:inherit;text-decoration:none}
 .wrap{width:min(var(--wrap), calc(100% - 48px));margin:0 auto}
 .pill{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 22px;border-radius:9999px;background:var(--ink);color:#fff;font-size:15px;font-weight:600;letter-spacing:-.01em;transition:opacity .2s}
@@ -136,6 +137,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .card{flex:0 0 min(360px,86%);scroll-snap-align:start}
 }
 @media (max-width:640px){
+  .mo{display:inline}
   .nav nav{display:none}
   .hero{padding-top:72px}
   .stack{font-size:30px;line-height:1.2}
@@ -174,7 +176,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 <main>
 <!-- 1 Hero + Problem · 원칙 1 이야기, 원칙 2 문제 정의 (Mobbin MCP 히어로 구조) -->
 <section class="hero" id="problem"><div class="wrap">
-  <h1 class="stack rv">흐린 미리보기가 남아 있으니<br>원본도 있는 줄 알았어요<br><span class="g">구독하면 된다길래 결제했는데</span><br>사진은 돌아오지 않았어요</h1>
+  <h1 class="stack rv">미리보기가 남아 있으니까,<br>복구될 줄 알았어요<br><span class="g">그래서 톡클라우드<br class="mo"> 구독한 거였는데…</span></h1>
   <p class="sub rv">인터뷰한 6명 중 3명이 이렇게 생각했어요<br>카카오 고객센터 FAQ에도 같은 질문이 있어요</p>
 
   <div class="window rv">
