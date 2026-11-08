@@ -35,6 +35,14 @@ claude                         # → "HANDOFF.md 읽고 이어서 해줘"
 - 배포 확인: `gh api repos/Ssio9X/talkdrawer-prototype/pages/builds/latest --jq '.status+" "+.commit[0:7]'`. Pages 캐시가 10분이라 직후에는 **Cmd+Shift+R**을 안내한다.
 - 커밋 메시지는 한국어, 바뀐 것을 전부 적고 끝에 `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 
+## 버전 기록 규칙 (2026-11-08~)
+- 과제 제출용으로 **회차마다 사이트 전체를 `versions/<회차>/`에 고정**한다. 고정본은 절대 수정하지 않는다.
+- 목록: `versions/index.html` → https://ssio9x.github.io/talkdrawer-prototype/versions/
+  - 8회차 = `versions/8/landing/` (커밋 16c3953 시점, 문제 → 솔루션 A → B)
+  - 9회차 = `versions/9/landing/` (커밋 d12d045 시점, Figma 개편 + 솔루션 C)
+- 다음 버전은 `landing/`(와 v1~v3, assets)에서 작업하고, 제출할 때 `sh scripts/snapshot.sh 10` 실행 → `versions/index.html`에 한 줄 추가 → 커밋·푸시.
+- 고정본은 v3·assets까지 통째로 복사돼 있어서, 이후 `assets/app.js`를 고쳐도 예전 버전 화면은 바뀌지 않는다.
+
 ## 1. 무엇을 하고 있나
 
 IPS(Iterative Problem Solving) 수업 과제, 카카오톡 **톡서랍** 경험 개선 프로토타입.
