@@ -5,6 +5,44 @@
 
 ---
 
+## ★ 지금 상태 (2026-11-08 기준) — 여기부터 읽기
+
+> 아래 0~5번은 11-07에 쓴 내용이라 일부가 지났다. **이 블록이 최신**이다.
+
+### 한눈에
+- **공개 랜딩 = 9회차 개편본.** `landing-v9/`의 내용을 `landing/`로 옮겼다(11-08, ed4c3a4). `landing-v9/`는 옛 테스트 사본이라 더 쓰지 않는다.
+- **버전 기록 시작.** 과제로 버전 이력을 제출해야 해서, 회차마다 사이트 전체를 `versions/<회차>/`에 고정한다. 규칙은 아래 "버전 기록 규칙"을 본다.
+  - 목록: https://ssio9x.github.io/talkdrawer-prototype/versions/
+  - 8회차: …/versions/8/landing/ · 9회차: …/versions/9/landing/ · 최신(작업 중): …/landing/
+- **다음 할 일 = 10회차 버전 만들기.** 무엇을 바꿀지는 아직 정해지지 않았다. 사용자에게 먼저 묻는다. 후보는 UT 시나리오에 맞춘 B안(개선안)이다. 구글 문서 '3. 솔루션' 칸이 "만료된"에서 끊겨 있으니 솔루션 문장부터 확정한다.
+
+### 작업 히스토리
+| 날짜 | 회차 | 한 일 | 커밋 |
+|---|---|---|---|
+| 11-01 | 8회차 | v1(Before → 솔루션 A), v2(Before → 솔루션 B) 프로토타입, 첫 랜딩 배포(문제 → A → B) | 3041e9b~8dba3bb |
+| 11-02 | 8회차 | 랜딩 갱신: 누를 곳 표시, Before 자동 재생 반복 → **8회차 고정본** | 16c3953 |
+| 11-03 | 9회차 | v3 추가: 사라진 사진·파일 → 톡서랍 기능 → 구독 (iPhone 18 Pro) | aefca43 |
+| 11-07 | 9회차 | 1 Pager 기준 랜딩 개편본을 `landing-v9/`에 따로 배포, HANDOFF 작성 | 09823d3, f91f6ce |
+| 11-08 | 9회차 | Figma 랜딩(242:3692) 디자인으로 개편하고 `landing/` 교체, Problem 2 화살표 제거, Solution C를 Figma 시나리오(261:3706) 순서로 변경(요금제는 전체 화면), Hero 영상에 60% 검은 막 → **9회차 고정본** | ed4c3a4~d12d045 |
+| 11-08 | — | `versions/8`, `versions/9` 고정, 목록 페이지, `scripts/snapshot.sh` 추가 | 5354bd1 |
+
+### 저장소 밖에서 한 일 (11-08, 구글 문서·Figma)
+- **구글 문서 [9회차] 1 Pager 탭**
+  - **'4. VOC 수집':** 실제 사례 링크를 정리했다. ① 구독하면 복구될 거라는 기대 5건(클리앙·에펨코리아), ② 구독했는데 만료 상태 그대로라 혼란 9건(클리앙 + 카카오 공식 FAQ "톡클라우드를 구독중인데도 만료된 사진, 파일이 생겼어요"). 형식은 "발화 → 줄바꿈 → 링크"이다. 김XX·박XX·전XX 인용은 사용자가 직접 한 인터뷰라서 그대로 둔다.
+  - **'5. UT 시나리오':** 검증할 것 ①은 미사용자가 "복구된다"고 착각하는지(어디서 오해하는지, 그때 감정)이고, ②는 개선안을 본 뒤 복구가 안 된다는 걸 알고 구독하는지이다. 참가자 5명, A안(현재 흐름)·B안(개선안), 진행 6단계, 기록표, 성공 기준(제안값: ① 5명 중 3명 이상, ② 5명 중 4명 이상)을 적었다. **B안 프로토타입은 아직 없다** = 10회차 후보.
+- **Figma** Phi-작업장(`aV8gJIM5vhiIDGxd4HaSZS`) 섹션 261:3706: 이름은 Before지만 실제 내용은 After다. 맨 앞에 1-1 채팅 목록(282:3738), 1-2 단톡방(282:3938), 1-3 채팅방 서랍(282:4138)을 추가하고 그리드(280:3738)까지 연결했다. Figma MCP에서는 Kakao Small Sans가 안 불러와져서 Noto Sans KR을 썼다.
+
+### 집(다른 Mac)에서 바로 시작하는 법
+```bash
+cd ~/talkdrawer-prototype   # 없으면 git clone https://github.com/Ssio9X/talkdrawer-prototype.git
+git pull
+claude   # → "HANDOFF.md 읽고 이어서 해줘"
+```
+- 이 HANDOFF가 유일한 맥락이다. 맥북의 Claude 메모리는 넘어가지 않는다.
+- 제출할 때: `sh scripts/snapshot.sh 10` → `versions/index.html`에 10회차 한 줄 추가 → 커밋·푸시 → `gh api repos/Ssio9X/talkdrawer-prototype/pages/builds/latest --jq '.status+" "+.commit[0:7]'`로 배포를 확인한다.
+
+---
+
 ## 0. Mac mini에서 시작하기
 
 ### 0-1. 준비 체크리스트 (사람이 먼저 확인)
@@ -102,7 +140,7 @@ IPS(Iterative Problem Solving) 수업 과제, 카카오톡 **톡서랍** 경험 
 | **랜딩 계획 — 9회차 1 Pager** | https://docs.google.com/document/d/1KRLigRFzdmywGZvcs6PNTXXGNdx5X27MhWtYtbHPt8c/edit?tab=t.tizosdyup2qe |
 | **v3(솔루션 C) 프로토타입** | https://ssio9x.github.io/talkdrawer-prototype/v3/#6 |
 | **구글 폼** | https://docs.google.com/forms/d/e/1FAIpQLSdMNnh-HzdAdg6vs9CSK_wat__M6c1B6_8WmBDQ9HN_pW0Z7g/formResponse (사용자가 준 주소. `formResponse`는 제출 후 주소라 폼을 다시 열려면 끝을 `viewform`으로 바꾼다. UT 응답용인지 과제 제출용인지 사용자에게 확인) |
-| **최신 랜딩(9회차 개편)** | https://ssio9x.github.io/talkdrawer-prototype/landing-v9/ |
-- 공개 랜딩(예전 A·B 버전): https://ssio9x.github.io/talkdrawer-prototype/landing/
+| **최신 랜딩** | https://ssio9x.github.io/talkdrawer-prototype/landing/ · 버전 목록 …/versions/ |
+- 예전 A·B 랜딩(8회차): https://ssio9x.github.io/talkdrawer-prototype/versions/8/landing/
 - v1 https://ssio9x.github.io/talkdrawer-prototype/v1/ · v2 …/v2/ · v3 …/v3/
 - Xcode SwiftUI 원본(이 Mac에만 있음): `~/Desktop/Phi/IPS/TalkCloudPrototype/`. Mac mini에는 없을 수 있다.
