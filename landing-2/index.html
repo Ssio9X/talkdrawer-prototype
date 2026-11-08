@@ -42,7 +42,7 @@ a{color:inherit;text-decoration:none}
 .eyebrow{font-size:14px;font-weight:600;color:var(--g)}
 
 /* 1 hero = Mobbin MCP 히어로 구조 */
-.hero{padding:120px 0 0}
+.hero{padding:120px 0 160px}
 .hero .sub{margin:28px auto 0;max-width:640px;text-align:center;font-size:18px;line-height:1.6;color:var(--g2)}
 .window{margin-top:72px}
 .room{background:#B2C7DA;border-radius:24px;padding:48px 24px}
@@ -92,12 +92,12 @@ a{color:inherit;text-decoration:none}
 .td{display:none;font-size:16px;line-height:1.6;color:var(--g2);margin-top:8px}
 .tab.on .td{display:block}
 .foot{margin-top:auto;padding-top:32px;font-size:14px;line-height:1.6;color:var(--g)}
-.fr{position:relative;background:var(--panel);border-radius:24px;min-height:600px;overflow:hidden}
-.fr .ph{position:absolute;width:250px;border-radius:13% / 6%;transition:opacity .35s,transform .35s}
-.fr .front{left:calc(50% - 262px);top:48px;z-index:2;box-shadow:0 20px 40px rgba(0,0,0,.08)}
-.fr .back{left:calc(50% + 12px);top:168px;width:250px;box-shadow:0 20px 40px rgba(0,0,0,.08)}
+.fr{position:relative;background:var(--panel);border-radius:24px;height:680px;overflow:hidden}
+.fr .ph{position:absolute;width:240px;border-radius:13% / 6%;transition:opacity .35s,transform .35s}
+.fr .front{left:calc(50% - 252px);top:40px;z-index:2;box-shadow:0 20px 40px rgba(0,0,0,.08)}
+.fr .back{left:calc(50% + 12px);top:110px;width:240px;box-shadow:0 20px 40px rgba(0,0,0,.08)}
 .fr.swap .ph{opacity:0;transform:translateY(8px)}
-.fr .ph.solo{width:330px;left:calc(50% - 165px);top:40px}
+.fr .ph.solo{width:274px;left:calc(50% - 137px);top:40px}
 .fr .ph.bare{box-sizing:border-box;border:7px solid #111;border-radius:36px;background:#111}
 @media (max-width:640px){.fr .ph.bare{border-width:4px;border-radius:22px}}
 
@@ -223,7 +223,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .stack{font-size:44px}
   .big{grid-template-columns:1fr}
   .feat{grid-template-columns:1fr;gap:32px}
-  .fr{min-height:520px}
+  .fr{height:680px}
   .vgrid{grid-template-columns:1fr 1fr}
   .ccards{grid-template-columns:1fr}
   .cc{min-height:0}
@@ -270,9 +270,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .feat{margin-top:56px}
   .tt{font-size:22px}
   .lede{font-size:24px}
-  .fr{min-height:420px}
-  .fr .ph{width:150px}.fr .back{width:150px;top:120px;left:calc(50% + 6px)}.fr .front{left:calc(50% - 156px);top:28px}
-  .fr .ph.solo{width:250px;left:calc(50% - 125px);top:28px}
+  .fr{height:440px}
+  .fr .ph{width:150px}.fr .back{width:150px;top:76px;left:calc(50% + 6px)}.fr .front{left:calc(50% - 156px);top:24px}
+  .fr .ph.solo{width:180px;left:calc(50% - 90px);top:24px}
+  .hero{padding-bottom:96px}
   .cta .act{flex-direction:column;align-items:center}
 }
 </style>
@@ -346,8 +347,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 <section class="solution" id="solution"><div class="wrap">
   <div class="sol-head rv">
     <p class="eyebrow">개선안</p>
-    <h2 class="h2">결제하기 전에<br>되찾을 수 없는 사진부터 알려드려요</h2>
-    <p class="lead">직접 눌러보세요. 가족 단톡방에서 만료된 사진을 찾는 것부터 시작해요.</p>
+    <h2 class="h2">이제 오해하지 않게 알려드려요</h2>
   </div>
   <div class="proto rv">
     <div class="pphone">
