@@ -44,21 +44,21 @@ a{color:inherit;text-decoration:none}
 /* 1 hero = Mobbin MCP 히어로 구조 */
 .hero{padding:120px 0 0}
 .hero .sub{margin:28px auto 0;max-width:640px;text-align:center;font-size:18px;line-height:1.6;color:var(--g2)}
-.window{margin-top:72px;border:1px solid var(--line);border-radius:24px;background:#fff;overflow:hidden}
-.dots{display:flex;gap:6px;padding:18px 20px}
-.dots i{width:10px;height:10px;border-radius:50%;background:#E2E2E2}
-.convo{max-width:760px;margin:0 auto;padding:16px 24px 40px;display:flex;flex-direction:column;gap:28px}
+.window{margin-top:72px}
+.room{background:#B2C7DA;border-radius:24px;padding:48px 24px}
+.convo{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
 .msg{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
 .msg.me{align-items:flex-end}
-.who{font-size:13px;color:var(--g)}
-.bub{display:inline-block;padding:12px 18px;border-radius:20px;background:var(--panel);font-size:17px;line-height:1.5;font-weight:500}
+.who{font-size:13px;color:#4A5A6A}
+.bub{display:inline-block;padding:12px 18px;border-radius:4px 20px 20px 20px;background:#fff;color:#000;font-size:17px;line-height:1.5;font-weight:500}
+.msg.me .bub{border-radius:20px 4px 20px 20px}
 .msg.me .bub{background:var(--yellow);color:#000}
 .bub b{display:block;font-size:30px;line-height:1.25;font-weight:800;letter-spacing:-.035em;margin-top:2px}
-.note{display:flex;gap:12px;align-items:flex-start}
+.note{display:flex;gap:12px;align-items:flex-start;max-width:720px;margin:32px auto 32px}
 .note .ic{flex:none;width:28px;height:28px;border-radius:8px;background:var(--ink);display:grid;place-items:center}
 .note p{font-size:16px;line-height:1.6}
 .note small{display:flex;align-items:center;gap:4px;font-size:14px;color:var(--g);margin-top:4px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:0 24px 24px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .cards::-webkit-scrollbar{display:none}
 .card{display:flex;flex-direction:column;background:var(--panel);border-radius:20px;padding:24px 24px 0;overflow:hidden}
 .card .shot{order:2;margin-top:auto;padding-top:24px;height:330px;overflow:hidden;display:flex;justify-content:center}
@@ -69,7 +69,7 @@ a{color:inherit;text-decoration:none}
 .card dl{margin-top:14px;display:flex;flex-direction:column;gap:12px}
 .card dt{font-size:13px;color:var(--g)}
 .card dd{font-size:15px;line-height:1.45;font-weight:700;margin-top:2px}
-.outcome{border-top:1px solid var(--line);padding:24px;display:flex;gap:12px;align-items:flex-start;justify-content:center;text-align:left}
+.outcome{padding:28px 0 0;display:flex;gap:12px;align-items:flex-start;justify-content:center;text-align:left}
 .outcome p{font-size:16px;line-height:1.6;max-width:760px}
 .outcome strong{font-weight:700}
 
@@ -113,9 +113,7 @@ a{color:inherit;text-decoration:none}
 /* 4 cta */
 .cta{background:var(--dark);color:#fff;padding:140px 0;text-align:center}
 .cta .stack .g{color:#6E6E6E}
-.cta .window{background:#1E1E1E;border-color:#2A2A2A;max-width:760px;margin:56px auto 0;text-align:left}
-.cta .dots i{background:#333}
-.cta .bub{background:#2C2C2C;color:#fff}
+.cta .window{max-width:760px;margin:56px auto 0;text-align:left}
 .cta .msg.me .bub{background:var(--yellow);color:#000}
 .cta .act{margin-top:48px;display:flex;justify-content:center;gap:12px}
 .cta .pill.light{background:#2C2C2C;color:#fff}
@@ -143,14 +141,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .stack{font-size:30px;line-height:1.2}
   .h2{font-size:28px}
   .hero .sub{font-size:16px}
-  .window{margin-top:48px;border-radius:20px}
-  .convo{padding:8px 16px 28px;gap:22px}
+  .window{margin-top:48px}
+  .room{padding:28px 16px;border-radius:20px}
+  .convo{gap:18px}
+  .note{margin:24px 0}
   .bub{font-size:15px}.bub b{font-size:22px}
-  .cards{padding:0 16px 16px}
   .card{flex-basis:86%;padding:20px 20px 0}
   .card .shot{height:280px}
   .card .shot img{width:190px}
-  .outcome{padding:20px 16px}
+  .outcome{padding-top:20px}
   .voc{padding:96px 0}
   .vgrid{grid-template-columns:1fr}
   .feature{padding:28px;min-height:0;gap:28px}.feature h3{font-size:24px}
@@ -180,16 +179,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   <p class="sub rv">인터뷰한 6명 중 3명이 이렇게 생각했어요</p>
 
   <div class="window rv">
-    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
-    <div class="convo">
+    <div class="room"><div class="convo">
       <div class="msg"><span class="who">누나</span><p class="bub">포토북 사진 다 모았어?</p></div>
       <div class="msg me"><span class="who">나</span><p class="bub">톡서랍 결제하면 된대서 했는데…<b>사진 그대로 만료임;;</b></p></div>
-      <div class="note">
+    </div></div>
+    <div class="note">
         <span class="ic" aria-hidden="true"><svg width="14" height="13" viewBox="0 0 22 20"><path d="M11 0C4.9 0 0 3.9 0 8.6c0 3 2 5.7 5 7.2l-1.2 4.2 4.8-3.2c.8.1 1.6.2 2.4.2 6.1 0 11-3.9 11-8.6S17.1 0 11 0z" fill="#FEE500"/></svg></span>
         <div><p>엄마 환갑 포토북에 넣을 사진을 단톡방에서 찾고 있었어요. 카카오톡에서 실제로 본 화면을 따라가 볼게요.</p>
         <small>우리 가족 단톡방 · 화면 3장</small></div>
       </div>
-    </div>
     <div class="cards">
       <article class="card">
         <div class="shot"><img src="img/cur-chat.png" width="402" height="874" alt="우리 가족 단톡방: 누나가 'OO아 몇 년 치 여행 사진 다 모아줘'라고 보냄" style="--shift:-36%"></div>
@@ -263,11 +261,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 <section class="cta"><div class="wrap">
   <h2 class="stack rv">첫 장에 한 줄만 더하면<br><span class="g">화 대신 이해로 끝나요</span></h2>
   <div class="window rv">
-    <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
-    <div class="convo">
+    <div class="room"><div class="convo">
       <div class="msg"><span class="who">누나</span><p class="bub">포토북 사진 다 모았어?</p></div>
       <div class="msg me"><span class="who">나</span><p class="bub">옛날 건 이미 만료됐대.<b>대신 앞으로는 다 남는대!</b></p></div>
-    </div>
+    </div></div>
   </div>
   <div class="act rv"><a class="pill y" href="../v3/">개선안 직접 써보기</a><a class="pill light" href="#problem">처음부터 다시 보기</a></div>
 </div></section>
