@@ -66,8 +66,8 @@ a{color:inherit;text-decoration:none}
 .card h3{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700}
 .card h3 .n{width:22px;height:22px;border-radius:6px;background:var(--ink);color:var(--yellow);font-size:12px;display:grid;place-items:center}
 .card dl{margin-top:14px;display:flex;flex-direction:column;gap:12px}
-.card dt{font-size:14px;font-weight:700}
-.card dd{font-size:14px;line-height:1.5;color:var(--g2);margin-top:2px}
+.card dt{font-size:13px;color:var(--g)}
+.card dd{font-size:15px;line-height:1.45;font-weight:700;margin-top:2px}
 .outcome{border-top:1px solid var(--line);padding:24px;display:flex;gap:12px;align-items:flex-start;justify-content:center;text-align:left}
 .outcome p{font-size:16px;line-height:1.6;max-width:760px}
 .outcome strong{font-weight:700}
@@ -168,14 +168,14 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 <header class="nav"><div class="wrap">
   <a class="logo" href="#"><svg width="22" height="20" viewBox="0 0 22 20" aria-hidden="true"><path d="M11 0C4.9 0 0 3.9 0 8.6c0 3 2 5.7 5 7.2l-1.2 4.2 4.8-3.2c.8.1 1.6.2 2.4.2 6.1 0 11-3.9 11-8.6S17.1 0 11 0z" fill="#0A0A0A"/></svg>톡서랍 경험 개선</a>
   <nav><a href="#problem">문제</a><a href="#voc">목소리</a><a href="#solution">개선안</a></nav>
-  <a class="pill" href="../v3/">프로토타입 보기</a>
+  <a class="pill" href="../v3/">개선안 써보기</a>
 </div></header>
 
 <main>
 <!-- 1 Hero + Problem · 원칙 1 이야기, 원칙 2 문제 정의 (Mobbin MCP 히어로 구조) -->
 <section class="hero" id="problem"><div class="wrap">
-  <h1 class="stack rv">흐린 미리보기는 남아 있어요.<br>그래서 원본도 있는 줄 알아요.<br><span class="g">구독하면 된다길래 결제했어요.</span><br>사진은 그대로 만료였어요.</h1>
-  <p class="sub rv">6명 중 3명은 구독하면 복구되는 줄 알았고,<br>카카오 고객센터에는 같은 질문이 FAQ로 올라와 있어요.</p>
+  <h1 class="stack rv">흐린 미리보기가 남아 있으니<br>원본도 있는 줄 알았어요<br><span class="g">구독하면 된다길래 결제했는데</span><br>사진은 돌아오지 않았어요</h1>
+  <p class="sub rv">인터뷰한 6명 중 3명이 이렇게 생각했어요<br>카카오 고객센터 FAQ에도 같은 질문이 있어요</p>
 
   <div class="window rv">
     <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -184,7 +184,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
       <div class="msg me"><span class="who">나</span><p class="bub">톡서랍 결제하면 된대서 했는데…<b>사진 그대로 만료임;;</b></p></div>
       <div class="note">
         <span class="ic" aria-hidden="true"><svg width="14" height="13" viewBox="0 0 22 20"><path d="M11 0C4.9 0 0 3.9 0 8.6c0 3 2 5.7 5 7.2l-1.2 4.2 4.8-3.2c.8.1 1.6.2 2.4.2 6.1 0 11-3.9 11-8.6S17.1 0 11 0z" fill="#FEE500"/></svg></span>
-        <div><p>엄마 환갑 포토북을 만들려고 가족 단톡방 사진을 모으던 중이었어요. 카카오톡에서 실제로 본 화면을 따라가 볼게요.</p>
+        <div><p>엄마 환갑 포토북에 넣을 사진을 단톡방에서 찾고 있었어요. 카카오톡에서 실제로 본 화면을 따라가 볼게요.</p>
         <small>우리 가족 단톡방 · 화면 3장</small></div>
       </div>
     </div>
@@ -192,41 +192,41 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
       <article class="card">
         <div class="shot"><img src="img/cur-chat.png" width="402" height="874" alt="우리 가족 단톡방: 누나가 'OO아 몇 년 치 여행 사진 다 모아줘'라고 보냄" style="--shift:-36%"></div>
         <div class="txt"><h3><span class="n">1</span>우리 가족 단톡방</h3>
-          <dl><div><dt>포토북 부탁</dt><dd>누나가 "몇 년 치 여행 사진 다 모아줘"라고 해요.</dd></div>
-              <div><dt>사진은 단톡방에</dt><dd>몇 년 동안 주고받은 여행 사진이 여기 다 있어요.</dd></div></dl></div>
+          <dl><div><dt>누나의 부탁</dt><dd>몇 년 치 여행 사진을 모아달래요</dd></div>
+              <div><dt>사진이 있는 곳</dt><dd>그동안 주고받은 사진이 다 여기 있어요</dd></div></dl></div>
       </article>
       <article class="card">
         <div class="shot"><img src="img/cur-gray.png" width="402" height="874" alt="사진/동영상 서랍: 오래된 사진이 회색 미리보기로만 남아 있음" style="--shift:0%"></div>
         <div class="txt"><h3><span class="n">2</span>사진/동영상 서랍</h3>
-          <dl><div><dt>흐린 미리보기</dt><dd>오래된 사진은 회색 미리보기로 남아 있어요.</dd></div>
-              <div><dt>원본도 있다는 믿음</dt><dd>보이니까 아직 카카오에 있다고 생각해요.</dd></div></dl></div>
+          <dl><div><dt>오래된 사진은</dt><dd>흐린 회색 미리보기로 남아 있어요</dd></div>
+              <div><dt>보이니까</dt><dd>원본도 아직 있다고 생각해요</dd></div></dl></div>
       </article>
       <article class="card">
         <div class="shot"><img src="img/cur-popup.png" width="402" height="874" alt="만료 안내: 이미지가 저장 기간이 만료되어 사라졌어요. 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요. 다음에 / 더 알아보기" style="--shift:-24%"></div>
         <div class="txt"><h3><span class="n">3</span>만료 안내</h3>
-          <dl><div><dt>"사라졌어요"</dt><dd>"이미지가 저장 기간이 만료되어 사라졌어요."</dd></div>
-              <div><dt>바로 다음 줄에 톡클라우드</dt><dd>"톡클라우드를 이용해 보세요." 이걸로 되찾는다고 읽혀요.</dd></div>
-              <div><dt>더 알아보기 → 소개 화면</dt><dd>"그동안 사라진 162개 사진"은 크게, "앞으로만 백업"은 작게 나와요.</dd></div></dl></div>
+          <dl><div><dt>첫 줄에서</dt><dd>사진이 사라졌다고 알려줘요</dd></div>
+              <div><dt>바로 다음 줄에서</dt><dd>톡클라우드를 권해요. 그래서 되찾을 수 있다고 읽혀요</dd></div>
+              <div><dt>더 알아보기를 누르면</dt><dd>"그동안 사라진 162개 사진"이 크게 보여요</dd></div></dl></div>
       </article>
     </div>
-    <div class="outcome"><p><strong>결과:</strong> 구독·보관까지 마쳐도 채팅방 사진은 그대로 만료예요. 환갑 전에 사진도 돈도 잃어요.</p></div>
+    <div class="outcome"><p>ⓘ 구독하고 보관까지 마쳐도 사진은 돌아오지 않아요. <strong>환갑 전에 사진도 돈도 잃었어요.</strong></p></div>
   </div>
 </div></section>
 
 <!-- 2 VOC · 원칙 2 실제 사례 (Mobbin 고객 섹션 구조) -->
 <section class="voc" id="voc"><div class="wrap">
-  <h2 class="h2 rv">13건의 목소리가 같은 말을 해요.<br><span class="g">그중 8건은 구독한 뒤에야 알았어요.</span></h2>
+  <h2 class="h2 rv">커뮤니티 글 13건을 모아봤어요<br><span class="g">8건은 구독하고 나서야 알았어요</span></h2>
   <div class="vgrid">
     <div class="big">
       <div class="feature rv">
-        <p class="k">카카오 고객센터 FAQ</p>
+        <p class="k">카카오 고객센터 FAQ에도 있어요</p>
         <h3>"톡클라우드를 구독중인데도<br>만료된 사진, 파일이 생겼어요."</h3>
-        <a class="pill y" href="https://cs.kakao.com/helps_html/1073206338?locale=ko" target="_blank" rel="noopener">공식 FAQ 보기</a>
+        <a class="pill y" href="https://cs.kakao.com/helps_html/1073206338?locale=ko" target="_blank" rel="noopener">FAQ 보기</a>
       </div>
       <div class="nums">
-        <div class="num rv"><b>13건</b><span>클리앙·에펨코리아에서 모은 사용자 목소리</span></div>
-        <div class="num rv"><b>5건</b><span>구독하면 복구될 거라 기대</span></div>
-        <div class="num rv"><b>8건</b><span>구독한 뒤에야 혼란·불만</span></div>
+        <div class="num rv"><b>13건</b><span>클리앙·에펨코리아에서 모은 글</span></div>
+        <div class="num rv"><b>5건</b><span>구독하면 복구될 줄 알았어요</span></div>
+        <div class="num rv"><b>8건</b><span>구독하고 나서야 아닌 걸 알았어요</span></div>
       </div>
     </div>
     <div class="q rv"><div><span class="mark">"</span><p>톡서랍 복구하면 원본 파일이 만료된 것도 불러올 수 있는지 궁금합니다.</p></div><a href="https://www.clien.net/service/board/kin/17912311" target="_blank" rel="noopener"><i>클</i>클리앙 · 복구 기대</a></div>
@@ -240,9 +240,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   <div class="split">
     <div class="rv">
       <p class="eyebrow">개선안</p>
-      <h2 class="h2" style="margin-top:12px">되찾을 수 없다는 사실을,<br>결제 전에 먼저 알려줘요.</h2>
-      <p class="lead">구독 화면 첫 장에서 이미 사라진 사진을 먼저 알려주고, 그다음에 톡서랍이 앞으로 지켜주는 것을 보여줘요.</p>
-      <div class="act"><a class="pill" href="../v3/">프로토타입 보기</a><small>iPhone 화면 기준</small></div>
+      <h2 class="h2" style="margin-top:12px">결제하기 전에<br>되찾을 수 없는 사진부터 알려드려요</h2>
+      <p class="lead">구독 화면 첫 장에서 사라진 사진을 먼저 보여드려요. 다음 장부터는 톡서랍이 앞으로 지켜줄 것들을 보여드려요.</p>
+      <div class="act"><a class="pill" href="../v3/">개선안 직접 써보기</a><small>iPhone 화면이에요</small></div>
     </div>
     <div class="stage rv">
       <span class="tag">첫 장: <em>이미 사라진 사진은 복구할 수 없어요</em></span>
@@ -250,16 +250,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
     </div>
   </div>
   <div class="steps">
-    <div class="step rv"><div class="t"><h3>보관</h3><p>구독한 날부터 계속 보관돼요</p></div><div class="shot"><img src="img/keep.png" width="402" height="874" alt="채팅방 사진, 언제나 그대로"></div></div>
-    <div class="step rv"><div class="t"><h3>찾기</h3><p>사람·태그로 찾아요</p></div><div class="shot"><img src="img/find.png" width="402" height="874" alt="채팅방 이미지들은 톡클라우드에 정리해요"></div></div>
-    <div class="step rv"><div class="t"><h3>복원</h3><p>기기를 바꿔도 그대로</p></div><div class="shot"><img src="img/restore.png" width="402" height="874" alt="구독한 뒤의 톡은 기기를 바꿔도 그대로"></div></div>
-    <div class="step rv"><div class="t"><h3>구독 완료</h3><p>어디서 꺼내보는지 알려줘요</p></div><div class="shot"><img src="img/done.png" width="402" height="874" alt="이제부터 우리 가족 사진도 톡서랍에 보관돼요"></div></div>
+    <div class="step rv"><div class="t"><h3>보관</h3><p>구독한 날부터 계속 남아요</p></div><div class="shot"><img src="img/keep.png" width="402" height="874" alt="채팅방 사진, 언제나 그대로"></div></div>
+    <div class="step rv"><div class="t"><h3>찾기</h3><p>사람이나 태그로 바로 찾아요</p></div><div class="shot"><img src="img/find.png" width="402" height="874" alt="채팅방 이미지들은 톡클라우드에 정리해요"></div></div>
+    <div class="step rv"><div class="t"><h3>복원</h3><p>폰을 바꿔도 그대로예요</p></div><div class="shot"><img src="img/restore.png" width="402" height="874" alt="구독한 뒤의 톡은 기기를 바꿔도 그대로"></div></div>
+    <div class="step rv"><div class="t"><h3>구독 완료</h3><p>어디서 꺼내 보는지 알려드려요</p></div><div class="shot"><img src="img/done.png" width="402" height="874" alt="이제부터 우리 가족 사진도 톡서랍에 보관돼요"></div></div>
   </div>
 </div></section>
 
 <!-- 4 CTA · 원칙 12 원하는 것 말하기, 14 보는 사람에 맞추기 -->
 <section class="cta"><div class="wrap">
-  <h2 class="stack rv">첫 장에 한 줄만 먼저 보여주면,<br><span class="g">화가 아니라 이해로 끝나요.</span></h2>
+  <h2 class="stack rv">첫 장에 한 줄만 더하면<br><span class="g">화 대신 이해로 끝나요</span></h2>
   <div class="window rv">
     <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="convo">
@@ -267,7 +267,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
       <div class="msg me"><span class="who">나</span><p class="bub">옛날 건 이미 만료됐대.<b>대신 앞으로는 다 남는대!</b></p></div>
     </div>
   </div>
-  <div class="act rv"><a class="pill y" href="../v3/">개선안 프로토타입 보기</a><a class="pill light" href="#problem">처음부터 다시 보기</a></div>
+  <div class="act rv"><a class="pill y" href="../v3/">개선안 직접 써보기</a><a class="pill light" href="#problem">처음부터 다시 보기</a></div>
 </div></section>
 </main>
 
