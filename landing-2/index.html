@@ -77,12 +77,12 @@ a{color:inherit;text-decoration:none}
 /* 문제 흐름 = Mobbin 기능 소개 섹션 구조(왼쪽 목록 / 오른쪽 화면 2장) */
 .feat{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;margin-top:96px;align-items:stretch}
 .fl{display:flex;flex-direction:column}
-.convo.mini{gap:14px;max-width:none;margin:0}
+.lede{font-size:26px;line-height:1.5;font-weight:600;letter-spacing:-.03em;text-wrap:pretty}
 .convo.mini .bub{background:var(--panel);font-size:16px;padding:10px 16px}
 .convo.mini .msg.me .bub{background:var(--yellow)}
 .convo.mini .bub b{font-size:26px}
 .convo.mini .who{color:var(--g)}
-.tabs{list-style:none;margin-top:48px}
+.tabs{list-style:none;margin-top:40px}
 .tabs li+li{border-top:1px solid var(--line)}
 .tab{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;padding:18px 0}
 .tab:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
@@ -189,6 +189,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .cta{padding:96px 0}
   .feat{margin-top:56px}
   .tt{font-size:22px}
+  .lede{font-size:20px}
   .fr{min-height:420px}
   .fr .ph{width:180px}.fr .back{width:160px;top:96px;right:6%}.fr .front{left:8%;top:32px}
   .cta .act{flex-direction:column;align-items:center}
@@ -211,20 +212,18 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 
   <div class="feat rv">
     <div class="fl">
-      <div class="convo mini">
-        <div class="msg"><span class="who">누나</span><p class="bub">포토북 사진 다 모았어?</p></div>
-        <div class="msg me"><span class="who">나</span><p class="bub">톡서랍 결제하면 된대서 했는데…<b>사진 그대로 만료임;;</b></p></div>
-      </div>
+      <p class="lede">부모님 환갑 여행 포토북을 만들려고 가족 단톡방의 여행 사진을 모았지만, 기한이 지났는데 톡클라우드를 통해 백업할 수 있다고 오해하고 있다.</p>
       <ol class="tabs" role="tablist">
-        <li><button class="tab on" role="tab" aria-selected="true" data-i="0"><span class="tt">우리 가족 단톡방</span><span class="td">누나가 몇 년 치 여행 사진을 모아달래요. 그동안 주고받은 사진이 다 여기 있어요.</span></button></li>
-        <li><button class="tab" role="tab" aria-selected="false" data-i="1"><span class="tt">사진/동영상 서랍</span><span class="td">오래된 사진은 흐린 회색 미리보기로 남아 있어요. 보이니까 원본도 아직 있다고 생각해요.</span></button></li>
-        <li><button class="tab" role="tab" aria-selected="false" data-i="2"><span class="tt">만료 안내</span><span class="td">사진이 사라졌다고 알려준 바로 다음 줄에 톡클라우드를 권해요. 그래서 되찾을 수 있다고 읽혀요.</span></button></li>
+        <li><button class="tab on" role="tab" aria-selected="true" data-i="0"><span class="tt">만료된 사진을 누르면</span><span class="td">"미디어 저장 기간이 만료되어 소실됐어요" 바로 다음에 톡클라우드를 권해요.</span></button></li>
+        <li><button class="tab" role="tab" aria-selected="false" data-i="1"><span class="tt">톡클라우드 소개</span><span class="td">"그동안 사라진 162개 사진, 동영상"이 크게 보여요. "앞으로 주고받는 사진만 백업"은 작게 나와요.</span></button></li>
+        <li><button class="tab" role="tab" aria-selected="false" data-i="2"><span class="tt">구독하고 보관까지</span><span class="td">구독을 시작하고 데이터 보관까지 마쳐요. 이제 사진도 돌아올 거라고 생각해요.</span></button></li>
+        <li><button class="tab" role="tab" aria-selected="false" data-i="3"><span class="tt">다시 사진을 열면</span><span class="td">사진은 그대로 만료예요. 구독해도 복구되지 않는다는 걸 이제야 알아요.</span></button></li>
       </ol>
       <p class="foot">ⓘ 구독하고 보관까지 마쳐도 사진은 돌아오지 않아요.<br>환갑 전에 사진도 돈도 잃었어요.</p>
     </div>
     <div class="fr" aria-live="polite">
-      <img class="ph back" src="img/cur-gray.png" width="402" height="874" alt="">
-      <img class="ph front" src="img/cur-chat.png" width="402" height="874" alt="우리 가족 단톡방: 누나가 'OO아 몇 년 치 여행 사진 다 모아줘'라고 보냄">
+      <img class="ph back" src="img/bf-expired.png" width="402" height="874" alt="">
+      <img class="ph front" src="img/bf-gray.png" width="402" height="874" alt="사진/동영상 서랍: 오래된 사진이 흐린 미리보기로만 남아 있음">
     </div>
   </div>
 </div></section>
@@ -296,16 +295,17 @@ if(!('IntersectionObserver' in window)){els.forEach(show)}else{
   els.forEach(el=>{const r=el.getBoundingClientRect(); if(r.top<innerHeight) show(el); else io.observe(el)});
 }
 
-const SH=[["img/cur-chat.png","img/cur-gray.png","우리 가족 단톡방: 누나가 'OO아 몇 년 치 여행 사진 다 모아줘'라고 보냄"],
-          ["img/cur-gray.png","img/cur-popup.png","사진/동영상 서랍: 오래된 사진이 회색 미리보기로만 남아 있음"],
-          ["img/cur-popup.png","img/cur-gray.png","만료 안내: 이미지가 저장 기간이 만료되어 사라졌어요. 데이터를 자동으로 백업해주는 톡클라우드를 이용해 보세요. 다음에 / 더 알아보기"]];
+const SH=[["img/bf-gray.png","img/bf-expired.png","사진/동영상 서랍: 오래된 사진이 흐린 미리보기로만 남아 있음"],
+          ["img/bf-intro.png","img/bf-expired.png","톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업"],
+          ["img/bf-backup-done.png","img/bf-subscribed.png","데이터가 안전하게 보관되었습니다 / 톡클라우드 구독을 시작했어요"],
+          ["img/bf-still.png","img/bf-backup-done.png","다시 연 사진/동영상 서랍: 사진은 여전히 만료 상태"]];
 const tabs=[...document.querySelectorAll('.tab')], fr=document.querySelector('.fr'), fImg=fr.querySelector('.front'), bImg=fr.querySelector('.back');
 SH.flat().forEach(src=>{if(src.endsWith('.png')){const i=new Image();i.src=src}});
 let cur=0, timer;
 function pick(i){ if(i===cur) return; cur=i;
   tabs.forEach((t,k)=>{t.classList.toggle('on',k===i);t.setAttribute('aria-selected',k===i)});
   fr.classList.add('swap'); setTimeout(()=>{fImg.src=SH[i][0];fImg.alt=SH[i][2];bImg.src=SH[i][1];fr.classList.remove('swap')},250);}
-function auto(){clearInterval(timer); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) timer=setInterval(()=>pick((cur+1)%3),4500)}
+function auto(){clearInterval(timer); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) timer=setInterval(()=>pick((cur+1)%SH.length),4500)}
 tabs.forEach((t,k)=>t.addEventListener('click',()=>{pick(k);auto()}));
 auto();
 </script>
