@@ -143,7 +143,17 @@ a{color:inherit;text-decoration:none}
 .cc-mark{font-size:16px;font-weight:800;letter-spacing:-.02em}
 .cc-mark small{display:block;font-size:13px;font-weight:500;color:var(--g);margin-top:6px;letter-spacing:0}
 .cc h3{font-size:21px;line-height:1.45;font-weight:700;letter-spacing:-.03em}
-a.cc:hover h3{text-decoration:underline;text-underline-offset:3px}
+/* 마지막 카드: 다른 색 + Mobbin 호버(배경 변화, 글 위로, 아래 줄 나타남) */
+.cc.link{background:var(--dark);color:#fff;transition:background .3s}
+.cc.link .cc-mark small{color:#8A8A8A}
+.cc-bot{position:relative}
+.cc.link .cc-bot h3{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.cc-more{position:absolute;left:0;bottom:-4px;font-size:13px;font-weight:600;color:var(--yellow);opacity:0;transform:translateY(8px);transition:opacity .3s,transform .35s cubic-bezier(.2,.7,.2,1)}
+.cc.link:hover,.cc.link:focus-visible{background:#262626}
+.cc.link:hover .cc-bot h3,.cc.link:focus-visible .cc-bot h3{transform:translateY(-28px)}
+.cc.link:hover .cc-more,.cc.link:focus-visible .cc-more{opacity:1;transform:none}
+.cc.link:focus-visible{outline:2px solid var(--yellow);outline-offset:3px}
+@media (hover:none){.cc.link .cc-bot{padding-bottom:28px}.cc-more{opacity:1;transform:none}}
 
 /* 3 solution = Mobbin 좌우 분할 섹션 구조 */
 .solution{padding:0 0 160px}
@@ -287,9 +297,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
         <span class="cc-mark">인터뷰 · XX희<small>Q. 톡서랍을 왜 구독하셨어요?</small></span>
         <h3>"구독하면 예전 사진까지 볼 수 있는 줄 알고 결제했다가 바로 취소했어요."</h3>
       </div>
-      <a class="cc rv" href="https://www.clien.net/service/board/park/18129568" target="_blank" rel="noopener">
+      <a class="cc link rv" href="https://www.clien.net/service/board/park/18129568" target="_blank" rel="noopener">
         <span class="cc-mark">커뮤니티 사용자<small>커뮤니티 글 13건 중 8건은 구독하고 나서야 알았어요</small></span>
-        <h3>"'실질적인' 복원은 지원하지 않는다는 걸 나중에서야 알고 맨붕에 빠졌습니다."</h3>
+        <div class="cc-bot"><h3>"'실질적인' 복원은 지원하지 않는다는 걸 나중에서야 알고 맨붕에 빠졌습니다."</h3>
+        <span class="cc-more">클리앙 · 원문 보기 →</span></div>
       </a>
     </div>
   </div>
