@@ -173,6 +173,34 @@ a{color:inherit;text-decoration:none}
 .step .shot{margin-top:20px;height:240px;overflow:hidden;display:flex;justify-content:center}
 .step .shot img{width:72%;border-radius:22px 22px 0 0;align-self:flex-start}
 
+
+/* 개선안 = Mobbin 404 섹션 구조 + 클릭 프로토타입 */
+.sol-head{text-align:center}
+.sol-head .h2{margin-top:12px}
+.sol-head .lead{margin:16px auto 0}
+.proto{margin:56px auto 0;max-width:880px;background:var(--panel);border-radius:28px;padding:40px;display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:stretch}
+.pphone{position:relative;width:320px;aspect-ratio:402/874;border-radius:13% / 6%;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.08);background:#111}
+.pphone img{width:100%;height:100%;display:block}
+#phots button{all:unset;position:absolute;cursor:pointer;border-radius:12px}
+#phots button:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+#phots button.main::after{content:"";position:absolute;inset:-4px;border:3px solid var(--yellow);border-radius:14px;animation:pulse 1.6s ease-in-out infinite;pointer-events:none}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){#phots button.main::after{animation:none;opacity:.8}}
+.pside{display:flex;flex-direction:column}
+.ps-k{font-size:14px;color:var(--g)}
+.ps-q{font-size:22px;line-height:1.35;font-weight:800;letter-spacing:-.03em;margin-top:6px;min-height:60px}
+.psteps{list-style:none;margin-top:20px;display:flex;flex-direction:column;gap:8px}
+.psteps button{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border-radius:12px;padding:14px 16px;font-size:15px;font-weight:600;cursor:pointer;color:var(--g2);transition:background .2s,color .2s}
+.psteps button i{font-style:normal;font-size:13px;color:var(--g)}
+.psteps button:hover{color:var(--ink)}
+.psteps button.on{background:var(--ink);color:#fff}
+.psteps button.on i{color:var(--yellow)}
+.ps-foot{margin-top:auto;padding-top:24px;display:flex;align-items:flex-end;justify-content:space-between}
+.ps-foot small{display:block;font-size:13px;color:var(--g)}
+.ps-foot b{font-size:28px;font-weight:800;letter-spacing:-.03em}
+.ps-reset{all:unset;cursor:pointer;background:#fff;border-radius:9999px;padding:10px 18px;font-size:14px;font-weight:600}
+.ps-reset:hover{background:#ececec}
+
 /* 4 cta */
 .cta{background:var(--dark);color:#fff;padding:140px 0;text-align:center}
 .cta .stack .g{color:#6E6E6E}
@@ -199,6 +227,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .fp-search{display:none}
   .split{grid-template-columns:1fr;gap:40px}
   .steps{grid-template-columns:1fr 1fr}
+  .proto{grid-template-columns:1fr;justify-items:center;padding:28px;gap:28px}
+  .pside{width:100%;max-width:420px}
   .cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
   .card{flex:0 0 min(360px,86%);scroll-snap-align:start}
 }
@@ -231,6 +261,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .steps{grid-template-columns:1fr 1fr;gap:12px}
   .step .t{padding:16px 16px 0}.step .shot{height:180px}
   .cta{padding:96px 0}
+  .proto{padding:20px;border-radius:24px}
+  .pphone{width:min(280px,100%)}
+  .ps-q{font-size:19px;min-height:0}
   .feat{margin-top:56px}
   .tt{font-size:22px}
   .lede{font-size:24px}
@@ -306,25 +339,30 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   </div>
 </div></section>
 
-<!-- 3 Solution · 원칙 3 (Mobbin 좌우 분할 섹션 구조) -->
+<!-- 3 Solution · 원칙 3 (Mobbin 404 섹션 구조: 가운데 제목 → 회색 패널 안 휴대폰 + 오른쪽 목록) — Figma 333:5582 개선안을 직접 눌러보는 프로토타입 -->
 <section class="solution" id="solution"><div class="wrap">
-  <div class="split">
-    <div class="rv">
-      <p class="eyebrow">개선안</p>
-      <h2 class="h2" style="margin-top:12px">결제하기 전에<br>되찾을 수 없는 사진부터 알려드려요</h2>
-      <p class="lead">구독 화면 첫 장에서 사라진 사진을 먼저 보여드려요. 다음 장부터는 톡서랍이 앞으로 지켜줄 것들을 보여드려요.</p>
-      <div class="act"><a class="pill" href="../v3/">개선안 직접 써보기</a><small>iPhone 화면이에요</small></div>
-    </div>
-    <div class="stage rv">
-      <span class="tag">첫 장: <em>이미 사라진 사진은 복구할 수 없어요</em></span>
-      <img src="img/lost.png" width="402" height="874" alt="우리 가족 사진/동영상 162개, 파일 11개가 사라졌어요. 이미 사라진 사진과 파일은 다시 복구할 수 없어요">
-    </div>
+  <div class="sol-head rv">
+    <p class="eyebrow">개선안</p>
+    <h2 class="h2">결제하기 전에<br>되찾을 수 없는 사진부터 알려드려요</h2>
+    <p class="lead">직접 눌러보세요. 가족 단톡방에서 만료된 사진을 찾는 것부터 시작해요.</p>
   </div>
-  <div class="steps">
-    <div class="step rv"><div class="t"><h3>보관</h3><p>구독한 날부터 계속 남아요</p></div><div class="shot"><img src="img/keep.png" width="402" height="874" alt="채팅방 사진, 언제나 그대로"></div></div>
-    <div class="step rv"><div class="t"><h3>찾기</h3><p>사람이나 태그로 바로 찾아요</p></div><div class="shot"><img src="img/find.png" width="402" height="874" alt="채팅방 이미지들은 톡클라우드에 정리해요"></div></div>
-    <div class="step rv"><div class="t"><h3>복원</h3><p>폰을 바꿔도 그대로예요</p></div><div class="shot"><img src="img/restore.png" width="402" height="874" alt="구독한 뒤의 톡은 기기를 바꿔도 그대로"></div></div>
-    <div class="step rv"><div class="t"><h3>구독 완료</h3><p>어디서 꺼내 보는지 알려드려요</p></div><div class="shot"><img src="img/done.png" width="402" height="874" alt="이제부터 우리 가족 사진도 톡서랍에 보관돼요"></div></div>
+  <div class="proto rv">
+    <div class="pphone">
+      <img id="pimg" src="img/cur-list.png" width="402" height="874" alt="">
+      <div id="phots"></div>
+    </div>
+    <div class="pside">
+      <p class="ps-k">따라가 보세요</p>
+      <p class="ps-q" id="phint">우리 가족 단톡방을 눌러보세요</p>
+      <ol class="psteps" id="psteps">
+        <li><button data-s="0"><span>단톡방에서 사진 찾기</span><i>1</i></button></li>
+        <li><button data-s="3"><span>만료된 사진 누르기</span><i>2</i></button></li>
+        <li><button data-s="5"><span>잃은 것을 먼저 알려줘요</span><i>3</i></button></li>
+        <li><button data-s="6"><span>앞으로 지켜주는 것</span><i>4</i></button></li>
+        <li><button data-s="9"><span>구독 완료</span><i>5</i></button></li>
+      </ol>
+      <div class="ps-foot"><div><small>지금</small><b id="pnow">1 / 5</b></div><button class="ps-reset" id="preset">처음부터</button></div>
+    </div>
   </div>
 </div></section>
 
@@ -364,6 +402,33 @@ function pick(i){ if(i===cur) return; cur=i;
 function auto(){clearInterval(timer); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) timer=setInterval(()=>pick((cur+1)%SH.length),4500)}
 tabs.forEach((t,k)=>t.addEventListener('click',()=>{pick(k);auto()}));
 auto();
+
+// 개선안 프로토타입 (Figma 333:5582 화면, 좌표는 402×874 기준)
+const CTA={x:28,y:776,w:346,h:54,to:9};
+const PS=[
+ {img:"cur-list.png",step:0,hint:"우리 가족 단톡방을 눌러보세요",hot:[{x:10,y:303,w:382,h:70,to:1}]},
+ {img:"cur-chat.png",step:0,hint:"오른쪽 위 메뉴(☰)를 눌러 서랍을 열어보세요",hot:[{x:332,y:64,w:46,h:46,to:2}]},
+ {img:"cur-drawer.png",step:0,hint:"사진/동영상을 눌러보세요",hot:[{x:40,y:290,w:322,h:112,to:3}]},
+ {img:"cur-gray.png",step:1,hint:"흐린 사진을 눌러보세요",hot:[{x:10,y:219,w:382,h:462,to:4}]},
+ {img:"cur-popup.png",step:1,hint:"더 알아보기를 눌러보세요",hot:[{x:51,y:538,w:300,h:52,to:5}]},
+ {img:"lost.png",step:2,hint:"첫 장에서 잃은 것을 먼저 알려줘요. 화면을 누르면 다음 장으로 넘어가요",hot:[{x:0,y:96,w:402,h:560,to:6},CTA]},
+ {img:"keep.png",step:3,hint:"구독한 날부터 계속 보관돼요. 화면을 눌러 다음 장으로",hot:[{x:0,y:96,w:402,h:560,to:7},CTA]},
+ {img:"find.png",step:3,hint:"사람이나 태그로 바로 찾아요. 화면을 눌러 다음 장으로",hot:[{x:0,y:96,w:402,h:560,to:8},CTA]},
+ {img:"restore.png",step:3,hint:"폰을 바꿔도 그대로예요. 구독하기를 눌러보세요",hot:[CTA]},
+ {img:"done.png",step:4,hint:"구독 완료! 어디서 꺼내 보는지 알려드려요. 확인을 누르면 처음으로",hot:[{x:30,y:782,w:342,h:52,to:0}]}
+];
+const pimg=document.getElementById('pimg'), phots=document.getElementById('phots'), phint=document.getElementById('phint'), pnow=document.getElementById('pnow');
+const pbtns=[...document.querySelectorAll('#psteps button')];
+PS.forEach(p=>{const i=new Image();i.src='img/'+p.img});
+function pgo(n){const p=PS[n]; pimg.src='img/'+p.img; pimg.alt=p.hint; phint.textContent=p.hint; pnow.textContent=(p.step+1)+' / 5';
+  pbtns.forEach((b,k)=>b.classList.toggle('on',k===p.step));
+  phots.innerHTML=''; p.hot.forEach((h,k)=>{const b=document.createElement('button');
+    b.style.cssText=`left:${h.x/402*100}%;top:${h.y/874*100}%;width:${h.w/402*100}%;height:${h.h/874*100}%`;
+    b.setAttribute('aria-label',k===0?p.hint:'구독하기'); if(k===0) b.className='main';
+    b.addEventListener('click',()=>pgo(h.to)); phots.appendChild(b);});}
+pbtns.forEach(b=>b.addEventListener('click',()=>pgo(+b.dataset.s)));
+document.getElementById('preset').addEventListener('click',()=>pgo(0));
+pgo(0);
 </script>
 </body>
 </html>
