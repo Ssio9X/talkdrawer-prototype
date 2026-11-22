@@ -303,6 +303,90 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .hero{padding-bottom:96px}
   .cta .act{flex-direction:column;align-items:center}
 }
+
+/* ===== Figma 551:14807 (히어로 · Problem · Interview) ===== */
+/* 히어로: 1920×1080 프레임(헤더 64 포함) → 화면 너비에 비례 */
+.hx{background:linear-gradient(180deg,#fff 0%,#efffb0 40.968%,#c7e2f9 100%);margin-top:-65px;padding-top:65px}
+.hx-in{position:relative;height:calc(100vw * 1015 / 1920);min-height:560px;max-height:1015px;max-width:1920px;margin:0 auto;overflow:hidden}
+.hx-txt{position:absolute;left:10.42%;top:calc(100% * 135 / 1015);width:37.5%;color:#0a0a0a}
+.hx h1{font-size:clamp(30px,2.917vw,56px);line-height:1.4;font-weight:700;letter-spacing:-.04em}
+.hx h1 .lt{font-weight:500;color:rgba(10,10,10,.4)}
+.hx-txt p{margin-top:24px;font-size:clamp(17px,1.25vw,24px);line-height:1.4;font-weight:500}
+.hx-ill{position:absolute;right:4.17%;bottom:0;width:47.03%;height:auto;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 6%),linear-gradient(180deg,transparent 0,#000 6%);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent 0,#000 6%),linear-gradient(180deg,transparent 0,#000 6%);mask-composite:intersect}
+
+/* 공통 섹션 머리 */
+.sx{width:min(1120px,calc(100% - 48px));margin:0 auto}
+.sx-head{display:flex;flex-direction:column;gap:16px;color:#0a0a0a}
+.sx-head.c{align-items:center;text-align:center}
+.sx-k{font-size:16px;line-height:1.4;font-weight:700;opacity:.5}
+.sx-head h2{font-size:40px;line-height:1.4;font-weight:700;letter-spacing:-.02em}
+
+/* 말풍선 (꼬리 = Figma Vector 8154) */
+.bb{position:relative;display:inline-block;margin-left:7.43px;background:#fff;border-radius:24.905px;padding:14.231px 21.347px;color:#121212;font-size:24px;line-height:1.6;font-weight:400}
+.bb::before{content:"";position:absolute;left:-7.43px;top:2.84px;width:21.694px;height:22.435px;background:url(img/tail-w.svg) no-repeat 0 0/100% 100%}
+.bb.r{margin-left:0;margin-right:7.43px}
+.bb.r::before{left:auto;right:-7.43px;transform:scaleX(-1)}
+.bb.y{background:#fee500}.bb.y::before{background-image:url(img/tail-y.svg)}
+.bb .g{color:rgba(18,18,18,.5)}
+.bb b{font-weight:700}
+.bb.s{font-size:16px;font-weight:500;white-space:nowrap}
+.who{font-size:20px;line-height:1.6;color:rgba(0,0,0,.4);white-space:nowrap}
+.who.s{font-size:12px}
+
+/* Problem */
+.pb{background:#f4f4f4;padding:160px 0}
+.pb-list{padding-top:60px;display:flex;flex-direction:column;gap:52px}
+.pb-row{display:flex;align-items:flex-end;gap:12px}
+.pb-row.r{justify-content:flex-end}
+
+/* Interview */
+.iv{background:#fff;padding:160px 0}
+.iv-grid{display:flex;gap:52px;align-items:flex-start;padding-top:52px}
+.iv-tabs{flex:1 0 400px;min-width:0;list-style:none}
+.iv-tab{all:unset;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;width:100%;padding:24px 0;border-bottom:1px solid rgba(94,94,94,.2);cursor:pointer}
+.iv-tab:focus-visible{outline:2px solid #0a0a0a;outline-offset:4px;border-radius:4px}
+.iv-tab .tt{font-size:32px;line-height:1;font-weight:700;color:#0a0a0a;opacity:.4;transition:opacity .25s}
+.iv-tab:hover .tt{opacity:.7}
+.iv-tab.on .tt{opacity:1}
+.iv-tab .td{display:none;flex-direction:column;gap:16px;color:#5e5e5e;line-height:1.6}
+.iv-tab .td span{font-size:18px}.iv-tab .td small{font-size:16px}
+.iv-tab.on .td{display:flex}
+/* 오른쪽 패널: Figma 617×524를 그대로 비례 축소 */
+.iv-panel{flex:0 1 617px;width:617px;max-width:100%;aspect-ratio:617/524;background:#f4f4f4;border-radius:24px;overflow:hidden;position:relative}
+.iv-p{position:absolute;left:0;top:0;width:617px;height:524px;transform-origin:0 0;transform:scale(var(--k,1));transition:opacity .3s}
+.iv-p[hidden]{display:block;opacity:0;visibility:hidden}
+.ph2{position:absolute;width:190px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.ph2 figcaption{font-size:16px;line-height:1.6;font-weight:500;color:#000;white-space:nowrap}
+.ph2 img{width:190px;border-radius:12.79px}
+.iv-p .crop{position:absolute;width:240px;height:auto;border-radius:17px}
+.iv-p .row{position:absolute;left:43px;width:532px;display:flex;align-items:flex-end;gap:8px}
+.iv-p .row.r{justify-content:flex-end}
+
+@media (max-width:1000px){
+  .iv-grid{flex-direction:column;gap:32px}
+  .iv-tabs{width:100%;flex:none}
+  .iv-panel{flex:none}
+  .iv-panel{width:100%;max-width:617px;align-self:center}
+  .pb-row .bb{font-size:20px}
+}
+@media (max-width:760px){
+  .hx-in{height:auto;min-height:0;display:flex;flex-direction:column;gap:32px;padding:56px 24px 0}
+  .hx-txt{position:static;width:auto}
+  .hx h1{font-size:28px}.hx h1 br{display:none}
+  .hx-ill{position:static;width:100%;margin-left:auto;max-width:520px}
+  .sx-head h2{font-size:28px}
+  .pb,.iv{padding:96px 0}
+  .pb-list{gap:32px}
+  .pb-row{flex-direction:column;align-items:flex-start;gap:6px}
+  .pb-row.r{align-items:flex-end}
+  .pb-row.r .who{order:2}
+  .pb-row .bb{font-size:16px}
+  .who{font-size:14px}
+  .iv-tab .tt{font-size:24px}
+  .iv-tab .td span{font-size:16px}.iv-tab .td small{font-size:14px}
+}
 </style>
 </head>
 <body>
@@ -314,58 +398,55 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 </div></header>
 
 <main>
-<!-- 1 Hero + Problem · 원칙 1 이야기, 원칙 2 문제 정의 (Mobbin MCP 히어로 구조) -->
-<section class="hero" id="problem"><div class="wrap">
-  <h1 class="stack rv">미리보기가 남아 있으니까,<br>복구될 줄 알았어요<br><span class="g">그래서 톡클라우드<br class="mo"> 구독한 건데…</span></h1>
-  <p class="sub rv">인터뷰한 6명 중 3명이 이렇게 생각했어요</p>
+<!-- 1 Hero · Figma 546:12175 (Recall_2) -->
+<section class="hx" aria-label="소개"><div class="hx-in">
+  <div class="hx-txt rv">
+    <h1><span class="lt">인터뷰 중</span> 톡클라우드를 구독해본<br> 7명중 4명은, 소중한 데이터를<br> 잃어버린 후 구독<span class="lt">했어요.</span></h1>
+    <p>왜 데이터를 잃어버리고,<br>복구하고 있을까요?</p>
+  </div>
+  <img class="hx-ill" src="img/hero-ill.jpg" width="903" height="784" alt="한복을 입은 라이언이 박물관 진열장 앞에서 셀카를 찍는 사진을 손에 들고 있는 그림">
+</div></section>
 
-  <div class="feat rv">
-    <div class="fl">
-      <p class="lede">부모님 여행 포토북을 만들려고,<br>복구 불가능한 사진을 톡클라우드를 통해 백업 가능하다고 오해하고 있다.</p>
-      <ol class="tabs" role="tablist">
-        <li><button class="tab on" role="tab" aria-selected="true" data-i="0"><span class="tt">만료된 사진을 누르면</span><span class="td">"미디어 저장 기간이 만료되어 소실됐어요"<br>바로 다음에 톡클라우드를 권해요.</span></button></li>
-        <li><button class="tab" role="tab" aria-selected="false" data-i="1"><span class="tt">톡클라우드 소개</span><span class="td">"그동안 사라진 162개 사진, 동영상"이 크게 보여요.<br>"앞으로 주고받는 사진만 백업"은 작게 나와요.</span></button></li>
-        <li><button class="tab" role="tab" aria-selected="false" data-i="2"><span class="tt">구독하고 보관까지</span><span class="td">구독을 시작하고 데이터 보관까지 마쳐요.<br>이제 사진도 돌아올 거라고 생각해요.</span></button></li>
-        <li><button class="tab" role="tab" aria-selected="false" data-i="3"><span class="tt">다시 사진을 열면</span><span class="td">사진은 그대로 만료예요.<br>구독해도 복구되지 않는다는 걸 이제야 알아요.</span></button></li>
-      </ol>
-    </div>
-    <div class="fr" aria-live="polite">
-      <img class="ph back" src="img/t1-expired.png" width="402" height="874" alt="">
-      <img class="ph front bare" src="img/t1-grid.png" width="382" height="854" alt="사진/동영상 서랍: 오래된 사진이 흐린 미리보기와 만료 표시로 남아 있음">
-    </div>
+<!-- 2 Problem · Figma 551:12309 -->
+<section class="pb" id="problem"><div class="sx">
+  <div class="sx-head c rv"><p class="sx-k">Problem</p><h2>많은 유저들은 데이터를<br>잃어버리는지 모르고 있었어요.</h2></div>
+  <div class="pb-list">
+    <div class="pb-row rv"><p class="bb"><span class="g">"23년도에 학생회장을 했어요.<br>톡클라우드를 안 쓰면 1년인가 지나면 날아가잖아요.</span><br><b>행사 공지를 할 때 기존 사진이나 자료를 써야 했는데,<br>작년 공지를 참고하려니 날아가 있었어요.</b><br><span class="g">내년 것을 남겨 두려면 구독해야 한다는 걸 알고 그때부터 구독했어요."</span></p><span class="who">20대 OO아</span></div>
+    <div class="pb-row r rv"><span class="who">20대 OO진</span><p class="bb r"><span class="g">"용량 꽉차서 구독 했지만,</span><br><b>이미지, 동영상 만료들도 예전에 잃어버렸어서요.</b><span class="g">"</span></p></div>
+    <div class="pb-row rv"><p class="bb"><span class="g">"아니, 난 사진 복구하려고 했거든요.<br>복구되는 줄 알고 구독했는데</span><br><b>확인해보니 없어서</b> <span class="g">너무 화가 나서 구독 취소했어요."</span></p><span class="who">20대 OO민</span></div>
   </div>
 </div></section>
 
-<!-- 2 VOC · 원칙 2 실제 사례 (Mobbin 고객 섹션 구조) -->
-<section class="voc" id="voc"><div class="wrap">
-  <h2 class="h2 rv">카카오 공식 FAQ에 등록될 정도로<br><span class="g">반복되고 있는 문제예요</span></h2>
-  <div class="cgrid">
-    <a class="faqpage rv" href="https://cs.kakao.com/helps_html/1073206513" target="_blank" rel="noopener" aria-label="카카오 고객센터 FAQ 원문 보기">
-      <div class="fp-bar"><span class="fp-logo"><b>kakao</b> 고객센터</span><span class="fp-svc"><i></i>카카오톡</span><span class="fp-search">궁금하신 점을 검색해 보세요.</span></div>
-      <div class="fp-body">
-        <h3>구독 이전 주고받은 미디어 파일 만료되었어요.</h3>
-        <div class="fp-chips"><span>카카오톡</span><span>톡클라우드</span><span>iOS</span></div>
-        <hr>
-        <p>구독 이후 과거데이터 보관을 진행 했어도,<br>
-        <mark>백업을 진행할 당시 이미 만료된 사진/동영상, 파일은 백업 대상에서 제외됩니다.</mark><br>
-        채팅방에서 상세보기(=다운로드)를 진행하지 않아, 로컬에 캐시데이터가 남아 있지 않을 경우, 톡클라우드 백업 대상에서 제외되기 때문입니다.</p>
+<!-- 3 Interview · Figma 551:12583 + 탭별 화면 Section 7 (551:13552, 551:12799, 551:13470) -->
+<section class="iv" id="voc"><div class="sx">
+  <div class="sx-head c rv"><p class="sx-k">Interview</p><h2>데이터를 복구할수 있다고<br>오해하고 있었어요.</h2></div>
+  <div class="iv-grid rv">
+    <ol class="iv-tabs" role="tablist">
+      <li><button class="iv-tab on" role="tab" aria-selected="true" aria-controls="ivp0" data-i="0"><span class="tt">어디서?</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구가 명확하지 않아 복구된다고 이해하고 있어요.</span><small>화면 테스트 진행자 3명 모두 해당</small></span></button></li>
+      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp1" data-i="1"><span class="tt">읽고 있지 않아요</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구를<br>화면 테스트 진행자 모두 읽고 있지 않았어요.<br><br>그래서 사용자들은 데이터가 복구된다고 믿어요.</span></span></button></li>
+      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp2" data-i="2"><span class="tt">2년 구독자도 오해</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구가 명확하지 않아 복구된다고 이해하고 있어요.</span><small>20대 OO아 (여)</small></span></button></li>
+      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp3" data-i="3"><span class="tt">구독 취소</span><span class="td"><span>톡클라우드를 구독해봤던 사람 7명중 2명은<br>데이터가 복구되는줄 알았지만 되지 않아<br>구독을 취소했어요.</span></span></button></li>
+    </ol>
+    <div class="iv-panel">
+      <div class="iv-p on" id="ivp0" role="tabpanel">
+        <figure class="ph2" style="left:97px;top:36.5px"><figcaption>데이터 기간 만료 페이지</figcaption><img src="img/i-expired.png" width="190" height="413" alt="만료된 사진 화면: 사진 저장 기간이 만료되었다는 안내와 더 알아보기 버튼"></figure>
+        <figure class="ph2" style="left:330.7px;top:36.5px"><figcaption>톡클라우드 소개</figcaption><img src="img/i-intro.png" width="190" height="413" alt="톡클라우드 소개 화면: 그동안 사라진 162개 사진, 동영상 / 50GB 매월 3,900원 구독하기"></figure>
       </div>
-      <span class="fp-tag">카카오 고객센터 FAQ 보기 ↗</span>
-    </a>
-    <div class="ccards">
-      <div class="cc rv">
-        <span class="cc-mark">XX민</span>
-        <h3>"아니, 난 사진 복구하려고 했거든요. 복구되는 줄 알고 구독했는데 확인해보니 없어서 너무 화가 나서 구독 취소했어요."</h3>
+      <div class="iv-p" id="ivp1" role="tabpanel" hidden>
+        <div class="row" style="top:50.5px"><p class="bb s">어느 글을 읽고 그렇게 생각하셨어요?</p></div>
+        <img class="crop" src="img/i-intro-crop.png" width="240" height="262" alt="톡클라우드 소개 화면 일부: 그동안 사라진 162개 사진, 동영상" style="left:76px;top:116.5px">
+        <div class="row r" style="top:395.5px"><p class="bb s r y">그동안 사라진 162개 사진, 동영상"을<br>살려 준다는 뜻으로 알았어요.</p></div>
       </div>
-      <div class="cc rv">
-        <span class="cc-mark">XX희</span>
-        <h3>"구독하면 예전 사진까지 볼 수 있는 줄 알고 결제했다가 바로 취소했어요."</h3>
+      <div class="iv-p" id="ivp2" role="tabpanel" hidden>
+        <div class="row" style="top:90px"><p class="bb s">기한이 만료된 안내를 보고도<br>더 알아보기를 누르신 이유가 있을까요?</p></div>
+        <div class="row r" style="top:198px"><span class="who s">20대 OO아</span><p class="bb s r y">일말의 희망이라도 있나 싶어서요.</p></div>
+        <div class="row" style="top:280px"><p class="bb s">상세 페이지를 읽어 보셨는데,<br>복구된다고 생각하신 건가요?</p></div>
+        <div class="row r" style="top:380px"><span class="who s">20대 OO아</span><p class="bb s r y">저는 복구된다고 생각했어요.</p></div>
       </div>
-      <a class="cc link rv" href="https://www.clien.net/service/board/park/18129568" target="_blank" rel="noopener">
-        <span class="cc-mark">커뮤니티 사용자</span>
-        <div class="cc-bot"><h3>"'실질적인' 복원은 지원하지 않는다는 걸 나중에서야 알고 맨붕에 빠졌습니다."</h3>
-        <span class="cc-more">원문 보기 →</span></div>
-      </a>
+      <div class="iv-p" id="ivp3" role="tabpanel" hidden>
+        <div class="row r" style="top:149px"><span class="who s">20대 OO희</span><p class="bb s r">"구독하면 예전 사진까지 볼 수 있는 줄 알고<br>결제했다가 바로 취소했어요."</p></div>
+        <div class="row" style="top:270px"><p class="bb s">"아니, 난 사진 복구하려고 했거든요.<br>복구되는 줄 알고 구독 했는데<br>확인해보니 없어서 너무 화가 나서 구독 취소했어요."</p><span class="who s">20대 OO민</span></div>
+      </div>
     </div>
   </div>
 </div></section>
@@ -413,19 +494,15 @@ if(!('IntersectionObserver' in window)){els.forEach(show)}else{
   els.forEach(el=>{const r=el.getBoundingClientRect(); if(r.top<innerHeight) show(el); else io.observe(el)});
 }
 
-const SH=[["img/t1-grid.png","img/t1-expired.png","사진/동영상 서랍: 오래된 사진이 흐린 미리보기와 만료 표시로 남아 있음"],
-          ["img/bf-intro.png",null,"톡클라우드 소개: 그동안 사라진 162개 사진, 동영상 / 앞으로 주고받는 사진, 동영상, 파일은 자동 백업"],
-          ["img/bf-backup.png","img/bf-backup-done.png","지금부터 주고받은 카카오톡 데이터를 보관합니다 / 데이터가 안전하게 보관되었습니다"],
-          ["img/t1-grid.png",null,"다시 연 사진/동영상 서랍: 사진은 여전히 만료 상태"]];
-const tabs=[...document.querySelectorAll('.tab')], fr=document.querySelector('.fr'), fImg=fr.querySelector('.front'), bImg=fr.querySelector('.back');
-SH.flat().forEach(src=>{if(src&&src.endsWith('.png')){const i=new Image();i.src=src}});
-let cur=0, timer;
-function pick(i){ if(i===cur) return; cur=i;
-  tabs.forEach((t,k)=>{t.classList.toggle('on',k===i);t.setAttribute('aria-selected',k===i)});
-  fr.classList.add('swap'); setTimeout(()=>{fImg.src=SH[i][0];fImg.classList.toggle('bare',SH[i][0].includes('t1-grid'));fImg.alt=SH[i][2];fImg.classList.toggle('solo',!SH[i][1]);bImg.style.display=SH[i][1]?'':'none';if(SH[i][1])bImg.src=SH[i][1];fr.classList.remove('swap')},250);}
-function auto(){clearInterval(timer); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) timer=setInterval(()=>pick((cur+1)%SH.length),4500)}
-tabs.forEach((t,k)=>t.addEventListener('click',()=>{pick(k);auto()}));
-auto();
+// Interview 탭 (Figma 551:12583 / Section 7)
+const ivTabs=[...document.querySelectorAll('.iv-tab')], ivPs=[...document.querySelectorAll('.iv-p')];
+let ivCur=0, ivTimer;
+function ivPick(i){ivCur=i; ivTabs.forEach((t,k)=>{t.classList.toggle('on',k===i);t.setAttribute('aria-selected',k===i)}); ivPs.forEach((p,k)=>{p.hidden=k!==i;p.classList.toggle('on',k===i)});}
+function ivAuto(){clearInterval(ivTimer); if(!matchMedia('(prefers-reduced-motion: reduce)').matches) ivTimer=setInterval(()=>ivPick((ivCur+1)%ivTabs.length),5000)}
+ivTabs.forEach((t,k)=>t.addEventListener('click',()=>{ivPick(k);ivAuto()}));
+ivAuto();
+const ivPanel=document.querySelector('.iv-panel');
+new ResizeObserver(()=>ivPanel.style.setProperty('--k',ivPanel.clientWidth/617)).observe(ivPanel);
 
 // 개선안 프로토타입 (Figma 333:5582 화면, 좌표는 402×874 기준)
 const CTA={x:28,y:776,w:346,h:54,to:9};
