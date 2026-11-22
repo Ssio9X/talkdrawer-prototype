@@ -387,13 +387,83 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .iv-tab .tt{font-size:24px}
   .iv-tab .td span{font-size:16px}.iv-tab .td small{font-size:14px}
 }
+
+/* ===== Figma 551:14809 과정 (UT 설계 · Solution 1·2 · Found) ===== */
+.sx-head:not(.c) h2{max-width:none}
+.ut{background:#f4f4f4;padding:160px 0}
+.ut-top{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:16px;margin-top:52px}
+.ut-check{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.uc{background:#fff;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:16px}
+.uc.dark{background:#141414;color:#fff}
+.uc-k{font-size:14px;line-height:1.4;font-weight:700;color:rgba(10,10,10,.5)}
+.uc.dark .uc-k{color:#fee500}
+.uc-big{font-size:22px;line-height:1.45;font-weight:700;letter-spacing:-.02em}
+.uc-p{font-size:18px;line-height:1.6;color:#2a2a2a}
+.uc-list{list-style:none;display:flex;flex-direction:column;gap:12px;font-size:17px;line-height:1.55;color:#2a2a2a}
+.uc-list li{padding-left:16px;position:relative}
+.uc-list li::before{content:"";position:absolute;left:0;top:.68em;width:6px;height:6px;border-radius:50%;background:#0a0a0a}
+.uc-list b{font-weight:700;color:#0a0a0a}
+.uc-num{list-style:none;counter-reset:n;display:flex;flex-direction:column;gap:12px;font-size:17px;line-height:1.5}
+.uc-num li{counter-increment:n;display:flex;gap:12px}
+.uc-num li::before{content:counter(n);flex:none;width:24px;height:24px;border-radius:7px;background:#f4f4f4;font-size:13px;font-weight:700;display:grid;place-items:center;margin-top:1px}
+.ut-rule{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:24px}
+.ut-rule span:not(.uc-k){background:#fff;border-radius:9999px;padding:10px 16px;font-size:15px;font-weight:600}
+.ut-rule .uc-k{margin-right:8px}
+
+.so{background:#fff;padding:160px 0}
+.so.gr{background:#f4f4f4}
+.strip{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:52px}
+.strip li{display:flex;flex-direction:column;gap:14px}
+.strip img{width:100%;height:auto;border-radius:20px;border:1px solid rgba(0,0,0,.08);background:#fff}
+.strip span{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;line-height:1.35}
+.strip i{flex:none;width:22px;height:22px;border-radius:6px;background:#0a0a0a;color:#fee500;font-style:normal;font-size:12px;font-weight:700;display:grid;place-items:center}
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:64px;align-items:start}
+.qa-col{display:flex;flex-direction:column;gap:20px;min-width:0}
+.qa-k{font-size:16px;font-weight:700;margin-bottom:4px}
+.qa-k small{display:block;font-size:14px;font-weight:500;color:rgba(0,0,0,.45);margin-top:4px}
+.qrow{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap}
+.qrow .bb.s{white-space:normal}
+.bb.g2{background:#f4f4f4}.bb.g2::before{background-image:url(img/tail-g.svg)}
+.uc.lc{background:#f4f4f4}
+.qa-note{font-size:15px;line-height:1.6;color:#5e5e5e;border-left:3px solid #fee500;padding-left:14px}
+
+.fd{background:#141414;color:#fff;padding:160px 0}
+.fd .sx-head{color:#fff}
+.fd .sx-k{opacity:.6}
+.fd-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:52px}
+.fc{background:#232323;border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:12px;font-size:17px;line-height:1.6;color:#d6d6d6}
+.fc-k{font-size:14px;font-weight:700;color:#fee500}
+.fc-q{margin-top:8px;font-size:16px;color:#9a9a9a;border-left:2px solid #3a3a3a;padding-left:14px}
+.fc-big{font-size:32px;line-height:1.25;font-weight:700;color:#fff;letter-spacing:-.03em}
+.fc.y{background:#fee500;color:#3a3200}.fc.y .fc-k{color:rgba(0,0,0,.55)}.fc.y .fc-big{color:#0a0a0a}
+.fd-next{margin-top:80px}
+.fd-next .fd-grid{margin-top:20px}
+.fd-k{font-size:20px;font-weight:700;text-align:center}
+
+@media (max-width:1000px){
+  .ut-top{grid-template-columns:1fr}
+  .ut-check,.qa,.fd-grid{grid-template-columns:1fr}
+  .qa{gap:32px}
+  .strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-left:-24px;margin-right:-24px;padding:0 24px}
+  .strip::-webkit-scrollbar{display:none}
+  .strip li{flex:0 0 200px;scroll-snap-align:start}
+}
+@media (max-width:760px){
+  .ut,.so,.fd{padding:96px 0}
+  .uc,.fc{padding:24px}
+  .uc-big{font-size:19px}
+  .uc-list,.uc-num,.uc-p{font-size:16px}
+  .qrow .bb.s br{display:none}
+  .fc-big{font-size:26px}
+  .fd-next{margin-top:56px}
+}
 </style>
 </head>
 <body>
 
 <header class="nav"><div class="wrap">
   <a class="logo" href="#"><svg width="22" height="20" viewBox="0 0 22 20" aria-hidden="true"><path d="M11 0C4.9 0 0 3.9 0 8.6c0 3 2 5.7 5 7.2l-1.2 4.2 4.8-3.2c.8.1 1.6.2 2.4.2 6.1 0 11-3.9 11-8.6S17.1 0 11 0z" fill="#0A0A0A"/></svg>톡서랍 경험 개선</a>
-  <nav><a href="#problem">문제</a><a href="#voc">목소리</a><a href="#solution">개선안</a></nav>
+  <nav><a href="#problem">문제</a><a href="#voc">목소리</a><a href="#process">과정</a><a href="#solution">개선안</a></nav>
   <a class="pill" href="../v3/">개선안 써보기</a>
 </div></header>
 
@@ -447,6 +517,102 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
         <div class="row r" style="top:149px"><span class="who s">20대 OO희</span><p class="bb s r">"구독하면 예전 사진까지 볼 수 있는 줄 알고<br>결제했다가 바로 취소했어요."</p></div>
         <div class="row" style="top:270px"><p class="bb s">"아니, 난 사진 복구하려고 했거든요.<br>복구되는 줄 알고 구독 했는데<br>확인해보니 없어서 너무 화가 나서 구독 취소했어요."</p><span class="who s">20대 OO민</span></div>
       </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 4 UT 설계 · Figma 551:16640 -->
+<section class="ut" id="process"><div class="sx">
+  <div class="sx-head c rv"><p class="sx-k">UT 설계</p><h2>UT가 끝나면 사용자가<br>이렇게 느끼길 바랐어요.</h2></div>
+  <div class="ut-top rv">
+    <div class="uc dark">
+      <p class="uc-k">가설 · UT 후 사용자가 느껴야 할 것</p>
+      <p class="uc-big">톡클라우드를 사용해야 사라지는 파일들이 보존된다는 것을 인지한다.</p>
+      <p class="uc-big">톡클라우드의 중요성을 느끼고 사진이 없어지지 않게 구독하고 싶다.</p>
+    </div>
+    <div class="uc">
+      <p class="uc-k">Participant</p>
+      <ul class="uc-list"><li>톡클라우드를 구독하지 않아 데이터를 손실해본 사람</li><li>데이터가 손실되는지 모르는 사람</li><li>톡클라우드 구독을 취소해본 사람</li></ul>
+    </div>
+    <div class="uc">
+      <p class="uc-k">Recall · 과제</p>
+      <p class="uc-p">OOO님은 5남매 가족 단톡방의 막내딸이에요. 어머니께서 외할머니께 보여드릴 가족사진이 다운이 안 된다고 하시는데, 한번 찾아 드려 보시겠어요?</p>
+    </div>
+  </div>
+  <div class="ut-check rv">
+    <div class="uc">
+      <p class="uc-k">확인할 점 · 문제 해결</p>
+      <ol class="uc-num"><li>자신에게도 이런 데이터 손실이 치명적일 거라 생각하는가?</li><li>톡클라우드로 데이터를 복구하고 싶은가?</li><li>톡클라우드를 써야 사라지는 파일이 보존된다는 걸 인지하는가?</li><li>기존 발생 상황이 해결되었다고 느끼는가?</li></ol>
+    </div>
+    <div class="uc">
+      <p class="uc-k">확인할 점 · 솔루션 타당성, 품질</p>
+      <ol class="uc-num"><li>톡클라우드 구독까지 자연스럽게 이어지는가?</li><li>톡클라우드 기능을 정확히 이해했는가?</li><li>톡클라우드 권유가 불편하게 느껴지는가? (광고 거부감)</li><li>톡클라우드를 사용할 것 같은가?</li></ol>
+    </div>
+  </div>
+  <div class="ut-rule rv"><span class="uc-k">설계 기준</span><span>잃어버리는 손실을 확인시킨다</span><span>톡클라우드 권유가 불편하게 느껴져서는 안 된다</span><span>기존 카카오톡 기능들을 최대한 활용한다</span><span>다른 문제까지 해결되면 더 좋다</span></div>
+</div></section>
+
+<!-- 5 Solution 1 · Figma 551:16673 + 1차 결과 551:19543 -->
+<section class="so" id="sol1"><div class="sx">
+  <div class="sx-head rv"><p class="sx-k">Solution 1 · UT 1차</p><h2>소식탭에서 지난달 사진을 돌아보게 하고,<br> 곧 사라진다고 알려줬어요.</h2></div>
+  <ol class="strip rv">
+    <li><img src="img/s1-push.jpg" width="402" height="874" alt="잠금화면 푸시: 우리가족 10월 사진을 되돌아 보세요" loading="lazy"><span><i>1</i>톡클라우드 푸시 알림</span></li>
+    <li><img src="img/s1-feed.jpg" width="402" height="874" alt="카카오톡 소식탭에 뜬 우리가족 10월 사진 Recap" loading="lazy"><span><i>2</i>소식탭의 10월 사진 Recap</span></li>
+    <li><img src="img/s1-recap.jpg" width="402" height="874" alt="이번달 우리가족 단톡방에서 어떤 추억들이 있었을까요?" loading="lazy"><span><i>3</i>한 달 추억 돌아보기</span></li>
+    <li><img src="img/s1-expire.jpg" width="402" height="874" alt="우리가족 단톡방의 사진들은 11월 3일에 보관이 만료돼요" loading="lazy"><span><i>4</i>마지막에 보관 만료 안내</span></li>
+    <li><img src="img/s1-cloud.jpg" width="402" height="874" alt="톡클라우드 소개와 구독 화면" loading="lazy"><span><i>5</i>톡클라우드 소개</span></li>
+  </ol>
+  <div class="qa rv">
+    <div class="qa-col">
+      <p class="qa-k">UT 1차 · 30대 OO원 <small>톡클라우드를 알지만 사용하지 않음</small></p>
+      <div class="qrow"><p class="bb s g2">"카톡은 메신저로만 쓰는데 소식은 SNS 쪽에 가까워요.<br> 카톡은 SNS가 아니라서 소식을 모아 보고 싶지 않아요."</p></div>
+      <div class="qrow"><p class="bb s g2">"애초에 광고로 인식해서 탭탭탭으로 넘겼어요."</p></div>
+      <div class="qrow"><p class="bb s g2">"광고 같아서 다시 보고 싶지 않아요. Recap도 관심사가 아니에요."</p></div>
+      <div class="qrow"><p class="bb s g2">"처음 안내 문구 없이 추억을 되돌아보는 듯한 정보를 주는 게 별로예요."</p></div>
+    </div>
+    <div class="uc lc">
+      <p class="uc-k">1차 결과 · 결론</p>
+      <ul class="uc-list"><li><b>소식과 톡클라우드의 연관성이 부족했어요.</b> 푸시를 누르면 대화방 내용일 거라 생각했고, 톡클라우드 정보는 인지하지 못했어요.</li><li><b>만료 안내는 후반이 아니라 먼저</b> 보여줘야 해요.</li><li><b>상황 시나리오를 구체화</b>해야 해요. "어머니가 갤러리에서 찾아볼 수 있지 않나?"</li><li>기존 카카오톡 안내 페이지(미디어 만료, 톡클라우드 안내)의 <b>문구에 오해 소지</b>가 있다는 걸 발견했어요.</li></ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- 6 Solution 2 · Figma 551:18817 -->
+<section class="so gr" id="sol2"><div class="sx">
+  <div class="sx-head rv"><p class="sx-k">Solution 2 · UT 2·3차</p><h2>만료 안내를 먼저 보여주고,<br> 단톡방 추억으로 이어지게 바꿨어요.</h2></div>
+  <ol class="strip rv">
+    <li><img src="img/s2-push.jpg" width="402" height="874" alt="잠금화면 푸시: 곧 보관이 만료되는 추억이 있어요" loading="lazy"><span><i>1</i>톡클라우드 푸시 알림</span></li>
+    <li><img src="img/s2-expire.jpg" width="402" height="874" alt="우리가족 단톡방의 사진들은 11월 3일에 보관이 만료돼요" loading="lazy"><span><i>2</i>보관 만료 안내를 먼저</span></li>
+    <li><img src="img/s2-recap.jpg" width="402" height="874" alt="이번달 우리가족 단톡방에서 어떤 추억들이 있었는지 돌아볼까요?" loading="lazy"><span><i>3</i>단톡방 추억 돌아보기</span></li>
+    <li><img src="img/s2-cta.jpg" width="402" height="874" alt="사진 보관을 원하시면 톡클라우드를 사용해보세요" loading="lazy"><span><i>4</i>톡클라우드 권유</span></li>
+    <li><img src="img/s2-back.jpg" width="402" height="874" alt="채팅 목록 맨 위의 톡클라우드 알림" loading="lazy"><span><i>5</i>채팅 목록에 남는 알림</span></li>
+  </ol>
+  <div class="qa rv">
+    <div class="qa-col">
+      <div class="qrow"><p class="bb s">"11월 3일에 모든 사진이 날아간다는 건가?"</p><span class="who s">3차 · 20대 OO아</span></div>
+      <div class="qrow"><p class="bb s">"뭔가 좀 괘씸하다. 이걸 4천 원이나 주고 사라고?<br> 흠.. 일단 한 달 써 볼 것 같아요."</p><span class="who s">2차 · 20대 OO우</span></div>
+      <div class="qrow"><p class="bb s">"광고 같아서요. 테스트라서 켜 보라고 하니까 켜 본 거지,<br> 평소엔 안 눌러 볼 것 같아요."</p><span class="who s">3차 · 20대 OO아</span></div>
+    </div>
+    <div class="qa-col">
+      <div class="qrow"><p class="bb s">"제 나이에서는 카톡에서 저장할 일이 많지 않아요.<br> 부모님 세대라면 자녀나 손주가 보낸 사진이<br> 만료되지 않게 많이 쓸 것 같아요."</p><span class="who s">2차 · 20대 OO우</span></div>
+      <div class="qrow"><p class="bb s">"가족사진은 누군가 보낸 거고 그 사람이 갖고 있으니까,<br> 만료돼도 상관없어요."</p><span class="who s">3차 · 20대 OO아</span></div>
+      <p class="qa-note">관찰: 10월 1일 사진을 작은 오빠가 올렸다는 걸 알아보지 못했어요. 사진을 보낸 사람이 누군지 모르면 Recap이 이해되지 않아요.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- 7 Found · Figma 551:19529 2차 결과 -->
+<section class="fd" id="found"><div class="sx">
+  <div class="sx-head c rv"><p class="sx-k">Found</p><h2>3명 모두 안내 문구를 읽지 않았고,<br>그래서 복구된다고 믿고 있었어요.</h2></div>
+  <div class="fd-grid rv">
+    <div class="fc"><p class="fc-k">데이터 기간 만료 페이지</p><p>첫 문장만 읽고 넘어가거나, 아이콘만 확인해요.</p><p class="fc-q">"아이콘만 있어도 더 이상 이 사진을 못 보는구나 하고 알 것 같아요. 더 알아보기를 누르면 해결될 수 있나 하는 희망을 갖고 눌렀어요."</p></div>
+    <div class="fc"><p class="fc-k">톡클라우드 소개 페이지</p><p>하이라이트된 부분만 읽고 상세 내용은 읽지 않아요.</p><p class="fc-q">"그동안 사라진 162개 사진, 동영상"을 살려 준다는 뜻으로 알았어요.</p></div>
+  </div>
+  <div class="fd-next rv">
+    <p class="fd-k">다음 단계 · 연령별 솔루션이 필요해요</p>
+    <div class="fd-grid">
+      <div class="fc y"><p class="fc-k">2030세대</p><p class="fc-big">파일 누락</p><p>20대에게 사진은 매력적인 선택지가 아니에요.</p></div>
+      <div class="fc y"><p class="fc-k">40~64세 중장년층</p><p class="fc-big">사진 · 추억, 가족</p><p>자녀나 손주가 보낸 사진이 만료되지 않게.</p></div>
     </div>
   </div>
 </div></section>
