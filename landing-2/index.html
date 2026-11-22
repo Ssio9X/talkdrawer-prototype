@@ -466,6 +466,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 #sol2{padding-top:0}
 #sol2 .sx{border-top:1px solid #e2e2e2;padding-top:120px}
 @media (max-width:760px){#sol2 .sx{padding-top:80px}}
+
+/* Solution · UT 소제목을 태그 두 개로 분리 */
+.sx-tags{display:flex;align-items:center;gap:8px}
+.sx-tags span{display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:9999px;font-size:14px;font-weight:700;line-height:1}
+.tg-s{background:#0a0a0a;color:#fff}
+.tg-u{background:#fff;color:#0a0a0a;border:1px solid rgba(0,0,0,.12)}
 </style>
 </head>
 <body>
@@ -522,7 +528,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 
 <!-- 5 Solution 1 · Figma 551:16673 + 1차 결과 551:19543 -->
 <section class="so gr" id="sol1"><div class="sx">
-  <div class="sx-head rv"><p class="sx-k">Solution 1 · UT 1차</p><h2>소식탭을 활용하고<br> 단톡방의 Recap으로 추억을 되돌아 봐요.</h2></div>
+  <div class="sx-head rv"><p class="sx-tags"><span class="tg-s">Solution 1</span><span class="tg-u">UT 1차</span></p><h2>소식탭을 활용하고<br> 단톡방의 Recap으로 추억을 되돌아 봐요.</h2></div>
   <ol class="strip rv">
     <li><img src="img/s1-push.jpg" width="402" height="874" alt="잠금화면 푸시: 우리가족 10월 사진을 되돌아 보세요" loading="lazy"><span><i>1</i>톡클라우드 푸시 알림</span></li>
     <li><img src="img/s1-feed.jpg" width="402" height="874" alt="카카오톡 소식탭에 뜬 우리가족 10월 사진 Recap" loading="lazy"><span><i>2</i>소식탭의 10월 사진 Recap</span></li>
@@ -547,7 +553,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 
 <!-- 6 Solution 2 · Figma 551:18817 -->
 <section class="so gr" id="sol2"><div class="sx">
-  <div class="sx-head rv"><p class="sx-k">Solution 2 · UT 2·3차</p><h2>톡클라우드가<br> 광고같이 느껴지지 않게</h2></div>
+  <div class="sx-head rv"><p class="sx-tags"><span class="tg-s">Solution 2</span><span class="tg-u">UT 2·3차</span></p><h2>톡클라우드가<br> 광고같이 느껴지지 않게</h2></div>
   <ol class="strip rv">
     <li><img src="img/s2-push.jpg" width="402" height="874" alt="잠금화면 푸시: 곧 보관이 만료되는 추억이 있어요" loading="lazy"><span><i>1</i>톡클라우드 푸시 알림</span></li>
     <li><img src="img/s2-expire.jpg" width="402" height="874" alt="우리가족 단톡방의 사진들은 11월 3일에 보관이 만료돼요" loading="lazy"><span><i>2</i>보관 만료 안내를 먼저</span></li>
