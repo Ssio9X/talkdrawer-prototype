@@ -457,13 +457,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   .fc-big{font-size:26px}
   .fd-next{margin-top:56px}
 }
+
+/* 시간순 재배치 후 배경 교차: Problem 회색 → UT 흰색 → Solution 1·2 회색(구분선) → 발견 흰색 */
+.ut{background:#fff}
+.ut .uc:not(.dark){background:#f4f4f4}
+.ut .uc-num li::before{background:#fff}
+.ut-rule span:not(.uc-k){background:#f4f4f4}
+#sol2{padding-top:0}
+#sol2 .sx{border-top:1px solid #e2e2e2;padding-top:120px}
+@media (max-width:760px){#sol2 .sx{padding-top:80px}}
 </style>
 </head>
 <body>
 
 <header class="nav"><div class="wrap">
   <a class="logo" href="#"><svg width="22" height="20" viewBox="0 0 22 20" aria-hidden="true"><path d="M11 0C4.9 0 0 3.9 0 8.6c0 3 2 5.7 5 7.2l-1.2 4.2 4.8-3.2c.8.1 1.6.2 2.4.2 6.1 0 11-3.9 11-8.6S17.1 0 11 0z" fill="#0A0A0A"/></svg>톡서랍 경험 개선</a>
-  <nav><a href="#problem">문제</a><a href="#voc">목소리</a><a href="#process">과정</a><a href="#solution">개선안</a></nav>
+  <nav><a href="#problem">문제</a><a href="#process">과정</a><a href="#voc">발견</a></nav>
   <a class="pill" href="../v3/">개선안 써보기</a>
 </div></header>
 
@@ -484,40 +493,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
     <div class="pb-row rv"><p class="bb"><span class="g">"23년도에 학생회장을 했어요.<br>톡클라우드를 안 쓰면 1년인가 지나면 날아가잖아요.</span><br><b>행사 공지를 할 때 기존 사진이나 자료를 써야 했는데,<br>작년 공지를 참고하려니 날아가 있었어요.</b><br><span class="g">내년 것을 남겨 두려면 구독해야 한다는 걸 알고 그때부터 구독했어요."</span></p><span class="who">20대 OO아</span></div>
     <div class="pb-row r rv"><span class="who">20대 OO진</span><p class="bb r"><span class="g">"용량 꽉차서 구독 했지만,</span><br><b>이미지, 동영상 만료들도 예전에 잃어버렸어서요.</b><span class="g">"</span></p></div>
     <div class="pb-row rv"><p class="bb"><span class="g">"아니, 난 사진 복구하려고 했거든요.<br>복구되는 줄 알고 구독했는데</span><br><b>확인해보니 없어서</b> <span class="g">너무 화가 나서 구독 취소했어요."</span></p><span class="who">20대 OO민</span></div>
-  </div>
-</div></section>
-
-<!-- 3 Interview · Figma 551:12583 + 탭별 화면 Section 7 (551:13552, 551:12799, 551:13470) -->
-<section class="iv" id="voc"><div class="sx">
-  <div class="sx-head c rv"><p class="sx-k">Interview</p><h2>데이터를 복구할수 있다고<br>오해하고 있었어요.</h2></div>
-  <div class="iv-grid rv">
-    <ol class="iv-tabs" role="tablist">
-      <li><button class="iv-tab on" role="tab" aria-selected="true" aria-controls="ivp0" data-i="0"><span class="tt">어디서?</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구가 명확하지 않아 복구된다고 이해하고 있어요.</span><small>화면 테스트 진행자 3명 모두 해당</small></span></button></li>
-      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp1" data-i="1"><span class="tt">읽고 있지 않아요</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구를<br>화면 테스트 진행자 모두 읽고 있지 않았어요.<br><br>그래서 사용자들은 데이터가 복구된다고 믿어요.</span></span></button></li>
-      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp2" data-i="2"><span class="tt">2년 구독자도 오해</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구가 명확하지 않아 복구된다고 이해하고 있어요.</span><small>20대 OO아 (여)</small></span></button></li>
-      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp3" data-i="3"><span class="tt">구독 취소</span><span class="td"><span>톡클라우드를 구독해봤던 사람 7명중 2명은<br>데이터가 복구되는줄 알았지만 되지 않아<br>구독을 취소했어요.</span></span></button></li>
-    </ol>
-    <div class="iv-panel">
-      <div class="iv-p on" id="ivp0" role="tabpanel">
-        <figure class="ph2" style="left:97px;top:36.5px"><figcaption>데이터 기간 만료 페이지</figcaption><img src="img/i-expired.png" width="190" height="413" alt="만료된 사진 화면: 사진 저장 기간이 만료되었다는 안내와 더 알아보기 버튼"></figure>
-        <figure class="ph2" style="left:330.7px;top:36.5px"><figcaption>톡클라우드 소개</figcaption><img src="img/i-intro.png" width="190" height="413" alt="톡클라우드 소개 화면: 그동안 사라진 162개 사진, 동영상 / 50GB 매월 3,900원 구독하기"></figure>
-      </div>
-      <div class="iv-p" id="ivp1" role="tabpanel" hidden>
-        <div class="row" style="top:50.5px"><p class="bb s">어느 글을 읽고 그렇게 생각하셨어요?</p></div>
-        <img class="crop" src="img/i-intro-crop.png" width="240" height="262" alt="톡클라우드 소개 화면 일부: 그동안 사라진 162개 사진, 동영상" style="left:76px;top:116.5px">
-        <div class="row r" style="top:395.5px"><p class="bb s r y">그동안 사라진 162개 사진, 동영상"을<br>살려 준다는 뜻으로 알았어요.</p></div>
-      </div>
-      <div class="iv-p" id="ivp2" role="tabpanel" hidden>
-        <div class="row" style="top:90px"><p class="bb s">기한이 만료된 안내를 보고도<br>더 알아보기를 누르신 이유가 있을까요?</p></div>
-        <div class="row r" style="top:198px"><span class="who s">20대 OO아</span><p class="bb s r y">일말의 희망이라도 있나 싶어서요.</p></div>
-        <div class="row" style="top:280px"><p class="bb s">상세 페이지를 읽어 보셨는데,<br>복구된다고 생각하신 건가요?</p></div>
-        <div class="row r" style="top:380px"><span class="who s">20대 OO아</span><p class="bb s r y">저는 복구된다고 생각했어요.</p></div>
-      </div>
-      <div class="iv-p" id="ivp3" role="tabpanel" hidden>
-        <div class="row r" style="top:149px"><span class="who s">20대 OO희</span><p class="bb s r">"구독하면 예전 사진까지 볼 수 있는 줄 알고<br>결제했다가 바로 취소했어요."</p></div>
-        <div class="row" style="top:270px"><p class="bb s">"아니, 난 사진 복구하려고 했거든요.<br>복구되는 줄 알고 구독 했는데<br>확인해보니 없어서 너무 화가 나서 구독 취소했어요."</p><span class="who s">20대 OO민</span></div>
-      </div>
-    </div>
   </div>
 </div></section>
 
@@ -553,7 +528,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
 </div></section>
 
 <!-- 5 Solution 1 · Figma 551:16673 + 1차 결과 551:19543 -->
-<section class="so" id="sol1"><div class="sx">
+<section class="so gr" id="sol1"><div class="sx">
   <div class="sx-head rv"><p class="sx-k">Solution 1 · UT 1차</p><h2>소식탭에서 지난달 사진을 돌아보게 하고,<br> 곧 사라진다고 알려줬어요.</h2></div>
   <ol class="strip rv">
     <li><img src="img/s1-push.jpg" width="402" height="874" alt="잠금화면 푸시: 우리가족 10월 사진을 되돌아 보세요" loading="lazy"><span><i>1</i>톡클라우드 푸시 알림</span></li>
@@ -565,12 +540,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   <div class="qa rv">
     <div class="qa-col">
       <p class="qa-k">UT 1차 · 30대 OO원 <small>톡클라우드를 알지만 사용하지 않음</small></p>
-      <div class="qrow"><p class="bb s g2">"카톡은 메신저로만 쓰는데 소식은 SNS 쪽에 가까워요.<br> 카톡은 SNS가 아니라서 소식을 모아 보고 싶지 않아요."</p></div>
-      <div class="qrow"><p class="bb s g2">"애초에 광고로 인식해서 탭탭탭으로 넘겼어요."</p></div>
-      <div class="qrow"><p class="bb s g2">"광고 같아서 다시 보고 싶지 않아요. Recap도 관심사가 아니에요."</p></div>
-      <div class="qrow"><p class="bb s g2">"처음 안내 문구 없이 추억을 되돌아보는 듯한 정보를 주는 게 별로예요."</p></div>
+      <div class="qrow"><p class="bb s">"카톡은 메신저로만 쓰는데 소식은 SNS 쪽에 가까워요.<br> 카톡은 SNS가 아니라서 소식을 모아 보고 싶지 않아요."</p></div>
+      <div class="qrow"><p class="bb s">"애초에 광고로 인식해서 탭탭탭으로 넘겼어요."</p></div>
+      <div class="qrow"><p class="bb s">"광고 같아서 다시 보고 싶지 않아요. Recap도 관심사가 아니에요."</p></div>
+      <div class="qrow"><p class="bb s">"처음 안내 문구 없이 추억을 되돌아보는 듯한 정보를 주는 게 별로예요."</p></div>
     </div>
-    <div class="uc lc">
+    <div class="uc">
       <p class="uc-k">1차 결과 · 결론</p>
       <ul class="uc-list"><li><b>소식과 톡클라우드의 연관성이 부족했어요.</b> 푸시를 누르면 대화방 내용일 거라 생각했고, 톡클라우드 정보는 인지하지 못했어요.</li><li><b>만료 안내는 후반이 아니라 먼저</b> 보여줘야 해요.</li><li><b>상황 시나리오를 구체화</b>해야 해요. "어머니가 갤러리에서 찾아볼 수 있지 않나?"</li><li>기존 카카오톡 안내 페이지(미디어 만료, 톡클라우드 안내)의 <b>문구에 오해 소지</b>가 있다는 걸 발견했어요.</li></ul>
     </div>
@@ -601,46 +576,46 @@ footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
   </div>
 </div></section>
 
-<!-- 7 Found · Figma 551:19529 2차 결과 -->
-<section class="fd" id="found"><div class="sx">
-  <div class="sx-head c rv"><p class="sx-k">Found</p><h2>3명 모두 안내 문구를 읽지 않았고,<br>그래서 복구된다고 믿고 있었어요.</h2></div>
-  <div class="fd-grid rv">
-    <div class="fc"><p class="fc-k">데이터 기간 만료 페이지</p><p>첫 문장만 읽고 넘어가거나, 아이콘만 확인해요.</p><p class="fc-q">"아이콘만 있어도 더 이상 이 사진을 못 보는구나 하고 알 것 같아요. 더 알아보기를 누르면 해결될 수 있나 하는 희망을 갖고 눌렀어요."</p></div>
-    <div class="fc"><p class="fc-k">톡클라우드 소개 페이지</p><p>하이라이트된 부분만 읽고 상세 내용은 읽지 않아요.</p><p class="fc-q">"그동안 사라진 162개 사진, 동영상"을 살려 준다는 뜻으로 알았어요.</p></div>
-  </div>
-  <div class="fd-next rv">
-    <p class="fd-k">다음 단계 · 연령별 솔루션이 필요해요</p>
-    <div class="fd-grid">
-      <div class="fc y"><p class="fc-k">2030세대</p><p class="fc-big">파일 누락</p><p>20대에게 사진은 매력적인 선택지가 아니에요.</p></div>
-      <div class="fc y"><p class="fc-k">40~64세 중장년층</p><p class="fc-big">사진 · 추억, 가족</p><p>자녀나 손주가 보낸 사진이 만료되지 않게.</p></div>
+<!-- 3 Interview · Figma 551:12583 + 탭별 화면 Section 7 (551:13552, 551:12799, 551:13470) -->
+<section class="iv" id="voc"><div class="sx">
+  <div class="sx-head c rv"><p class="sx-k">Found · UT 2·3차</p><h2>데이터를 복구할수 있다고<br>오해하고 있었어요.</h2></div>
+  <div class="iv-grid rv">
+    <ol class="iv-tabs" role="tablist">
+      <li><button class="iv-tab on" role="tab" aria-selected="true" aria-controls="ivp0" data-i="0"><span class="tt">어디서?</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구가 명확하지 않아 복구된다고 이해하고 있어요.</span><small>화면 테스트 진행자 3명 모두 해당</small></span></button></li>
+      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp1" data-i="1"><span class="tt">읽고 있지 않아요</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구를<br>화면 테스트 진행자 모두 읽고 있지 않았어요.<br><br>그래서 사용자들은 데이터가 복구된다고 믿어요.</span></span></button></li>
+      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp2" data-i="2"><span class="tt">2년 구독자도 오해</span><span class="td"><span>데이터 기간 만료 페이지와 톡클라우드 소개 페이지의 문구가 명확하지 않아 복구된다고 이해하고 있어요.</span><small>20대 OO아 (여)</small></span></button></li>
+      <li><button class="iv-tab" role="tab" aria-selected="false" aria-controls="ivp3" data-i="3"><span class="tt">구독 취소</span><span class="td"><span>톡클라우드를 구독해봤던 사람 7명중 2명은<br>데이터가 복구되는줄 알았지만 되지 않아<br>구독을 취소했어요.</span></span></button></li>
+    </ol>
+    <div class="iv-panel">
+      <div class="iv-p on" id="ivp0" role="tabpanel">
+        <figure class="ph2" style="left:97px;top:36.5px"><figcaption>데이터 기간 만료 페이지</figcaption><img src="img/i-expired.png" width="190" height="413" alt="만료된 사진 화면: 사진 저장 기간이 만료되었다는 안내와 더 알아보기 버튼"></figure>
+        <figure class="ph2" style="left:330.7px;top:36.5px"><figcaption>톡클라우드 소개</figcaption><img src="img/i-intro.png" width="190" height="413" alt="톡클라우드 소개 화면: 그동안 사라진 162개 사진, 동영상 / 50GB 매월 3,900원 구독하기"></figure>
+      </div>
+      <div class="iv-p" id="ivp1" role="tabpanel" hidden>
+        <div class="row" style="top:50.5px"><p class="bb s">어느 글을 읽고 그렇게 생각하셨어요?</p></div>
+        <img class="crop" src="img/i-intro-crop.png" width="240" height="262" alt="톡클라우드 소개 화면 일부: 그동안 사라진 162개 사진, 동영상" style="left:76px;top:116.5px">
+        <div class="row r" style="top:395.5px"><p class="bb s r y">그동안 사라진 162개 사진, 동영상"을<br>살려 준다는 뜻으로 알았어요.</p></div>
+      </div>
+      <div class="iv-p" id="ivp2" role="tabpanel" hidden>
+        <div class="row" style="top:90px"><p class="bb s">기한이 만료된 안내를 보고도<br>더 알아보기를 누르신 이유가 있을까요?</p></div>
+        <div class="row r" style="top:198px"><span class="who s">20대 OO아</span><p class="bb s r y">일말의 희망이라도 있나 싶어서요.</p></div>
+        <div class="row" style="top:280px"><p class="bb s">상세 페이지를 읽어 보셨는데,<br>복구된다고 생각하신 건가요?</p></div>
+        <div class="row r" style="top:380px"><span class="who s">20대 OO아</span><p class="bb s r y">저는 복구된다고 생각했어요.</p></div>
+      </div>
+      <div class="iv-p" id="ivp3" role="tabpanel" hidden>
+        <div class="row r" style="top:149px"><span class="who s">20대 OO희</span><p class="bb s r">"구독하면 예전 사진까지 볼 수 있는 줄 알고<br>결제했다가 바로 취소했어요."</p></div>
+        <div class="row" style="top:270px"><p class="bb s">"아니, 난 사진 복구하려고 했거든요.<br>복구되는 줄 알고 구독 했는데<br>확인해보니 없어서 너무 화가 나서 구독 취소했어요."</p><span class="who s">20대 OO민</span></div>
+      </div>
     </div>
   </div>
 </div></section>
 
-<!-- 3 Solution · 원칙 3 (Mobbin 404 섹션 구조: 가운데 제목 → 회색 패널 안 휴대폰 + 오른쪽 목록) — Figma 333:5582 개선안을 직접 눌러보는 프로토타입 -->
-<section class="solution" id="solution"><div class="wrap">
-  <div class="sol-head rv">
-    <p class="eyebrow">개선안</p>
-    <h2 class="h2">이제 오해하지 않게 알려드려요</h2>
-  </div>
-  <div class="proto rv">
-    <div class="pphone">
-      <img id="pimg" src="img/cur-list.png" width="402" height="874" alt="">
-      <div id="phots"></div>
-      <div class="pscr" id="pscr" hidden><div class="pscr-in"><img id="pscrimg" alt="사진/동영상 서랍: 아래로 스크롤하면 9월 10일 이후 사진이 만료되어 있음"><button id="pscrhot" aria-label="만료된 사진 누르기"></button></div></div>
-    </div>
-    <div class="pside">
-      <p class="ps-k">따라가 보세요</p>
-      <p class="ps-q" id="phint">우리 가족 단톡방을 눌러보세요</p>
-      <ol class="psteps" id="psteps">
-        <li><button data-s="0"><span>단톡방에서 사진 찾기</span><i>1</i></button></li>
-        <li><button data-s="3"><span>만료된 사진 누르기</span><i>2</i></button></li>
-        <li><button data-s="5"><span>잃은 것을 먼저 알려줘요</span><i>3</i></button></li>
-        <li><button data-s="6"><span>앞으로 지켜주는 것</span><i>4</i></button></li>
-        <li><button data-s="9"><span>구독 완료</span><i>5</i></button></li>
-      </ol>
-      <div class="ps-foot"><span class="ps-btns"><button class="ps-reset" id="pplay" aria-pressed="true">일시정지</button><button class="ps-reset" id="preset">처음부터</button></span></div>
-    </div>
+<!-- 7 Next · Figma 551:19529 2차 결과의 결론 -->
+<section class="fd" id="found"><div class="sx">
+  <div class="sx-head c rv"><p class="sx-k">Next</p><h2>그래서 연령별로<br>솔루션을 다시 만들어요.</h2></div>
+  <div class="fd-grid rv">
+    <div class="fc y"><p class="fc-k">2030세대</p><p class="fc-big">파일 누락</p><p>20대에게 사진은 매력적인 선택지가 아니에요.</p></div>
+    <div class="fc y"><p class="fc-k">40~64세 중장년층</p><p class="fc-big">사진 · 추억, 가족</p><p>자녀나 손주가 보낸 사진이 만료되지 않게.</p></div>
   </div>
 </div></section>
 
@@ -670,61 +645,6 @@ ivAuto();
 const ivPanel=document.querySelector('.iv-panel');
 new ResizeObserver(()=>ivPanel.style.setProperty('--k',ivPanel.clientWidth/617)).observe(ivPanel);
 
-// 개선안 프로토타입 (Figma 333:5582 화면, 좌표는 402×874 기준)
-const CTA={x:28,y:776,w:346,h:54,to:9};
-const PS=[
- {img:"cur-list.png",step:0,hint:"우리 가족 단톡방을 눌러보세요",hot:[{x:10,y:303,w:382,h:70,to:1}]},
- {img:"cur-chat.png",step:0,hint:"오른쪽 위 메뉴(☰)를 눌러 서랍을 열어보세요",hot:[{x:332,y:64,w:46,h:46,to:2}]},
- {img:"cur-drawer.png",step:0,hint:"사진/동영상을 눌러보세요",hot:[{x:40,y:290,w:322,h:112,to:3}]},
- {img:"s-top.png",step:1,hint:"아래로 스크롤해서 만료된 사진을 찾아 눌러보세요",scroll:{src:"s-tall.png",h:1312,target:500,hot:{y:905,h:126,to:4}},hot:[]},
- {img:"s-popup.png",step:1,hint:"더 알아보기를 눌러보세요",hot:[{x:51,y:538,w:300,h:52,to:5}]},
- {img:"lost.png",step:2,hint:"첫 장에서 잃은 것을 먼저 알려줘요. 화면을 누르면 다음 장으로 넘어가요",hot:[{x:0,y:96,w:402,h:560,to:6},CTA]},
- {img:"keep.png",step:3,hint:"구독한 날부터 계속 보관돼요. 화면을 눌러 다음 장으로",hot:[{x:0,y:96,w:402,h:560,to:7},CTA]},
- {img:"find.png",step:3,hint:"사람이나 태그로 바로 찾아요. 화면을 눌러 다음 장으로",hot:[{x:0,y:96,w:402,h:560,to:8},CTA]},
- {img:"restore.png",step:3,hint:"폰을 바꿔도 그대로예요. 구독하기를 눌러보세요",hot:[CTA]},
- {img:"done.png",step:4,hint:"구독 완료! 어디서 꺼내 보는지 알려드려요. 확인을 누르면 처음으로",hot:[{x:30,y:782,w:342,h:52,to:0}]}
-];
-const pimg=document.getElementById('pimg'), phots=document.getElementById('phots'), phint=document.getElementById('phint'), pnow=document.getElementById('pnow')||{};
-const pbtns=[...document.querySelectorAll('#psteps button')];
-PS.forEach(p=>{const i=new Image();i.src='img/'+p.img});
-let pfirst=true;
-function pswap(src,back){ if(pfirst||matchMedia('(prefers-reduced-motion: reduce)').matches){pfirst=false;pimg.src=src;return;}
-  const o=document.createElement('img'); o.src=src; o.className='pover'+(back?' back':''); pimg.parentNode.insertBefore(o,phots);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>o.classList.add('in')));
-  setTimeout(()=>{pimg.src=src; o.remove();},620);}
-function pscroll(src){const c=document.createElement('div'); c.className='pscroll'; const o=document.createElement('img'); o.src=pimg.src; const nw=document.createElement('img'); nw.src=src; nw.className='nw'; c.append(o,nw); pimg.parentNode.insertBefore(c,phots);
-  requestAnimationFrame(()=>requestAnimationFrame(()=>c.classList.add('go')));
-  setTimeout(()=>{pimg.src=src; c.remove();},1000);}
-function pgo(n,mode){const p=PS[n]; const back=n<(window.pcur??0); if(mode==='scroll'&&!pfirst&&!matchMedia('(prefers-reduced-motion: reduce)').matches) pscroll('img/'+p.img); else pswap('img/'+p.img,back); pimg.alt=p.hint; phint.classList.remove('show'); void phint.offsetWidth; phint.textContent=p.hint; phint.classList.add('show'); pnow.textContent=(p.step+1)+' / 5';
-  pbtns.forEach((b,k)=>b.classList.toggle('on',k===p.step));
-  const scr=document.getElementById('pscr'); if(p.scroll){const im=document.getElementById('pscrimg'); im.src='img/'+p.scroll.src; const hb=document.getElementById('pscrhot'); hb.style.top=(p.scroll.hot.y/p.scroll.h*100)+'%'; hb.style.height=(p.scroll.hot.h/p.scroll.h*100)+'%'; hb.onclick=()=>{if(typeof userAct==='function')userAct(); pgo(p.scroll.hot.to)}; scr.scrollTop=0; setTimeout(()=>{scr.hidden=false},pfirst?0:600);} else scr.hidden=true;
-  phots.innerHTML=''; p.hot.forEach((h,k)=>{const b=document.createElement('button');
-    b.style.cssText=`left:${h.x/402*100}%;top:${h.y/874*100}%;width:${h.w/402*100}%;height:${h.h/874*100}%`;
-    b.setAttribute('aria-label',k===0?p.hint:'구독하기'); if(k===0) b.className='main';
-    b.addEventListener('click',()=>pgo(h.to,h.mode)); phots.appendChild(b);});}
-// 자동 재생: 다음에 누를 곳을 잠깐 눌린 것처럼 보여주고 넘어감. 사용자가 누르면 잠시 멈췄다가 다시 재생
-let pcur=0, pplaying=true, ptmr=null, pidle=null;
-const pplay=document.getElementById('pplay');
-const _pgo=pgo; pgo=(n,m)=>{_pgo(n,m);pcur=n;window.pcur=n};
-function h0delay(){return 700}
-function pscrollTo(el,to,ms,done){const from=el.scrollTop,t0=performance.now();const e=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;(function f(now){const k=Math.min(1,(now-t0)/ms);el.scrollTop=from+(to-from)*e(k);if(k<1&&pplaying&&PS[pcur].scroll)requestAnimationFrame(f);else done&&done()})(t0);}
-function tick(){clearTimeout(ptmr); if(!pplaying) return;
-  if(PS[pcur].scroll){const sc=PS[pcur].scroll, el=document.getElementById('pscr');
-    ptmr=setTimeout(()=>{const px=sc.target/sc.h*el.scrollHeight; pscrollTo(el,px,1600,()=>{ if(!pplaying||!PS[pcur].scroll) return; ptmr=setTimeout(()=>{const hb=document.getElementById('pscrhot'); hb.classList.add('tap'); ptmr=setTimeout(()=>{hb.classList.remove('tap'); pgo(sc.hot.to); tick();},700);},700);});},2200); return;}
-  ptmr=setTimeout(()=>{const m=phots.querySelector('button.main'); if(m) m.classList.add('tap');
-    ptmr=setTimeout(()=>{const h=PS[pcur].hot[0]; pgo(h.to,h.mode); tick();},h0delay());}, pcur===0?2600:3800);}
-function setPlay(v){pplaying=v; pplay.textContent=v?'일시정지':'자동 재생'; pplay.setAttribute('aria-pressed',v); clearTimeout(pidle); v?tick():clearTimeout(ptmr);}
-function userAct(){clearTimeout(ptmr); if(!pplaying) return; clearTimeout(pidle); pidle=setTimeout(tick,6000);}
-phots.addEventListener('click',userAct,true);
-document.getElementById('pscr').addEventListener('wheel',()=>userAct(),{passive:true});
-document.getElementById('pscr').addEventListener('touchstart',()=>userAct(),{passive:true});
-pbtns.forEach(b=>b.addEventListener('click',()=>{pgo(+b.dataset.s);userAct()}));
-document.getElementById('preset').addEventListener('click',()=>{pgo(0);userAct()});
-pplay.addEventListener('click',()=>setPlay(!pplaying));
-pgo(0);
-// 화면에 보일 때 처음부터 재생 시작, 안 보이면 멈춤
-let pstarted=false;
-new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ if(!pstarted){pstarted=true;pgo(0);} if(pplaying) tick(); } else clearTimeout(ptmr); }),{threshold:.4}).observe(document.querySelector('.proto'));
 </script>
 </body>
 </html>
